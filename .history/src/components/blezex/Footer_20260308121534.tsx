@@ -1,0 +1,135 @@
+import { Phone, Mail, Globe, MessageCircle } from "lucide-react";
+
+const Footer = () => {
+  return (
+    <footer className="bg-section-alt border-t border-border py-16">
+      <div className="container mx-auto px-4">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
+
+          {/* Company */}
+          <div>
+            <a href="#home" className="flex items-center gap-3 mb-4">
+              <img
+                src="/logo.png"
+                alt="BlezeX Logo"
+                className="h-12 w-auto object-contain"
+              />
+              <span className="text-xl font-heading font-semibold gradient-text leading-none">
+                BlezeX
+              </span>
+            </a>
+
+            <p className="text-muted-foreground text-sm font-body leading-relaxed">
+              Fast & Innovative Technology Solutions. Helping businesses grow with modern technology and intelligent automation.
+            </p>
+          </div>
+
+          {/* Quick Links */}
+          <div>
+            <h4 className="font-heading font-bold text-foreground mb-4">Quick Links</h4>
+            <ul className="space-y-2">
+              {["Home", "About", "Services", "Portfolio", "Packages", "Contact"].map((l) => (
+                <li key={l}>
+                  <a
+                    href={`#${l.toLowerCase()}`}
+                    className="text-sm text-muted-foreground font-body hover:text-primary transition-colors"
+                  >
+                    {l}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Services */}
+          <div>
+            <h4 className="font-heading font-bold text-foreground mb-4">Services</h4>
+            <ul className="space-y-2">
+              {[
+                "Web Development",
+                "Mobile Apps",
+                "AI & Automation",
+                "Digital Marketing",
+                "Custom Software",
+                "Creative & Branding",
+              ].map((s) => (
+                <li key={s}>
+                  <a
+                    href="#services"
+                    className="text-sm text-muted-foreground font-body hover:text-primary transition-colors"
+                  >
+                    {s}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Contact */}
+          <div>
+            <h4 className="font-heading font-bold text-foreground mb-4">Contact</h4>
+            <ul className="space-y-3">
+
+              <li className="flex items-center gap-3">
+                <Phone size={16} className="text-primary" />
+                <a
+                  href="tel:+918099655099"
+                  className="text-sm text-muted-foreground font-body hover:text-primary transition-colors"
+                >
+                  +91 8099655099
+                </a>
+              </li>
+
+              <li className="flex items-center gap-3">
+                <Mail size={16} className="text-primary" />
+                <a
+                  href="mailto:contact@blezex.com"
+                  className="text-sm text-muted-foreground font-body hover:text-primary transition-colors"
+                >
+                  contact@blezex.com
+                </a>
+              </li>
+
+              <li className="flex items-center gap-3">
+                <Globe size={16} className="text-primary" />
+                <a
+                  href="https://www.blezex.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-sm text-muted-foreground font-body hover:text-primary transition-colors"
+                >
+                  www.blezex.com
+                </a>
+              </li>
+
+              <li className="flex items-center gap-3">
+                <MessageCircle size={16} className="text-primary" />
+                <a
+                  href="https://wa.me/918099655099"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-sm text-muted-foreground font-body hover:text-primary transition-colors"
+                >
+                  WhatsApp
+                </a>
+              </li>
+
+            </ul>
+          </div>
+
+        </div>
+
+        <div className="border-t border-border pt-6 text-center">
+          <p className="text-sm text-muted-foreground font-body">
+            © 2026{" "}
+            <span className="gradient-text font-heading font-semibold">
+              BlezeX
+            </span>. All rights reserved.
+          </p>
+        </div>
+      </div>
+    </footer>
+  );
+};
+
+export default Footer;
