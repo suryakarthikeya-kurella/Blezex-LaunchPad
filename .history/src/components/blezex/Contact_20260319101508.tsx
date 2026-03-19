@@ -265,12 +265,12 @@ ${form.details}
         </div>
       </section>
 
-      {/* FLOATING WHATSAPP BUTTON — Desktop Only */}
+      {/* FLOATING WHATSAPP BUTTON */}
       <a
         href="https://wa.me/918099655099"
         target="_blank"
         rel="noopener noreferrer"
-        className="hidden lg:flex fixed bottom-6 right-6 w-14 h-14 rounded-full bg-green-500 items-center justify-center shadow-lg hover:scale-110 transition z-50"
+        className="fixed bottom-6 right-6 w-14 h-14 rounded-full bg-green-500 flex items-center justify-center shadow-lg hover:scale-110 transition z-50"
       >
         <MessageCircle className="text-white" size={21}/>
       </a>
