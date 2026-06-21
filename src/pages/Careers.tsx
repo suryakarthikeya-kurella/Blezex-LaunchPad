@@ -112,8 +112,8 @@ const timeline = [
   { step: "04", label: "Selection", desc: "Welcome to the BlezeX team!" },
 ];
 
-/* ─── mailto helper ──────────────────────────────────────────── */
-const mailtoHref = "mailto:blezex.vibe@gmail.com";
+/* ─── Gmail Compose Link ─────────────────────────────────────── */
+const gmailComposeUrl = "https://mail.google.com/mail/?view=cm&fs=1&to=blezex.vibe@gmail.com";
 
 /* ─── Animated section wrapper ───────────────────────────────── */
 function FadeUp({
@@ -225,7 +225,9 @@ const Careers = () => {
               <motion.a
                 whileHover={{ scale: 1.06 }}
                 whileTap={{ scale: 0.96 }}
-                href={mailtoHref}
+                href={gmailComposeUrl}
+                target="_blank"
+                rel="noopener noreferrer"
                 id="apply-now-hero-btn"
                 className="px-8 py-4 rounded-2xl border border-border font-heading font-semibold flex items-center gap-2 hover:border-primary/50 transition-colors"
               >
@@ -337,7 +339,9 @@ const Careers = () => {
                       <motion.a
                         whileHover={{ scale: 1.04 }}
                         whileTap={{ scale: 0.97 }}
-                        href={mailtoHref}
+                        href={gmailComposeUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
                         id={`apply-${pos.title.toLowerCase().replace(/\s+/g, "-")}`}
                         className="w-full flex items-center justify-center gap-2 px-5 py-3 rounded-xl border border-primary/40 hover:border-primary text-sm font-heading font-semibold text-foreground hover:gradient-bg hover:text-primary-foreground transition-all duration-300 group"
                       >
@@ -457,7 +461,9 @@ const Careers = () => {
                   <motion.a
                     whileHover={{ scale: 1.06 }}
                     whileTap={{ scale: 0.96 }}
-                    href={mailtoHref}
+                    href={gmailComposeUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     id="careers-cta-apply-btn"
                     className="inline-flex items-center gap-2 bg-background text-foreground px-8 py-4 rounded-2xl font-heading font-semibold hover:shadow-2xl transition-all"
                   >
@@ -465,7 +471,7 @@ const Careers = () => {
                   </motion.a>
 
                   <p className="text-primary-foreground/50 text-xs font-body mt-6">
-                    Opens your email client · blezex.vibe@gmail.com
+                    Opens in Gmail · blezex.vibe@gmail.com
                   </p>
                 </div>
               </div>
