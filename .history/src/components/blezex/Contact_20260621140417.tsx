@@ -22,7 +22,7 @@ const budgetOptions = [
 ];
 
 const contacts = [
-  { name: "Surya Kurella", phone: "9059634555" },
+  { name: "S", phone: "9059634555" },
   { name: "Durga Prasad", phone: "9573308774" },
   // { name: "Avinash", phone: "9030537393" },
   // { name: "Durga Prasad", phone: "9573308774" },

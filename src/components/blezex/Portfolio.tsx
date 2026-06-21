@@ -22,7 +22,7 @@ const projects = [
       "Payment Integration",
       "Mini-Ecommerce Setup"
     ],
-    link: "https://blezex.com"
+    link: "https://carecharmalaya.com"
   },
   {
     title: "AI Customer Support Bot",
@@ -91,7 +91,7 @@ const Portfolio = () => {
             </span>
           </h2>
 
-          <p className="text-muted-foreground max-w-xl mx-auto">
+          <p className="text-muted-foreground text-base font-body max-w-xl mx-auto leading-relaxed">
             A showcase of projects where technology, automation,
             and design help businesses grow faster.
           </p>
@@ -103,7 +103,7 @@ const Portfolio = () => {
             <button
               key={cat}
               onClick={() => setActive(cat)}
-              className={`px-5 py-2 rounded-full text-sm font-medium transition-all ${
+              className={`px-5 py-2 rounded-full text-sm font-semibold transition-all ${
                 active === cat
                   ? "bg-gradient-to-r from-[#FF4D1C] to-[#FF8A00] text-white shadow-lg"
                   : "bg-card text-muted-foreground hover:text-foreground border border-border"
@@ -130,7 +130,7 @@ const Portfolio = () => {
               >
 
                 {/* Glow Hover */}
-                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition duration-500 bg-[radial-gradient(circle_at_center,var(--primary)/20,transparent_70%)]" />
+                <div className="pointer-events-none absolute inset-0 opacity-0 group-hover:opacity-100 transition duration-500 bg-[radial-gradient(circle_at_center,var(--primary)/20,transparent_70%)]" />
 
                 {/* Top */}
                 <div className="flex justify-between items-start mb-6">
@@ -146,7 +146,7 @@ const Portfolio = () => {
                 </div>
 
                 {/* Title */}
-                <h3 className="text-lg font-semibold text-foreground mb-2">
+                <h3 className="text-xl font-heading font-semibold text-foreground mb-2">
                   {p.title}
                 </h3>
 

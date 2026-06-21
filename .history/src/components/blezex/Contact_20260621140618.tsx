@@ -25,8 +25,7 @@ const contacts = [
   { name: "Surya Kurella", phone: "9059634555" },
   { name: "Durga Prasad", phone: "9573308774" },
   // { name: "Avinash", phone: "9030537393" },
-  // { name: "Durga Prasad", phone: "9573308774" },
-  // { name: "Hari Kumar", phone: "7660900361" },
+  // { name: "Durga Prasad", phone: "9573308774" }, { name: "Hari Kumar", phone: "7660900361" },
 ];
 
 const Contact = () => {

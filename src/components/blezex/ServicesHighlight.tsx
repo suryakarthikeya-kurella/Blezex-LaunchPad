@@ -60,7 +60,7 @@ const ServicesHighlight = () => {
                 <s.icon size={24} className="text-primary-foreground" />
               </div>
               <h3 className="font-heading font-bold text-lg mb-2 text-foreground">{s.title}</h3>
-              <p className="text-muted-foreground text-sm font-body">{s.description}</p>
+              <p className="text-muted-foreground text-base font-body leading-relaxed">{s.description}</p>
             </motion.div>
           ))}
         </div>

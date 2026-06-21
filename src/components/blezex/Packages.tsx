@@ -109,7 +109,7 @@ const Packages = () => {
           <h2 className="text-3xl md:text-4xl font-heading font-extrabold mb-4">
             Our <span className="gradient-text">Packages</span>
           </h2>
-          <p className="text-muted-foreground max-w-xl mx-auto font-body">
+          <p className="text-muted-foreground text-base max-w-xl mx-auto font-body leading-relaxed">
             Flexible packages designed to fit every business size and budget.
           </p>
         </motion.div>
@@ -131,7 +131,7 @@ const Packages = () => {
                 </span>
               )}
               <h3 className="font-heading font-bold text-xl text-foreground mb-1">{pkg.name}</h3>
-              <p className="text-sm text-muted-foreground font-body mb-4">{pkg.desc}</p>
+              <p className="text-base text-muted-foreground font-body mb-4 leading-relaxed">{pkg.desc}</p>
               <ul className="space-y-2 mb-6 flex-1">
                 {pkg.features.map((f) => (
                   <li key={f} className="flex items-start gap-2 text-sm font-body text-body-text">

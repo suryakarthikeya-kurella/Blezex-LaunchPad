@@ -1,20 +1,13 @@
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
-import {
-  Globe,
-  Smartphone,
-  BrainCircuit,
-  Server,
-  Megaphone,
-  Palette,
-  Wrench,
-  Building2
-} from "lucide-react";
+import { Link } from "react-router-dom";
+import { ArrowRight, Globe, Smartphone, BrainCircuit, Server, Megaphone, Palette, Wrench, Building2 } from "lucide-react";
 
 const services = [
   {
     icon: Globe,
     title: "Web Development",
+    slug: "web-development",
     subs: [
       "Business Websites",
       "Custom Web Applications",
@@ -26,6 +19,7 @@ const services = [
   {
     icon: Smartphone,
     title: "Mobile App Development",
+    slug: "mobile-app-development",
     subs: [
       "Android Applications",
       "iOS Applications",
@@ -36,6 +30,7 @@ const services = [
   {
     icon: Server,
     title: "Custom Software & SaaS",
+    slug: "custom-software-saas",
     subs: [
       "CRM Systems",
       "ERP Systems",
@@ -47,6 +42,7 @@ const services = [
   {
     icon: BrainCircuit,
     title: "AI & Automation",
+    slug: "ai-automation",
     subs: [
       "AI Chatbots (Web / WhatsApp / Telegram)",
       "AI Agents",
@@ -59,6 +55,7 @@ const services = [
   {
     icon: Megaphone,
     title: "Digital Marketing & Growth",
+    slug: "digital-marketing",
     subs: [
       "SEO Optimization (On-Page & Off-Page)",
       "Paid Advertising (Google & Meta Ads)",
@@ -72,6 +69,7 @@ const services = [
   {
     icon: Palette,
     title: "Graphic Designing & Branding",
+    slug: "graphic-designing-branding",
     subs: [
       "Logo Creation",
       "Brochure, Poster & Product Design",
@@ -83,6 +81,7 @@ const services = [
   {
     icon: Building2,
     title: "Corporate & Startup Services",
+    slug: "corporate-startup-services",
     subs: [
       "Private Limited Company Registration",
       "LLP Registration",
@@ -97,6 +96,7 @@ const services = [
   {
     icon: Wrench,
     title: "Support & Maintenance",
+    slug: "support-maintenance",
     subs: [
       "Website Maintenance",
       "App Maintenance",
@@ -142,13 +142,12 @@ const Services = () => {
               animate={inView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.45, delay: i * 0.08 }}
               whileHover={{ y: -6, scale: 1.02 }}
-              className="glass rounded-2xl p-6 glass-hover glow-hover transition-all"
+              className="glass rounded-2xl p-6 glass-hover glow-hover transition-all flex flex-col"
             >
-
               {/* Icon */}
               <motion.div
                 whileHover={{ rotate: 5 }}
-                className="w-12 h-12 rounded-xl gradient-bg flex items-center justify-center mb-4"
+                className="w-12 h-12 rounded-xl gradient-bg flex items-center justify-center mb-4 shrink-0"
               >
                 <s.icon size={24} className="text-primary-foreground" />
               </motion.div>
@@ -159,7 +158,7 @@ const Services = () => {
               </h3>
 
               {/* Sub Services */}
-              <ul className="space-y-2">
+              <ul className="space-y-2 flex-1">
                 {s.subs.map((sub) => (
                   <li
                     key={sub}
@@ -171,6 +170,14 @@ const Services = () => {
                 ))}
               </ul>
 
+              {/* Explore link */}
+              <Link
+                to={`/services/${s.slug}`}
+                className="mt-5 inline-flex items-center gap-1.5 text-sm font-heading font-semibold text-primary hover:gap-3 transition-all duration-200 group"
+              >
+                Explore Service
+                <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform duration-200" />
+              </Link>
             </motion.div>
           ))}
 

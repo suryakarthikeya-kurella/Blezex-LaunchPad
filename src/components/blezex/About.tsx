@@ -62,7 +62,7 @@ const About = () => {
                   {f.title}
                 </h3>
 
-                <p className="text-sm text-muted-foreground font-body">
+                <p className="text-sm md:text-base text-muted-foreground font-body leading-relaxed">
                   {f.desc}
                 </p>
 
@@ -83,20 +83,20 @@ const About = () => {
               <span className="gradient-text">Technology & AI</span>
             </h2>
 
-            <p className="text-body-text font-body mb-4 leading-relaxed">
+            <p className="text-base text-body-text font-body mb-4 leading-relaxed">
               BlezeX is a technology company focused on building powerful digital systems,
               AI automation tools, and scalable platforms for modern businesses.
               We help organizations transform their ideas into real digital
               products that drive efficiency, innovation, and growth.
             </p>
 
-            <p className="text-muted-foreground font-body mb-4 leading-relaxed">
+            <p className="text-base text-muted-foreground font-body mb-4 leading-relaxed">
               From custom web and mobile applications to intelligent automation
               and digital infrastructure, BlezeX provides end-to-end technology
               solutions tailored to your business needs.
             </p>
 
-            <p className="text-muted-foreground font-body mb-8 leading-relaxed">
+            <p className="text-base text-muted-foreground font-body mb-8 leading-relaxed">
               Our mission is to help businesses build smarter systems, automate
               operations with AI, and scale using modern technology platforms.
             </p>

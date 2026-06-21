@@ -23,7 +23,7 @@ const Hero = () => {
   }, []);
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden grid-bg">
+    <section id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden grid-bg">
 
       {/* Mouse Glow */}
       <div
@@ -90,7 +90,7 @@ const Hero = () => {
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7 }}
-          className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-semibold mb-6 max-w-4xl mx-auto"
+          className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-semibold mb-6 max-w-4xl mx-auto leading-tight"
         >
           Transforming Businesses With
           <br />
@@ -105,13 +105,13 @@ const Hero = () => {
         </motion.h1>
 
         {/* Description */}
-        <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-8">
+        <p className="text-lg md:text-xl text-muted-foreground font-body max-w-2xl mx-auto mb-8 leading-relaxed">
           BlezeX helps companies build powerful digital systems, automate operations with AI,
           and scale using modern technology platforms.
         </p>
 
         {/* Services */}
-        <div className="flex flex-wrap justify-center gap-6 text-sm text-muted-foreground mb-10">
+        <div className="flex flex-wrap justify-center gap-6 text-sm font-body text-muted-foreground mb-10">
           <span>⚡ AI Automation</span>
           <span>💻 Web Development</span>
           <span>📱 App Development</span>
@@ -127,7 +127,7 @@ const Hero = () => {
             whileTap={{ scale: 0.95 }}
             href={`https://wa.me/918099655099?text=${message}`}
             target="_blank"
-            className="gradient-bg px-8 py-4 rounded-2xl font-semibold text-primary-foreground flex items-center gap-2"
+            className="gradient-bg px-8 py-4 rounded-2xl text-base font-semibold text-primary-foreground flex items-center gap-2"
           >
             Get Free Audit  <ArrowRight size={18} />
           </motion.a>
@@ -136,7 +136,7 @@ const Hero = () => {
             whileHover={{ scale: 1.06 }}
             whileTap={{ scale: 0.95 }}
             href="#contact"
-            className="px-8 py-4 rounded-2xl border border-border flex items-center gap-2"
+            className="px-8 py-4 rounded-2xl border border-border text-base font-heading font-semibold flex items-center gap-2"
           >
             <MessageCircle size={18} /> Contact Us
           </motion.a>

@@ -40,7 +40,7 @@ const FAQ = () => {
             >
               <button
                 onClick={() => setOpen(open === i ? null : i)}
-                className="w-full flex items-center justify-between p-5 text-left font-heading font-bold text-foreground hover:text-primary transition-colors"
+                className="w-full flex items-center justify-between p-5 text-left font-heading font-bold text-base text-foreground hover:text-primary transition-colors"
               >
                 {faq.q}
                 <ChevronDown
@@ -53,7 +53,7 @@ const FAQ = () => {
                 animate={{ height: open === i ? "auto" : 0, opacity: open === i ? 1 : 0 }}
                 className="overflow-hidden"
               >
-                <p className="px-5 pb-5 text-muted-foreground font-body leading-relaxed">{faq.a}</p>
+                <p className="px-5 pb-5 text-muted-foreground text-base font-body leading-relaxed">{faq.a}</p>
               </motion.div>
             </motion.div>
           ))}
