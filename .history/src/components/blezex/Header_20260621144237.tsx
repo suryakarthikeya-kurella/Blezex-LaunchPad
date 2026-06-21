@@ -92,7 +92,7 @@ const Header = () => {
     // Check if page was loaded via a browser reload
     const isReload = window.performance && 
       (window.performance.navigation.type === 1 || 
-       (window.performance.getEntriesByType("navigation")[0] as any)?.type === "reload");
+       window.performance.getEntriesByType("navigation")[0]?.type === "reload");
 
     if (isInitialMount.current) {
       isInitialMount.current = false;
@@ -297,14 +297,14 @@ const Header = () => {
           {/* ── Desktop Action Buttons ───────────────────────── */}
           <div className="hidden lg:flex items-center gap-3">
             <a
-              href="tel:+919059634555"
+              href="tel:+918099655099"
               className="flex items-center gap-2 px-4 py-2 rounded-xl border border-border text-sm font-heading font-semibold text-foreground hover:border-primary/50 transition-colors"
             >
               <Phone size={16} /> Call Us
             </a>
 
             <a
-              href={`https://wa.me/919059634555?text=${auditMessage}`}
+              href={`https://wa.me/918099655099?text=${auditMessage}`}
               target="_blank"
               rel="noopener noreferrer"
               className="gradient-bg px-5 py-2 rounded-xl text-sm font-heading font-semibold text-primary-foreground glow-hover transition-all"
@@ -448,7 +448,7 @@ const Header = () => {
 
                 {/* Call Us */}
                 <a
-                  href="tel:+919059634555"
+                  href="tel:+918099655099"
                   onClick={() => setOpen(false)}
                   className="flex items-center gap-2 px-4 py-3 rounded-xl font-heading font-semibold text-foreground hover:bg-hover-surface transition-colors"
                 >

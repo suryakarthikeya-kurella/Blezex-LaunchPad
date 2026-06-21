@@ -141,7 +141,7 @@ const Packages = () => {
                 ))}
               </ul>
               <a
-                href={`https://wa.me/918099655099?text=Hi, I'm interested in the ${pkg.name} package.`}
+                href={`https://wa.me/919059634555?text=Hi, I'm interested in the ${pkg.name} package.`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className={`flex items-center justify-center gap-2 py-3 rounded-xl font-heading font-semibold text-sm transition-all hover:scale-105 ${

@@ -269,7 +269,7 @@ ${form.details}
 
       {/* FLOATING WHATSAPP BUTTON — Desktop Only */}
       <a
-        href="https://wa.me/919059634555"
+        href="https://wa.me/918099655099"
         target="_blank"
         rel="noopener noreferrer"
         className="hidden lg:flex fixed bottom-6 right-6 w-14 h-14 rounded-full bg-green-500 items-center justify-center shadow-lg hover:scale-110 transition z-50"
@@ -281,7 +281,7 @@ ${form.details}
       <div className="fixed bottom-0 left-0 right-0 bg-card border-t border-border flex md:hidden z-40">
 
         <a
-          href="https://wa.me/919059634555"
+          href="https://wa.me/918099655099"
           className="flex-1 py-3 flex flex-col items-center text-sm"
         >
           <MessageCircle size={20}/>
@@ -289,7 +289,7 @@ ${form.details}
         </a>
 
         <a
-          href="tel:+919059634555"
+          href="tel:+918099655099"
           className="flex-1 py-3 flex flex-col items-center text-sm"
         >
           <Phone size={20}/>

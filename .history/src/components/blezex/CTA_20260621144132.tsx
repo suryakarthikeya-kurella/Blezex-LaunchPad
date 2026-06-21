@@ -22,7 +22,7 @@ const CTA = () => {
             BlezeX offers a free consultation to understand your business needs and recommend the best solutions.
           </p>
           <a
-            href="https://wa.me/919059634555?text=Hi, I'd like to book a free consultation."
+            href="https://wa.me/91905?text=Hi, I'd like to book a free consultation."
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 bg-background text-foreground px-8 py-4 rounded-2xl font-heading font-semibold hover:scale-105 transition-all relative z-10"

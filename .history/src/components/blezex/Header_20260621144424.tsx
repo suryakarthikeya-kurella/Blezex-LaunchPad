@@ -92,7 +92,7 @@ const Header = () => {
     // Check if page was loaded via a browser reload
     const isReload = window.performance && 
       (window.performance.navigation.type === 1 || 
-       (window.performance.getEntriesByType("navigation")[0] as any)?.type === "reload");
+       window.performance.getEntriesByType("navigation")[0]?.type === "reload");
 
     if (isInitialMount.current) {
       isInitialMount.current = false;

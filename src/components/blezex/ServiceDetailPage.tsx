@@ -8,7 +8,7 @@ import { FadeUp, type ServicePageData } from "@/components/blezex/ServicePageSha
 
 /* ─── Whatsapp CTA helper ────────────────────────────────────── */
 const waLink = (service: string) =>
-  `https://wa.me/918099655099?text=${encodeURIComponent(
+  `https://wa.me/919059634555?text=${encodeURIComponent(
     `Hello BlezeX 👋\n\nI'm interested in your ${service} service and would like to learn more.`
   )}`;
 
