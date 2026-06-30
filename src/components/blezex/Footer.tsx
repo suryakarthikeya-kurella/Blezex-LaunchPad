@@ -130,14 +130,6 @@ const Footer = () => {
                   </a>
                 </li>
               ))}
-              <li>
-                <Link
-                  to="/careers"
-                  className="text-sm font-body text-black dark:text-gray-300 hover:text-orange-500 dark:hover:text-orange-400 transition-colors duration-200"
-                >
-                  Careers
-                </Link>
-              </li>
             </ul>
           </div>
 

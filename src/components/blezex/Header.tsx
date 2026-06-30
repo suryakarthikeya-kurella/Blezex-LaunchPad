@@ -283,15 +283,6 @@ const Header = () => {
                 </button>
               )
             )}
-
-            {/* Careers */}
-            <Link
-              to="/careers"
-              className="flex items-center gap-1.5 font-heading font-semibold text-base text-foreground hover:text-primary transition-colors"
-            >
-              <Briefcase size={15} className="text-primary" />
-              Careers
-            </Link>
           </nav>
 
           {/* ── Desktop Action Buttons ───────────────────────── */}
@@ -432,16 +423,6 @@ const Header = () => {
                     </button>
                   )
                 )}
-
-                {/* Careers */}
-                <Link
-                  to="/careers"
-                  onClick={() => setOpen(false)}
-                  className="flex items-center gap-2 px-4 py-3 rounded-xl font-heading font-semibold text-foreground hover:bg-hover-surface transition-colors"
-                >
-                  <Briefcase size={15} className="text-primary" />
-                  Careers
-                </Link>
 
                 {/* Divider */}
                 <div className="my-2 border-t border-border" />
