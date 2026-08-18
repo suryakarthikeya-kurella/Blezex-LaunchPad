@@ -141,21 +141,20 @@ const Footer = () => {
 
             <ul className="space-y-2">
               {[
-                "Web Development",
-                "Mobile Apps",
-                "AI & Automation",
-                "Digital Marketing",
-                "Custom Software",
-                "Creative & Branding",
+                { label: "Web Development", to: "/services/web-development" },
+                { label: "Mobile Apps", to: "/services/mobile-app-development" },
+                { label: "AI & Automation", to: "/services/ai-automation" },
+                { label: "Digital Marketing", to: "/services/digital-marketing" },
+                { label: "Custom Software", to: "/services/custom-software-saas" },
+                { label: "Creative & Branding", to: "/services/graphic-designing-branding" },
               ].map((s) => (
-                <li key={s}>
-                  <a
-                    href="#services"
-                    onClick={(e) => handleNavClick(e, "#services")}
+                <li key={s.to}>
+                  <Link
+                    to={s.to}
                     className="text-sm font-body text-black dark:text-gray-300 hover:text-orange-500 dark:hover:text-orange-400 transition-colors duration-200"
                   >
-                    {s}
-                  </a>
+                    {s.label}
+                  </Link>
                 </li>
               ))}
             </ul>

@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import Header from "@/components/blezex/Header";
 import Footer from "@/components/blezex/Footer";
 import { FadeUp, type ServicePageData } from "@/components/blezex/ServicePageShared";
+import { useSEO } from "@/hooks/useSEO";
 
 /* ─── Whatsapp CTA helper ────────────────────────────────────── */
 const waLink = (service: string) =>
@@ -54,6 +55,54 @@ function FaqItem({ q, a, index }: { q: string; a: string; index: number }) {
 
 /* ─── Main Template ──────────────────────────────────────────── */
 export default function ServiceDetailPage({ data }: { data: ServicePageData }) {
+  const canonical = `https://blezex.com/services/${data.slug}`;
+
+  const serviceSchema = {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "name": data.title,
+    "description": data.description,
+    "url": canonical,
+    "provider": {
+      "@type": "Organization",
+      "name": "BlezeX",
+      "url": "https://blezex.com",
+      "logo": "https://blezex.com/logo.png",
+      "telephone": "+919059634555",
+      "email": "blezex.vibe@gmail.com"
+    },
+    "areaServed": "Worldwide",
+    "serviceType": data.title,
+    "availableChannel": {
+      "@type": "ServiceChannel",
+      "serviceUrl": canonical,
+      "servicePhone": "+919059634555"
+    }
+  };
+
+  const faqSchema = data.faqs.length > 0 ? {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": data.faqs.map((faq) => ({
+      "@type": "Question",
+      "name": faq.q,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": faq.a
+      }
+    }))
+  } : null;
+
+  useSEO({
+    title: `${data.title} | BlezeX`,
+    description: data.description,
+    canonical,
+    ogTitle: `${data.title} Services | BlezeX`,
+    ogDescription: data.description,
+    ogType: "website",
+    schema: faqSchema ? [serviceSchema, faqSchema] : [serviceSchema],
+  });
+
   return (
     <div className="min-h-screen bg-background text-foreground">
       <Header />

@@ -13,7 +13,4 @@ Allow: /
 User-agent: *
 Allow: /
 
-User-agent: *
-Allow: /
-
 Sitemap: https://blezex.com/sitemap.xml
