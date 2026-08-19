@@ -5,7 +5,8 @@ import { Link } from "react-router-dom";
 import Header from "@/components/blezex/Header";
 import Footer from "@/components/blezex/Footer";
 import { FadeUp, type ServicePageData } from "@/components/blezex/ServicePageShared";
-import { useSEO } from "@/hooks/useSEO";
+import SEO from "@/components/SEO";
+import { buildServiceSchema, findServiceSeoPage } from "@/seo";
 
 /* ─── Whatsapp CTA helper ────────────────────────────────────── */
 const waLink = (service: string) =>
@@ -56,29 +57,14 @@ function FaqItem({ q, a, index }: { q: string; a: string; index: number }) {
 /* ─── Main Template ──────────────────────────────────────────── */
 export default function ServiceDetailPage({ data }: { data: ServicePageData }) {
   const canonical = `https://blezex.com/services/${data.slug}`;
-
-  const serviceSchema = {
-    "@context": "https://schema.org",
-    "@type": "Service",
-    "name": data.title,
-    "description": data.description,
-    "url": canonical,
-    "provider": {
-      "@type": "Organization",
-      "name": "BlezeX",
-      "url": "https://blezex.com",
-      "logo": "https://blezex.com/logo.png",
-      "telephone": "+919059634555",
-      "email": "blezex.vibe@gmail.com"
-    },
-    "areaServed": "Worldwide",
-    "serviceType": data.title,
-    "availableChannel": {
-      "@type": "ServiceChannel",
-      "serviceUrl": canonical,
-      "servicePhone": "+919059634555"
-    }
-  };
+  const serviceSeo = findServiceSeoPage(data.slug);
+  const serviceName = serviceSeo?.name ?? data.title;
+  const serviceDescription = serviceSeo?.description ?? data.description;
+  const serviceSchema = buildServiceSchema({
+    slug: data.slug,
+    name: serviceName,
+    description: serviceDescription,
+  });
 
   const faqSchema = data.faqs.length > 0 ? {
     "@context": "https://schema.org",
@@ -93,18 +79,17 @@ export default function ServiceDetailPage({ data }: { data: ServicePageData }) {
     }))
   } : null;
 
-  useSEO({
-    title: `${data.title} | BlezeX`,
-    description: data.description,
-    canonical,
-    ogTitle: `${data.title} Services | BlezeX`,
-    ogDescription: data.description,
-    ogType: "website",
-    schema: faqSchema ? [serviceSchema, faqSchema] : [serviceSchema],
-  });
-
   return (
     <div className="min-h-screen bg-background text-foreground">
+      <SEO
+        title={`${serviceName} Services | BlezeX`}
+        description={serviceDescription}
+        canonical={canonical}
+        ogTitle={`${serviceName} Services | BlezeX`}
+        ogDescription={serviceDescription}
+        ogType="website"
+        schema={faqSchema ? [serviceSchema, faqSchema] : [serviceSchema]}
+      />
       <Header />
 
       {/* ── HERO ────────────────────────────────────────────── */}

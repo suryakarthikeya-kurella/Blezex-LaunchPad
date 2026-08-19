@@ -29,14 +29,14 @@ function useHashNav() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  return (hash: string) => {
+  return (href: string) => {
     if (location.pathname === "/") {
       // Already on home — just scroll
-      const el = document.querySelector(hash);
+      const el = document.querySelector(href);
       if (el) el.scrollIntoView({ behavior: "smooth" });
     } else {
       // Navigate home first, then browser will anchor-scroll
-      navigate("/" + hash);
+      navigate("/" + href);
     }
   };
 }
@@ -90,9 +90,12 @@ const Header = () => {
   /* Scroll to hash on page load or location change */
   useEffect(() => {
     // Check if page was loaded via a browser reload
-    const isReload = window.performance && 
-      (window.performance.navigation.type === 1 || 
-       (window.performance.getEntriesByType("navigation")[0] as any)?.type === "reload");
+    const navigationEntry = window.performance?.getEntriesByType("navigation")[0] as
+      | PerformanceNavigationTiming
+      | undefined;
+    const legacyNavigation = window.performance?.navigation;
+    const isReload =
+      legacyNavigation?.type === 1 || navigationEntry?.type === "reload";
 
     if (isInitialMount.current) {
       isInitialMount.current = false;

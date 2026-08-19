@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { globalSchemas } from "@/seo";
 
 interface SEOProps {
   title: string;
@@ -62,6 +63,7 @@ export function useSEO({
 
     // ── Meta description ─────────────────────────────────────────
     setMeta('meta[name="description"]', description);
+    setMeta('meta[name="robots"]', "index, follow");
 
     // ── Canonical ────────────────────────────────────────────────
     setLink("canonical", canonical);
@@ -72,28 +74,34 @@ export function useSEO({
     setMeta('meta[property="og:url"]', canonical);
     setMeta('meta[property="og:image"]', ogImage);
     setMeta('meta[property="og:type"]', ogType);
+    setMeta('meta[property="og:site_name"]', "BlezeX");
+    setMeta('meta[property="og:locale"]', "en_IN");
 
     // ── Twitter Card ─────────────────────────────────────────────
+    setMeta('meta[name="twitter:card"]', "summary_large_image");
+    setMeta('meta[name="twitter:site"]', "@x_blezex");
+    setMeta('meta[name="twitter:creator"]', "@x_blezex");
     setMeta('meta[name="twitter:title"]', twitterTitle ?? ogTitle ?? title);
     setMeta('meta[name="twitter:description"]', twitterDescription ?? ogDescription ?? description);
     setMeta('meta[name="twitter:image"]', ogImage);
+    setMeta('meta[name="twitter:url"]', canonical);
 
     // ── JSON-LD Schema ───────────────────────────────────────────
-    // Remove any previous page-specific schema injected by this hook
+    // Remove any previous schema injected by this hook
     document
       .querySelectorAll('script[data-seo-hook="true"]')
       .forEach((el) => el.remove());
 
-    if (schema) {
-      const schemas = Array.isArray(schema) ? schema : [schema];
-      schemas.forEach((s) => {
-        const script = document.createElement("script");
-        script.type = "application/ld+json";
-        script.setAttribute("data-seo-hook", "true");
-        script.textContent = JSON.stringify(s);
-        document.head.appendChild(script);
-      });
-    }
+    const pageSchemas = schema ? (Array.isArray(schema) ? schema : [schema]) : [];
+    const schemas = [...globalSchemas, ...pageSchemas];
+
+    schemas.forEach((s) => {
+      const script = document.createElement("script");
+      script.type = "application/ld+json";
+      script.setAttribute("data-seo-hook", "true");
+      script.textContent = JSON.stringify(s);
+      document.head.appendChild(script);
+    });
 
     // ── Cleanup: restore home defaults on unmount ────────────────
     return () => {

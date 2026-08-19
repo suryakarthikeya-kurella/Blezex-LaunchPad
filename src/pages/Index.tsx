@@ -10,22 +10,66 @@ import FAQ from "@/components/blezex/FAQ";
 import Contact from "@/components/blezex/Contact";
 import CTA from "@/components/blezex/CTA";
 import Footer from "@/components/blezex/Footer";
-import { useSEO } from "@/hooks/useSEO";
+import SEO from "@/components/SEO";
+import { SITE_URL, pageMetadata } from "@/seo";
 
 const Index = () => {
-  useSEO({
-    title: "BlezeX | AI Automation & Technology Solutions",
-    description:
-      "BlezeX helps businesses grow with AI automation, web development, custom software, SaaS platforms and digital marketing solutions. Based in Hyderabad & Visakhapatnam, India.",
-    canonical: "https://blezex.com/",
-    ogTitle: "BlezeX | AI Automation & Technology Solutions",
-    ogDescription:
-      "BlezeX provides AI automation, web development, custom software and digital growth solutions for businesses.",
-    ogType: "website",
-  });
-
   return (
     <div className="min-h-screen bg-background text-foreground">
+      <SEO
+        title={pageMetadata.home.title}
+        description={pageMetadata.home.description}
+        canonical={pageMetadata.home.canonical}
+        ogTitle={pageMetadata.home.title}
+        ogDescription="BlezeX provides AI automation, web development, custom software and digital growth solutions for businesses."
+        ogType="website"
+        schema={[
+          {
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            "@id": `${SITE_URL}/#website`,
+            name: "BlezeX",
+            url: SITE_URL,
+            description:
+              "BlezeX provides AI automation, web development, mobile app development, custom software, SaaS, digital marketing, branding, and maintenance solutions.",
+            publisher: {
+              "@type": "Organization",
+              "@id": `${SITE_URL}/#organization`,
+              name: "BlezeX",
+            },
+          },
+          {
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            mainEntity: [
+              {
+                "@type": "Question",
+                name: "What services does BlezeX provide?",
+                acceptedAnswer: {
+                  "@type": "Answer",
+                  text: "BlezeX provides AI automation, web development, mobile app development, custom software and SaaS, digital marketing, graphic design and branding, corporate and startup services, and support and maintenance.",
+                },
+              },
+              {
+                "@type": "Question",
+                name: "Where is BlezeX located?",
+                acceptedAnswer: {
+                  "@type": "Answer",
+                  text: "BlezeX is located in Hyderabad, Telangana, India and serves clients across India and worldwide.",
+                },
+              },
+              {
+                "@type": "Question",
+                name: "How can I contact BlezeX?",
+                acceptedAnswer: {
+                  "@type": "Answer",
+                  text: "You can contact BlezeX by phone at +91 9059634555, by email at blezex.vibe@gmail.com, or through the contact page at https://blezex.com/contact.",
+                },
+              },
+            ],
+          },
+        ]}
+      />
       <Header />
       <Hero />
       <ServicesHighlight />
