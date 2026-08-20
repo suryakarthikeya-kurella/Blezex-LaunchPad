@@ -11,12 +11,12 @@ const navLinks = [
     label: "Services",
     href: "#services",
     dropdown: [
-      "Web Development",
-      "Mobile Apps",
-      "AI & Automation",
-      "Software & SaaS",
-      "Digital Marketing",
-      "Creative & Branding",
+      { label: "Web Development", href: "/services/web-development" },
+      { label: "Mobile Apps", href: "/services/mobile-app-development" },
+      { label: "AI & Automation", href: "/services/ai-automation" },
+      { label: "Software & SaaS", href: "/services/custom-software-saas" },
+      { label: "Digital Marketing", href: "/services/digital-marketing" },
+      { label: "Creative & Branding", href: "/services/graphic-designing-branding" },
     ],
   },
   { label: "Portfolio", href: "#portfolio" },
@@ -261,15 +261,15 @@ const Header = () => {
                         role="menu"
                       >
                         {link.dropdown.map((item) => (
-                          <a
-                            key={item}
-                            href="#services"
+                          <Link
+                            key={item.href}
+                            to={item.href}
                             role="menuitem"
-                            onClick={(e) => { e.preventDefault(); handleNavClick("#services"); setDropdownOpen(false); }}
+                            onClick={() => setDropdownOpen(false)}
                             className="block px-4 py-2 rounded-lg text-sm font-body text-body-text hover:bg-hover-surface transition-colors"
                           >
-                            {item}
-                          </a>
+                            {item.label}
+                          </Link>
                         ))}
                       </motion.div>
                     )}
@@ -404,13 +404,17 @@ const Header = () => {
                             className="overflow-hidden pl-4"
                           >
                             {link.dropdown.map((item) => (
-                              <button
-                                key={item}
-                                onClick={() => handleNavClick("#services")}
+                              <Link
+                                key={item.href}
+                                to={item.href}
+                                onClick={() => {
+                                  setOpen(false);
+                                  setMobileServicesOpen(false);
+                                }}
                                 className="w-full text-left block px-4 py-2.5 rounded-lg text-sm font-body text-muted-foreground hover:text-foreground hover:bg-hover-surface transition-colors"
                               >
-                                {item}
-                              </button>
+                                {item.label}
+                              </Link>
                             ))}
                           </motion.div>
                         )}
