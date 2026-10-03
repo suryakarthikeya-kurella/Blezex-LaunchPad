@@ -3,6 +3,24 @@
   publish = "dist"
 
 [[redirects]]
+  from = "/services/mobile-app-development"
+  to = "/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/services/corporate-startup-services"
+  to = "/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/services/support-maintenance"
+  to = "/"
+  status = 301
+  force = true
+
+[[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200

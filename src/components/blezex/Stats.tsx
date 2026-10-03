@@ -1,6 +1,7 @@
-import { motion, useInView } from "framer-motion";
+import { animate, useInView, useReducedMotion } from "framer-motion";
 import { useRef, useState, useEffect } from "react";
 import { FolderKanban, Users, Cpu, ThumbsUp } from "lucide-react";
+import Reveal from "@/components/motion/Reveal";
 
 const stats = [
   { icon: FolderKanban, value: 50, suffix: "+", label: "Projects" },
@@ -10,24 +11,27 @@ const stats = [
 ];
 
 const Counter = ({ target, suffix, inView }: { target: number; suffix: string; inView: boolean }) => {
-  const [count, setCount] = useState(0);
+  const reduce = useReducedMotion();
+  const [count, setCount] = useState(reduce ? target : 0);
   useEffect(() => {
+    if (reduce) {
+      setCount(target);
+      return;
+    }
     if (!inView) return;
-    let start = 0;
-    const duration = 2000;
-    const step = Math.ceil(target / (duration / 16));
-    const timer = setInterval(() => {
-      start += step;
-      if (start >= target) {
-        setCount(target);
-        clearInterval(timer);
-      } else {
-        setCount(start);
-      }
-    }, 16);
-    return () => clearInterval(timer);
-  }, [inView, target]);
-  return <span>{count}{suffix}</span>;
+    const controls = animate(0, target, {
+      duration: 2,
+      ease: [0.22, 1, 0.36, 1],
+      onUpdate: (v) => setCount(Math.round(v)),
+    });
+    return () => controls.stop();
+  }, [inView, target, reduce]);
+  return (
+    <span>
+      {count}
+      {suffix}
+    </span>
+  );
 };
 
 const Stats = () => {
@@ -35,25 +39,19 @@ const Stats = () => {
   const inView = useInView(ref, { once: true, margin: "-100px" });
 
   return (
-    <section className="py-20" ref={ref}>
-      <div className="container mx-auto px-4">
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
+    <section className="py-8 md:py-10 bg-white" ref={ref}>
+      <div className="container mx-auto px-6 lg:px-10">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-7">
           {stats.map((s, i) => (
-            <motion.div
-              key={s.label}
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={inView ? { opacity: 1, scale: 1 } : {}}
-              transition={{ duration: 0.4, delay: i * 0.1 }}
-              className="glass rounded-2xl p-6 text-center"
-            >
-              <div className="w-12 h-12 rounded-xl gradient-bg flex items-center justify-center mx-auto mb-3">
-                <s.icon size={22} className="text-primary-foreground" />
+            <Reveal key={s.label} delay={i * 0.08}>
+              <div className="border-t border-dashed border-foreground/40 pt-4">
+                <s.icon size={20} strokeWidth={1.5} aria-hidden className="mb-3 text-primary" />
+                <div className="font-display text-[clamp(2.25rem,5vw,4rem)] font-extrabold leading-none tabular-nums text-foreground">
+                  <Counter target={s.value} suffix={s.suffix} inView={inView} />
+                </div>
+                <p className="mt-2 text-muted-foreground text-sm font-body">{s.label}</p>
               </div>
-              <div className="text-3xl md:text-4xl font-heading font-bold gradient-text mb-1">
-                <Counter target={s.value} suffix={s.suffix} inView={inView} />
-              </div>
-              <p className="text-muted-foreground text-sm font-body">{s.label}</p>
-            </motion.div>
+            </Reveal>
           ))}
         </div>
       </div>

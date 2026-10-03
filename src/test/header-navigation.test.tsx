@@ -37,8 +37,8 @@ describe("Header service navigation", () => {
     fireEvent.click(screen.getByRole("button", { name: /open navigation menu/i }));
     const servicesButtons = screen.getAllByRole("button", { name: /services/i });
     fireEvent.click(servicesButtons[1]);
-    fireEvent.click(await screen.findByRole("link", { name: "Mobile Apps" }));
+    fireEvent.click(await screen.findByRole("link", { name: "AI & Automation" }));
 
-    expect(screen.getByTestId("location")).toHaveTextContent("/services/mobile-app-development");
+    expect(screen.getByTestId("location")).toHaveTextContent("/services/ai-automation");
   });
 });

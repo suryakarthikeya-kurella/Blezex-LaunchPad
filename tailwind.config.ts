@@ -1,7 +1,6 @@
 import type { Config } from "tailwindcss";
 
 export default {
-  darkMode: ["class"],
   content: ["./pages/**/*.{ts,tsx}", "./components/**/*.{ts,tsx}", "./app/**/*.{ts,tsx}", "./src/**/*.{ts,tsx}"],
   prefix: "",
   theme: {
@@ -9,15 +8,20 @@ export default {
       center: true,
       padding: "2rem",
       screens: {
-        "2xl": "1400px",
+        "2xl": "1328px",
       },
     },
     extend: {
       fontFamily: {
-        heading: ["Syne", "sans-serif"],
+        display: ["Bricolage Grotesque", "sans-serif"],
+        heading: ["Bricolage Grotesque", "sans-serif"],
         body: ["DM Sans", "sans-serif"],
+        hand: ["Caveat", "cursive"],
       },
       colors: {
+        ink: "#111111",
+        paper: "#F7F6F2",
+        hairline: "#E7E5DF",
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",

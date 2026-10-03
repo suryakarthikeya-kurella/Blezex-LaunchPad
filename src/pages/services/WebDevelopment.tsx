@@ -45,7 +45,7 @@ const data: ServicePageData = {
     { q: "Will my website be mobile-friendly?", a: "Absolutely. Every website we build is fully responsive and tested across all major devices and screen sizes." },
     { q: "Can you redesign my existing website?", a: "Yes. We specialise in redesigns that preserve your brand identity while dramatically improving performance, UX, and conversion rates." },
     { q: "Do you build websites on WordPress or only custom code?", a: "We primarily build custom-coded websites for superior performance and flexibility. We can also work with WordPress/headless CMS if that fits your requirements." },
-    { q: "What does post-launch support include?", a: "We offer ongoing maintenance packages covering security updates, performance monitoring, content changes, and feature additions." },
+    { q: "What does post-launch support include?", a: "Every project includes a post-launch support period covering security updates, performance monitoring, content changes, and feature additions." },
   ],
 };
 

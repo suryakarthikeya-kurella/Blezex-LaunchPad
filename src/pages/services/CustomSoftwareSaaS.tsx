@@ -44,7 +44,7 @@ const data: ServicePageData = {
     { q: "What is an MVP and should I start with one?", a: "An MVP (Minimum Viable Product) is a lean version of your product with core features. For most startups and new products, we recommend an MVP to validate market fit before full investment." },
     { q: "How do you handle data security and privacy?", a: "We follow OWASP security guidelines, implement end-to-end encryption, role-based access control, and can build GDPR/DPDPA compliance into the system architecture." },
     { q: "Can you integrate with our existing tools like Salesforce or Tally?", a: "Yes. We build integration layers with most enterprise tools via APIs, webhooks, or custom connectors — Salesforce, Tally, QuickBooks, Zoho, and more." },
-    { q: "What happens if we need new features after launch?", a: "We design systems to be extensible from day one. New features can be added through our ongoing maintenance and development retainer packages." },
+    { q: "What happens if we need new features after launch?", a: "We design systems to be extensible from day one. New features can be added through ongoing development retainers." },
     { q: "Do you sign NDAs for sensitive projects?", a: "Absolutely. We sign NDAs before any project discussion and ensure all team members are bound by the same confidentiality agreements." },
   ],
 };

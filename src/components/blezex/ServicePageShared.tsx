@@ -1,5 +1,5 @@
 import { useRef } from "react";
-import { motion, useInView } from "framer-motion";
+import { motion, useInView, useReducedMotion } from "framer-motion";
 
 /* ─── Reusable section fade ──────────────────────────────────── */
 export function FadeUp({
@@ -13,10 +13,11 @@ export function FadeUp({
 }) {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-70px" });
+  const reduce = useReducedMotion();
   return (
     <motion.div
       ref={ref}
-      initial={{ opacity: 0, y: 28 }}
+      initial={reduce ? false : { opacity: 0, y: 28 }}
       animate={inView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.52, delay, ease: "easeOut" }}
       className={className}
