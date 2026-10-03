@@ -3,6 +3,8 @@ import { useEffect } from "react";
 import SketchPath from "@/components/motion/SketchPath";
 import Magnetic from "@/components/motion/Magnetic";
 
+import SEO from "@/components/SEO";
+
 const NotFound = () => {
   const location = useLocation();
 
@@ -12,6 +14,12 @@ const NotFound = () => {
 
   return (
     <main className="relative flex min-h-screen items-center justify-center overflow-hidden bg-paper px-6">
+      <SEO
+        title="404 - Page Not Found | BlezeX Technologies"
+        description="The page you are looking for does not exist."
+        canonical="https://blezex.com/404"
+        noIndex={true}
+      />
       <div className="blueprint pointer-events-none absolute inset-0 [mask-image:radial-gradient(ellipse_at_center,black_20%,transparent_70%)]" aria-hidden />
       <div className="relative text-center">
         <p

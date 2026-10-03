@@ -1,8 +1,19 @@
 import { useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 
-// Same target as the old floating WhatsApp button (no prefilled message).
-const WHATSAPP_URL = "https://wa.me/919059634555";
+const WHATSAPP_NUMBER = "919059634555";
+
+const MESSAGE_TEXT = `Hi BlezeX Team 👋
+
+I visited your website and would like to know more about your services.
+
+Name: 
+Company: 
+Requirement: 
+
+Please contact me.`;
+
+const WHATSAPP_URL = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(MESSAGE_TEXT)}`;
 
 const FLOAT = { duration: 4, ease: "easeInOut", repeat: Infinity } as const;
 
@@ -71,7 +82,6 @@ const FloatingAssistant = () => {
             width={518}
             height={522}
             decoding="async"
-            // React 18 doesn't know fetchPriority; lowercase passes through to the DOM.
             {...{ fetchpriority: "low" }}
             draggable={false}
             className="block h-auto w-full select-none"

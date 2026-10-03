@@ -1,13 +1,26 @@
 export const SITE_URL = "https://blezex.com";
 export const LOGO_URL = `${SITE_URL}/logo.png`;
+export const OG_IMAGE = `${SITE_URL}/logo.png`;
+export const SITE_NAME = "BlezeX";
+export const TWITTER_HANDLE = "@x_blezex";
 
 export const blezexContact = {
   phone: "+919059634555",
+  phoneDisplay: "+91 9059634555",
   email: "connect.blezex@gmail.com",
+  whatsapp: "https://wa.me/919059634555",
   address: {
     "@type": "PostalAddress",
+    streetAddress: "Hyderabad",
     addressLocality: "Hyderabad",
     addressRegion: "Telangana",
+    addressCountry: "IN",
+    postalCode: "500001",
+  },
+  addressVizag: {
+    "@type": "PostalAddress",
+    addressLocality: "Visakhapatnam",
+    addressRegion: "Andhra Pradesh",
     addressCountry: "IN",
   },
 } as const;
@@ -15,33 +28,43 @@ export const blezexContact = {
 export const servicePages = [
   {
     slug: "ai-automation",
-    name: "AI Automation",
+    name: "AI & Automation Services",
+    shortName: "AI Automation",
     description:
-      "AI automation, chatbot, AI agent, and workflow automation services from BlezeX for businesses that want to reduce manual work and scale faster.",
+      "AI automation, chatbot development, AI agents, and workflow automation services in Hyderabad by BlezeX Technologies. Reduce manual work and scale your business with intelligent systems.",
+    keywords: "AI automation company Hyderabad, AI chatbot development India, business automation services, AI agents Hyderabad, workflow automation Telangana",
   },
   {
     slug: "web-development",
-    name: "Web Development",
+    name: "Web Development Services",
+    shortName: "Web Development",
     description:
-      "High-performance website and web application development services from BlezeX for businesses, startups, and growing teams.",
+      "Professional web development company in Hyderabad. BlezeX builds high-performance websites, web applications, and e-commerce platforms for startups and businesses across India.",
+    keywords: "web development company Hyderabad, website development services India, custom web application development, e-commerce website Hyderabad, React web development India",
   },
   {
     slug: "custom-software-saas",
-    name: "Custom Software & SaaS",
+    name: "Custom Software & SaaS Development",
+    shortName: "Custom Software & SaaS",
     description:
-      "Custom software, CRM, ERP, and SaaS product development services from BlezeX for scalable business systems.",
+      "Custom software development company in Hyderabad. BlezeX builds CRM, ERP, SaaS platforms, and scalable business software for startups and growing enterprises.",
+    keywords: "custom software development Hyderabad, SaaS development India, CRM development Hyderabad, ERP software company India, business software development Telangana",
   },
   {
     slug: "digital-marketing",
-    name: "Digital Marketing",
+    name: "Digital Marketing Services",
+    shortName: "Digital Marketing",
     description:
-      "SEO, paid advertising, social media, content, and growth marketing services from BlezeX for measurable digital growth.",
+      "Digital marketing company in Hyderabad. BlezeX provides SEO, Google Ads, social media marketing, content marketing, and digital growth strategies for businesses across India.",
+    keywords: "digital marketing company Hyderabad, SEO services Hyderabad, Google Ads management India, social media marketing Telangana, content marketing services India",
   },
   {
     slug: "graphic-designing-branding",
-    name: "Graphic Designing & Branding",
+    name: "Graphic Design & Branding Services",
+    shortName: "Graphic Design & Branding",
     description:
-      "Graphic design, UI/UX, logo design, brand identity, and creative asset services from BlezeX for memorable business branding.",
+      "Graphic design and branding agency in Hyderabad. BlezeX creates logos, brand identities, UI/UX design, and creative assets for businesses and startups across India.",
+    keywords: "graphic design company Hyderabad, logo design services India, brand identity design Hyderabad, UI UX design company Telangana, branding agency India",
   },
 ] as const;
 
@@ -55,32 +78,52 @@ export const REQUIRED_SITEMAP_URLS = [
 
 export const pageMetadata = {
   home: {
-    title: "BlezeX | AI Automation & Technology Solutions",
+    title: "BlezeX Technologies | AI Automation & Web Development Company in Hyderabad",
     description:
-      "BlezeX helps businesses grow with AI automation, web development, custom software, SaaS platforms and digital marketing solutions. Based in Hyderabad, Telangana, India.",
+      "BlezeX Technologies — Premium AI Automation, Web Development, Custom Software & Digital Solutions company in Hyderabad, Telangana. 50+ businesses served across India. Get a free consultation.",
     canonical: `${SITE_URL}/`,
+    ogTitle: "BlezeX Technologies | AI Automation & Web Development Company Hyderabad",
+    ogDescription:
+      "Premium AI Automation, Web Development, Custom Software & Digital Solutions in Hyderabad, India. 50+ businesses. Free consultation.",
+    keywords:
+      "AI automation company Hyderabad, web development company Hyderabad, custom software development India, BlezeX Technologies, digital solutions Telangana",
   },
   contact: {
-    title: "Contact BlezeX | AI Automation & Software Company in Hyderabad",
+    title: "Contact BlezeX Technologies | AI & Web Development Company Hyderabad",
     description:
-      "Contact BlezeX in Hyderabad, Telangana for AI automation, web development, custom software, SaaS, digital marketing, and graphic design and branding services.",
+      "Contact BlezeX Technologies in Hyderabad for AI automation, web development, custom software, SaaS, digital marketing, and branding services. Free consultation available — call +91 9059634555.",
     canonical: `${SITE_URL}/contact`,
+    ogTitle: "Contact BlezeX Technologies | Free Consultation — Hyderabad",
+    ogDescription:
+      "Get in touch with BlezeX Technologies. AI Automation, Web Development, Custom Software & Digital Solutions. Free consultation. Serving Hyderabad, Visakhapatnam, and all of India.",
+    keywords:
+      "contact BlezeX Hyderabad, AI company contact Hyderabad, web development consultation India, free digital consultation Telangana",
   },
 } as const;
 
+/* ── Shared Global Schemas (injected on every page by useSEO) ── */
 export const globalSchemas = [
   {
     "@context": "https://schema.org",
     "@type": "Organization",
     "@id": `${SITE_URL}/#organization`,
     name: "BlezeX",
+    alternateName: "BlezeX Technologies",
     url: SITE_URL,
     logo: LOGO_URL,
+    image: LOGO_URL,
     description:
-      "BlezeX is a software company providing AI automation, web development, custom software, SaaS, digital marketing, and graphic design and branding services.",
+      "BlezeX Technologies is a premium AI Automation, Web Development, and Custom Software company based in Hyderabad, Telangana, India, serving startups and businesses across India.",
     email: blezexContact.email,
     telephone: blezexContact.phone,
     address: blezexContact.address,
+    areaServed: [
+      { "@type": "City", name: "Hyderabad" },
+      { "@type": "City", name: "Visakhapatnam" },
+      { "@type": "State", name: "Telangana" },
+      { "@type": "State", name: "Andhra Pradesh" },
+      { "@type": "Country", name: "India" },
+    ],
     sameAs: [
       "https://www.linkedin.com/company/blezex/",
       "https://x.com/x_blezex",
@@ -94,11 +137,12 @@ export const globalSchemas = [
     "@type": "SoftwareCompany",
     "@id": `${SITE_URL}/#softwarecompany`,
     name: "BlezeX",
+    alternateName: "BlezeX Technologies",
     url: SITE_URL,
     image: LOGO_URL,
     logo: LOGO_URL,
     description:
-      "BlezeX is a Hyderabad-based software company serving startups, businesses, and enterprises with AI, web, SaaS, digital growth, and branding solutions.",
+      "BlezeX Technologies is a Hyderabad-based software company serving startups, businesses, and enterprises with AI, web, SaaS, digital growth, and branding solutions.",
     address: blezexContact.address,
     areaServed: ["India", "Worldwide"],
     priceRange: "INR",
@@ -107,10 +151,12 @@ export const globalSchemas = [
   },
 ] as const;
 
+/* ── Service Schema Builder ─────────────────────────────────── */
 export function buildServiceSchema(service: {
   slug: string;
   name: string;
   description: string;
+  keywords?: string;
 }) {
   const serviceUrl = `${SITE_URL}/services/${service.slug}`;
 
@@ -128,16 +174,31 @@ export function buildServiceSchema(service: {
       name: "BlezeX",
       url: SITE_URL,
       logo: LOGO_URL,
+      telephone: blezexContact.phone,
+      email: blezexContact.email,
     },
-    areaServed: ["India", "Worldwide"],
+    areaServed: [
+      { "@type": "City", name: "Hyderabad" },
+      { "@type": "City", name: "Visakhapatnam" },
+      { "@type": "State", name: "Telangana" },
+      { "@type": "State", name: "Andhra Pradesh" },
+      { "@type": "Country", name: "India" },
+    ],
     availableChannel: {
       "@type": "ServiceChannel",
       serviceUrl,
       servicePhone: blezexContact.phone,
     },
+    offers: {
+      "@type": "Offer",
+      priceCurrency: "INR",
+      availability: "https://schema.org/InStock",
+      url: serviceUrl,
+    },
   };
 }
 
+/* ── Helper ─────────────────────────────────────────────────── */
 export function findServiceSeoPage(slug: string) {
   return servicePages.find((service) => service.slug === slug);
 }

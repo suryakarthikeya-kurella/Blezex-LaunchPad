@@ -5,6 +5,7 @@ interface SEOProps {
   title: string;
   description: string;
   canonical: string;
+  keywords?: string;
   ogTitle?: string;
   ogDescription?: string;
   ogImage?: string;
@@ -12,19 +13,19 @@ interface SEOProps {
   twitterTitle?: string;
   twitterDescription?: string;
   schema?: object | object[];
+  noIndex?: boolean;
 }
 
 /**
  * useSEO — Dynamically sets page-level SEO metadata for each route.
- * Sets <title>, <meta description>, <link canonical>, Open Graph tags,
- * Twitter card tags, and injects JSON-LD schema scripts.
- *
- * Call this at the top of every page component.
+ * Sets <title>, <meta description>, <meta keywords>, <link canonical>,
+ * Open Graph tags, Twitter card tags, and injects JSON-LD schema scripts.
  */
 export function useSEO({
   title,
   description,
   canonical,
+  keywords,
   ogTitle,
   ogDescription,
   ogImage = "https://blezex.com/logo.png",
@@ -32,6 +33,7 @@ export function useSEO({
   twitterTitle,
   twitterDescription,
   schema,
+  noIndex = false,
 }: SEOProps) {
   useEffect(() => {
     // ── Title ────────────────────────────────────────────────────
@@ -42,7 +44,6 @@ export function useSEO({
       let el = document.querySelector<HTMLMetaElement>(selector);
       if (!el) {
         el = document.createElement("meta");
-        // Extract attribute pair from selector, e.g. name="description"
         const match = selector.match(/\[(\w+(?::\w+)?)="([^"]+)"\]/);
         if (match) el.setAttribute(match[1], match[2]);
         document.head.appendChild(el);
@@ -61,9 +62,15 @@ export function useSEO({
       el.setAttribute("href", href);
     };
 
-    // ── Meta description ─────────────────────────────────────────
+    // ── Meta description & robots ─────────────────────────────────
     setMeta('meta[name="description"]', description);
-    setMeta('meta[name="robots"]', "index, follow");
+    setMeta('meta[name="robots"]', noIndex ? "noindex, nofollow" : "index, follow, max-image-preview:large");
+    setMeta('meta[name="author"]', "BlezeX Technologies");
+
+    // ── Keywords ──────────────────────────────────────────────────
+    if (keywords) {
+      setMeta('meta[name="keywords"]', keywords);
+    }
 
     // ── Canonical ────────────────────────────────────────────────
     setLink("canonical", canonical);
@@ -73,8 +80,11 @@ export function useSEO({
     setMeta('meta[property="og:description"]', ogDescription ?? description);
     setMeta('meta[property="og:url"]', canonical);
     setMeta('meta[property="og:image"]', ogImage);
+    setMeta('meta[property="og:image:alt"]', ogTitle ?? title);
+    setMeta('meta[property="og:image:width"]', "1200");
+    setMeta('meta[property="og:image:height"]', "630");
     setMeta('meta[property="og:type"]', ogType);
-    setMeta('meta[property="og:site_name"]', "BlezeX");
+    setMeta('meta[property="og:site_name"]', "BlezeX Technologies");
     setMeta('meta[property="og:locale"]', "en_IN");
 
     // ── Twitter Card ─────────────────────────────────────────────
@@ -87,7 +97,6 @@ export function useSEO({
     setMeta('meta[name="twitter:url"]', canonical);
 
     // ── JSON-LD Schema ───────────────────────────────────────────
-    // Remove any previous schema injected by this hook
     document
       .querySelectorAll('script[data-seo-hook="true"]')
       .forEach((el) => el.remove());
@@ -103,9 +112,8 @@ export function useSEO({
       document.head.appendChild(script);
     });
 
-    // ── Cleanup: restore home defaults on unmount ────────────────
     return () => {
       document.querySelectorAll('script[data-seo-hook="true"]').forEach((el) => el.remove());
     };
-  }, [title, description, canonical, ogTitle, ogDescription, ogImage, ogType, twitterTitle, twitterDescription, schema]);
+  }, [title, description, canonical, keywords, ogTitle, ogDescription, ogImage, ogType, twitterTitle, twitterDescription, schema, noIndex]);
 }
