@@ -5,6 +5,7 @@ import Stats from "@/components/blezex/Stats";
 import About from "@/components/blezex/About";
 import Services from "@/components/blezex/Services";
 import Packages from "@/components/blezex/Packages";
+import Process from "@/components/blezex/Process";
 import Portfolio from "@/components/blezex/Portfolio";
 import FAQ from "@/components/blezex/FAQ";
 import Contact from "@/components/blezex/Contact";
@@ -31,7 +32,7 @@ const Index = () => {
             name: "BlezeX",
             url: SITE_URL,
             description:
-              "BlezeX provides AI automation, web development, mobile app development, custom software, SaaS, digital marketing, branding, and maintenance solutions.",
+              "BlezeX provides AI automation, web development, custom software and SaaS, digital marketing, and graphic design and branding solutions.",
             publisher: {
               "@type": "Organization",
               "@id": `${SITE_URL}/#organization`,
@@ -47,7 +48,7 @@ const Index = () => {
                 name: "What services does BlezeX provide?",
                 acceptedAnswer: {
                   "@type": "Answer",
-                  text: "BlezeX provides AI automation, web development, mobile app development, custom software and SaaS, digital marketing, graphic design and branding, corporate and startup services, and support and maintenance.",
+                  text: "BlezeX provides AI automation, web development, custom software and SaaS, digital marketing, and graphic design and branding.",
                 },
               },
               {
@@ -63,7 +64,7 @@ const Index = () => {
                 name: "How can I contact BlezeX?",
                 acceptedAnswer: {
                   "@type": "Answer",
-                  text: "You can contact BlezeX by phone at +91 9059634555, by email at blezex.vibe@gmail.com, or through the contact page at https://blezex.com/contact.",
+                  text: "You can contact BlezeX by phone at +91 9059634555, by email at connect.blezex@gmail.com, or through the contact page at https://blezex.com/contact.",
                 },
               },
             ],
@@ -77,6 +78,7 @@ const Index = () => {
       <About />
       <Services />
       <Packages />
+      <Process />
       <Portfolio />
       <FAQ />
       <Contact />

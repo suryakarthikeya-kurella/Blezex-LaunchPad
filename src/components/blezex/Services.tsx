@@ -1,11 +1,14 @@
-import { motion, useInView } from "framer-motion";
-import { useRef } from "react";
 import { Link } from "react-router-dom";
-import { ArrowRight, Globe, Smartphone, BrainCircuit, Server, Megaphone, Palette, Wrench, Building2 } from "lucide-react";
+import { ArrowRight } from "lucide-react";
+import Reveal from "@/components/motion/Reveal";
+import SplitText from "@/components/motion/SplitText";
+import SketchCard from "@/components/sketch/SketchCard";
+import Annotation from "@/components/sketch/Annotation";
+import ServiceIcon, { type ServiceIconName } from "@/components/sketch/ServiceIcon";
 
-const services = [
+const services: { icon: ServiceIconName; title: string; slug: string; subs: string[] }[] = [
   {
-    icon: Globe,
+    icon: "web",
     title: "Web Development",
     slug: "web-development",
     subs: [
@@ -17,18 +20,7 @@ const services = [
     ],
   },
   {
-    icon: Smartphone,
-    title: "Mobile App Development",
-    slug: "mobile-app-development",
-    subs: [
-      "Android Applications",
-      "iOS Applications",
-      "Cross Platform Apps",
-      "Business Mobile Applications",
-    ],
-  },
-  {
-    icon: Server,
+    icon: "saas",
     title: "Custom Software & SaaS",
     slug: "custom-software-saas",
     subs: [
@@ -40,7 +32,7 @@ const services = [
     ],
   },
   {
-    icon: BrainCircuit,
+    icon: "ai",
     title: "AI & Automation",
     slug: "ai-automation",
     subs: [
@@ -53,7 +45,7 @@ const services = [
     ],
   },
   {
-    icon: Megaphone,
+    icon: "marketing",
     title: "Digital Marketing & Growth",
     slug: "digital-marketing",
     subs: [
@@ -67,7 +59,7 @@ const services = [
     ],
   },
   {
-    icon: Palette,
+    icon: "design",
     title: "Graphic Designing & Branding",
     slug: "graphic-designing-branding",
     subs: [
@@ -78,113 +70,75 @@ const services = [
       "Packaging Design",
     ],
   },
-  {
-    icon: Building2,
-    title: "Corporate & Startup Services",
-    slug: "corporate-startup-services",
-    subs: [
-      "Private Limited Company Registration",
-      "LLP Registration",
-      "Partnership Firm Registration",
-      "PAN / TAN / DSC Registration",
-      "MSME Registration",
-      "Startup India Registration",
-      "Shop & Establishment Registration",
-      "Government License Applications",
-    ],
-  },
-  {
-    icon: Wrench,
-    title: "Support & Maintenance",
-    slug: "support-maintenance",
-    subs: [
-      "Website Maintenance",
-      "App Maintenance",
-      "Performance Optimization",
-      "Security Monitoring",
-    ],
-  },
 ];
 
-const Services = () => {
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-100px" });
-
-  return (
-    <section id="services" className="py-24 relative" ref={ref}>
-      <div className="container mx-auto px-4">
-
-        {/* Section Heading */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.5 }}
-          className="text-center mb-16"
-        >
-          <h2 className="text-3xl md:text-4xl font-heading font-extrabold mb-4">
-            Powerful <span className="gradient-text">Digital Services</span>
-          </h2>
-
-          <p className="text-muted-foreground max-w-2xl mx-auto font-body leading-relaxed">
+const Services = () => (
+  <section id="services" className="py-12 md:py-16 relative bg-white">
+    <div className="container mx-auto px-6 lg:px-10">
+      {/* Section Heading */}
+      <div className="relative mb-8 max-w-3xl">
+        <p aria-hidden="true" className="mb-3 font-body text-xs uppercase tracking-[0.2em] text-primary">02 /</p>
+        <SplitText
+          as="h2"
+          text="Powerful Digital Services"
+          className="font-display text-[clamp(1.75rem,3.6vw,3.25rem)] font-extrabold leading-none mb-4"
+        />
+        <Reveal delay={0.2}>
+          <p className="text-muted-foreground max-w-2xl font-body text-base md:text-lg leading-relaxed">
             BlezeX provides end-to-end technology solutions including AI automation,
-            software development, digital growth strategies, and business infrastructure
+            software development, digital growth strategies, and creative branding
             services designed to help companies innovate, automate, and scale.
           </p>
-        </motion.div>
+        </Reveal>
+        <Annotation text="pick one!" arrow="down-left" className="absolute right-0 top-0 hidden md:inline-flex lg:-right-24" />
+      </div>
 
-        {/* Services Grid */}
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-
-          {services.map((s, i) => (
-            <motion.div
-              key={s.title}
-              initial={{ opacity: 0, y: 20 }}
-              animate={inView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.45, delay: i * 0.08 }}
-              whileHover={{ y: -6, scale: 1.02 }}
-              className="glass rounded-2xl p-6 glass-hover glow-hover transition-all flex flex-col"
-            >
-              {/* Icon */}
-              <motion.div
-                whileHover={{ rotate: 5 }}
-                className="w-12 h-12 rounded-xl gradient-bg flex items-center justify-center mb-4 shrink-0"
+      {/* Services Grid */}
+      <div className="grid md:grid-cols-2 lg:grid-cols-6 gap-5">
+        {services.map((s, i) => (
+          <Reveal
+            key={s.title}
+            delay={(i % 3) * 0.08}
+            className={`h-full ${i === 4 ? "md:col-span-2" : ""} ${i < 3 ? "lg:col-span-2" : "lg:col-span-3"}`}
+          >
+            <SketchCard className="flex h-full flex-col">
+              <span
+                aria-hidden
+                className="absolute right-5 top-3 font-display text-5xl font-extrabold leading-none text-border select-none"
               >
-                <s.icon size={24} className="text-primary-foreground" />
-              </motion.div>
+                {String(i + 1).padStart(2, "0")}
+              </span>
 
-              {/* Title */}
-              <h3 className="font-heading font-bold text-foreground mb-3">
-                {s.title}
-              </h3>
+              <ServiceIcon name={s.icon} className="mb-4 shrink-0" />
 
-              {/* Sub Services */}
-              <ul className="space-y-2 flex-1">
+              <h3 className="font-display font-bold text-xl text-foreground mb-3">{s.title}</h3>
+
+              <ul className="space-y-1.5 flex-1">
                 {s.subs.map((sub) => (
-                  <li
-                    key={sub}
-                    className="text-sm text-muted-foreground font-body flex items-start gap-2"
-                  >
-                    <span className="mt-[6px] w-1.5 h-1.5 rounded-full gradient-bg flex-shrink-0" />
+                  <li key={sub} className="text-sm text-muted-foreground font-body flex items-start gap-3">
+                    <span className="mt-[9px] h-px w-3 bg-primary flex-shrink-0" />
                     {sub}
                   </li>
                 ))}
               </ul>
 
-              {/* Explore link */}
               <Link
                 to={`/services/${s.slug}`}
-                className="mt-5 inline-flex items-center gap-1.5 text-sm font-heading font-semibold text-primary hover:gap-3 transition-all duration-200 group"
+                className="mt-4 inline-flex items-center gap-1.5 text-sm font-display font-semibold text-foreground hover:text-primary transition-colors duration-200"
               >
                 Explore Service
-                <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform duration-200" />
+                <ArrowRight
+                  size={14}
+                  strokeWidth={1.75}
+                  className="transition-transform duration-200 group-hover:translate-x-1.5"
+                />
               </Link>
-            </motion.div>
-          ))}
-
-        </div>
+            </SketchCard>
+          </Reveal>
+        ))}
       </div>
-    </section>
-  );
-};
+    </div>
+  </section>
+);
 
 export default Services;

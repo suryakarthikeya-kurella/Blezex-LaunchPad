@@ -1,179 +1,151 @@
-import { motion } from "framer-motion";
-import { ArrowRight, MessageCircle, Sparkles } from "lucide-react";
-import { useEffect, useState } from "react";
+import { motion, useReducedMotion } from "framer-motion";
+import { ArrowRight, MessageCircle } from "lucide-react";
+import SplitText from "@/components/motion/SplitText";
+import Reveal from "@/components/motion/Reveal";
+import Magnetic from "@/components/motion/Magnetic";
+import SketchPath from "@/components/motion/SketchPath";
+import HeroWireframe from "@/components/sketch/HeroWireframe";
+import BlueprintGrid from "@/components/sketch/BlueprintGrid";
+import ServiceIcon, { type ServiceIconName } from "@/components/sketch/ServiceIcon";
+
+const SERVICES: [ServiceIconName, string][] = [
+  ["ai", "AI Automation"],
+  ["web", "Web Development"],
+  ["saas", "Business Systems"],
+  ["marketing", "Digital Growth"],
+];
+
+const STATS = [
+  ["50+", "Businesses"],
+  ["100+", "Projects"],
+  ["24/7", "Support"],
+];
 
 const Hero = () => {
+  const reduce = useReducedMotion();
 
   const message = encodeURIComponent(
     "Hello BlezeX 👋 I am interested in your services and would like a free consultation."
   );
 
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-
-  useEffect(() => {
-    const handleMouseMove = (e) => {
-      setMousePosition({
-        x: e.clientX,
-        y: e.clientY
-      });
-    };
-
-    window.addEventListener("mousemove", handleMouseMove);
-    return () => window.removeEventListener("mousemove", handleMouseMove);
-  }, []);
-
   return (
-    <section id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden grid-bg">
+    <section id="home" className="relative overflow-hidden bg-white pt-28 pb-8 md:pt-[7.75rem] md:pb-[clamp(1.5rem,4vh,3rem)]">
+      <BlueprintGrid />
 
-      {/* Mouse Glow */}
-      <div
-        className="pointer-events-none absolute -inset-px opacity-40"
-        style={{
-          background: `radial-gradient(600px at ${mousePosition.x}px ${mousePosition.y}px, rgba(255,77,28,0.15), transparent 80%)`
-        }}
-      />
-
-      {/* Grid Background */}
-      <div className="absolute inset-0 opacity-[0.05]">
-        <div className="absolute inset-0 bg-[linear-gradient(#ffffff22_1px,transparent_1px),linear-gradient(90deg,#ffffff22_1px,transparent_1px)] bg-[size:60px_60px]" />
-      </div>
-
-      {/* AI Particles */}
-      <div className="absolute inset-0 overflow-hidden">
-        <motion.div
-          animate={{ y: ["0%", "-100%"] }}
-          transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-          className="absolute inset-0"
-        >
-          {[...Array(30)].map((_, i) => (
-            <span
-              key={i}
-              className="absolute w-[2px] h-[2px] bg-white opacity-30 rounded-full"
-              style={{
-                left: `${Math.random() * 100}%`,
-                top: `${Math.random() * 200}%`
-              }}
-            />
-          ))}
-        </motion.div>
-      </div>
-
-      {/* Glow Orbs */}
-      <motion.div
-        animate={{ y: [-30, 30, -30], x: [-20, 20, -20] }}
-        transition={{ duration: 12, repeat: Infinity }}
-        className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full bg-primary/10 blur-[120px]"
-      />
-
-      <motion.div
-        animate={{ y: [30, -30, 30], x: [20, -20, 20] }}
-        transition={{ duration: 14, repeat: Infinity }}
-        className="absolute bottom-1/4 right-1/4 w-80 h-80 rounded-full bg-accent/10 blur-[120px]"
-      />
-
-      <div className="container mx-auto px-4 text-center relative z-10 pt-20">
-
-        {/* Badge */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass mb-8"
-        >
-          <Sparkles size={16} className="text-primary" />
-          <span className="text-sm font-semibold">
-            <span className="gradient-text">BlezeX</span> — Build. Automate. Scale.
-          </span>
-        </motion.div>
-
-        {/* Heading */}
-        <motion.h1
-          initial={{ opacity: 0, y: 40 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7 }}
-          className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-semibold mb-6 max-w-4xl mx-auto leading-tight"
-        >
-          Transforming Businesses With
-          <br />
-
-          <span className="font-extrabold tracking-wide">
-            <span className="text-black dark:text-white"></span>
-            Bleze
-            <span className="text-[#FF8A00] drop-shadow-[0_0_10px_rgba(255,115,0,0.8)]">
-              X
-            </span>
-          </span>
-        </motion.h1>
-
-        {/* Description */}
-        <p className="text-lg md:text-xl text-muted-foreground font-body max-w-2xl mx-auto mb-8 leading-relaxed">
-          BlezeX helps companies build powerful digital systems, automate operations with AI,
-          and scale using modern technology platforms.
-        </p>
-
-        {/* Services */}
-        <div className="flex flex-wrap justify-center gap-6 text-sm font-body text-muted-foreground mb-10">
-          <span>⚡ AI Automation</span>
-          <span>💻 Web Development</span>
-          <span>📱 App Development</span>
-          <span>⚙️ Business Systems</span>
-          <span>📈 Digital Growth</span>
-        </div>
-
-        {/* CTA */}
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-14">
-
-          <motion.a
-            whileHover={{ scale: 1.06 }}
-            whileTap={{ scale: 0.95 }}
-            href={`https://wa.me/919059634555?text=${message}`}
-            target="_blank"
-            className="gradient-bg px-8 py-4 rounded-2xl text-base font-semibold text-primary-foreground flex items-center gap-2"
-          >
-            Get Free Audit  <ArrowRight size={18} />
-          </motion.a>
-
-          <motion.a
-            whileHover={{ scale: 1.06 }}
-            whileTap={{ scale: 0.95 }}
-            href="#contact"
-            className="px-8 py-4 rounded-2xl border border-border text-base font-heading font-semibold flex items-center gap-2"
-          >
-            <MessageCircle size={18} /> Contact Us
-          </motion.a>
-
-        </div>
-
-        {/* Trust */}
-        <p className="text-sm text-muted-foreground">
-          Trusted by <span className="font-semibold text-foreground">50+ businesses</span>
-        </p>
-
-        {/* Government Badges */}
-        <div className="flex flex-wrap justify-center gap-4 mt-6">
-          <div className="px-4 py-2 rounded-full glass border text-xs">
-            🇮🇳 Startup India Registered
-          </div>
-
-          <div className="px-4 py-2 rounded-full glass border text-xs">
-            🏢 MSME / Udyam Registered
-          </div>
-        </div>
-
-        {/* Stats */}
-        <div className="flex justify-center gap-6 mt-10 text-xs text-muted-foreground">
+      <div className="container relative mx-auto px-6 lg:px-10">
+        <div className="grid items-center gap-8 lg:grid-cols-[minmax(0,1.5fr)_minmax(0,1fr)] lg:gap-8">
           <div>
-            <span className="font-semibold text-foreground">50+</span> Businesses
+            <Reveal>
+              <div className="mb-[clamp(0.75rem,2vh,1.25rem)] inline-flex items-center gap-2.5 rounded-full border border-border bg-white px-4 py-1.5">
+                <span className="h-2 w-2 rounded-full bg-primary" aria-hidden />
+                <span className="text-sm font-medium">
+                  <span className="font-semibold">BlezeX</span> — Build. Automate. Scale.
+                </span>
+              </div>
+            </Reveal>
+
+            <h1
+              aria-label="Transforming Businesses With BlezeX"
+              className="font-display text-[clamp(2.25rem,9vw,3.5rem)] font-extrabold leading-[0.95] tracking-[-0.04em] [word-spacing:0.1em] max-w-[14ch] lg:max-w-[12.5em] lg:text-[clamp(2.25rem,min(4.4vw,7.2vh),3.75rem)]"
+            >
+              <span aria-hidden className="block">
+                <SplitText as="span" text="Transforming Businesses With" />{" "}
+                <span className="inline-block overflow-hidden align-bottom pb-[0.12em]">
+                  <motion.span
+                    className="inline-block"
+                    initial={reduce ? false : { y: "110%" }}
+                    animate={{ y: 0 }}
+                    transition={{ duration: 0.8, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
+                  >
+                    Bleze<span className="text-primary">X</span>
+                  </motion.span>
+                </span>
+              </span>
+            </h1>
+
+            <Reveal delay={0.3}>
+              <p className="mt-[clamp(0.75rem,2vh,1rem)] max-w-xl text-base leading-relaxed md:text-lg text-muted-foreground">
+                BlezeX helps companies build powerful digital systems, automate operations with AI,
+                and scale using modern technology platforms.
+              </p>
+
+              <ul className="mt-[clamp(0.75rem,2.2vh,1.25rem)] flex flex-wrap gap-2">
+                {SERVICES.map(([icon, label]) => (
+                  <li
+                    key={label}
+                    className="inline-flex items-center gap-2 rounded-full border border-border bg-white px-3.5 py-1.5 text-sm"
+                  >
+                    <ServiceIcon name={icon} className="h-4 w-4 text-primary [stroke-width:4]" />
+                    {label}
+                  </li>
+                ))}
+              </ul>
+
+              <div className="mt-[clamp(1rem,2.8vh,1.5rem)] flex flex-col gap-3 sm:flex-row sm:items-center">
+                <Magnetic className="inline-block">
+                  <a
+                    href={`https://wa.me/919059634555?text=${message}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group inline-flex w-full items-center justify-center gap-2 rounded-full bg-foreground px-6 py-3.5 text-base font-semibold text-background transition-colors hover:bg-primary sm:w-auto"
+                  >
+                    Get Free Audit
+                    <ArrowRight size={18} className="transition-transform group-hover:translate-x-1" />
+                  </a>
+                </Magnetic>
+                <Magnetic className="inline-block">
+                  <a
+                    href="#contact"
+                    className="inline-flex w-full items-center justify-center gap-2 rounded-full border border-foreground bg-white px-6 py-3.5 text-base font-semibold transition-colors hover:bg-paper sm:w-auto"
+                  >
+                    <MessageCircle size={18} /> Contact Us
+                  </a>
+                </Magnetic>
+              </div>
+            </Reveal>
           </div>
 
-          <div>
-            <span className="font-semibold text-foreground">100+</span> Projects
-          </div>
-
-          <div>
-            <span className="font-semibold text-foreground">24/7</span> Support
-          </div>
+          <Reveal delay={0.2} className="flex justify-center lg:justify-end lg:pt-8">
+            <HeroWireframe />
+          </Reveal>
         </div>
 
+        <Reveal delay={0.4}>
+          <div className="mt-[clamp(1.25rem,3.5vh,2rem)] flex flex-col gap-4 border-t border-dashed border-border pt-[clamp(0.75rem,2vh,1.25rem)] md:flex-row md:flex-wrap md:items-center md:justify-between">
+            <p className="text-sm text-muted-foreground">
+              Trusted by{" "}
+              <span className="relative inline-block font-semibold text-foreground">
+                50+ businesses
+                <svg
+                  viewBox="0 0 120 10"
+                  preserveAspectRatio="none"
+                  aria-hidden
+                  className="absolute -bottom-2 left-0 h-2.5 w-full text-primary"
+                >
+                  <SketchPath d="M2 6 C 30 2, 60 9, 118 4" delay={0.9} strokeWidth={2} />
+                </svg>
+              </span>
+            </p>
+
+            <div className="flex flex-wrap gap-2">
+              <div className="rounded-full border border-dashed border-foreground/40 px-4 py-2 text-xs">
+                🇮🇳 Startup India Registered
+              </div>
+              <div className="rounded-full border border-dashed border-foreground/40 px-4 py-2 text-xs">
+                🏢 MSME / Udyam Registered
+              </div>
+            </div>
+
+            <dl className="flex gap-6">
+              {STATS.map(([value, label]) => (
+                <div key={label} className="flex flex-col-reverse">
+                  <dt className="text-xs text-muted-foreground">{label}</dt>
+                  <dd className="font-display text-2xl font-bold">{value}</dd>
+                </div>
+              ))}
+            </dl>
+          </div>
+        </Reveal>
       </div>
     </section>
   );

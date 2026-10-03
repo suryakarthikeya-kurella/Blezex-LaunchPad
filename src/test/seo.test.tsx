@@ -98,12 +98,9 @@ describe("structured data", () => {
     expect(servicePages.map((service) => service.slug)).toEqual([
       "ai-automation",
       "web-development",
-      "mobile-app-development",
       "custom-software-saas",
       "digital-marketing",
       "graphic-designing-branding",
-      "corporate-startup-services",
-      "support-maintenance",
     ]);
 
     for (const service of servicePages) {

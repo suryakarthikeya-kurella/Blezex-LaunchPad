@@ -11,6 +11,10 @@ import {
 } from "lucide-react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 
+const linkCls =
+  "relative inline-block text-sm font-body text-foreground/70 hover:text-primary transition-colors duration-200 after:absolute after:left-0 after:-bottom-0.5 after:h-px after:w-full after:origin-left after:scale-x-0 after:bg-primary after:transition-transform after:duration-300 hover:after:scale-x-100";
+const iconCls = "text-foreground/70 hover:text-primary transition-colors duration-200";
+
 const Footer = () => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -26,12 +30,12 @@ const Footer = () => {
   };
 
   return (
-    <footer className="bg-section-alt border-t border-border py-16">
-      <div className="container mx-auto px-4">
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
+    <footer className="relative overflow-hidden bg-paper border-t border-border pt-12 pb-16 md:pb-0">
+      <div className="container mx-auto px-6 lg:px-10">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-8">
 
           {/* Company */}
-          <div>
+          <div className="col-span-2 md:col-span-1">
             <a
               href="#home"
               onClick={(e) => handleNavClick(e, "#home")}
@@ -42,13 +46,13 @@ const Footer = () => {
                 alt="BlezeX Logo"
                 className="h-12 w-auto object-contain"
               />
-              <span className="text-xl font-heading font-semibold leading-none">
-                <span className="text-black dark:text-white">Bleze</span>
-                <span className="text-orange-500">X</span>
+              <span className="text-xl font-display font-extrabold leading-none tracking-tight">
+                <span className="text-foreground">Bleze</span>
+                <span className="text-primary">X</span>
               </span>
             </a>
 
-            <p className="text-black dark:text-gray-300 text-sm font-body leading-relaxed mb-4">
+            <p className="text-foreground/70 text-sm font-body leading-relaxed mb-4">
               Fast & Innovative Technology Solutions. Helping businesses grow with modern technology and intelligent automation.
             </p>
 
@@ -59,7 +63,8 @@ const Footer = () => {
                 href="https://www.linkedin.com/company/blezex/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-black dark:text-gray-300 hover:text-orange-500 dark:hover:text-orange-400 transition-colors duration-200"
+                aria-label="LinkedIn"
+                className={iconCls}
               >
                 <Linkedin size={24} />
               </a>
@@ -68,7 +73,8 @@ const Footer = () => {
                 href="https://www.instagram.com/blezex_ai/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-black dark:text-gray-300 hover:text-orange-500 dark:hover:text-orange-400 transition-colors duration-200"
+                aria-label="Instagram"
+                className={iconCls}
               >
                 <Instagram size={24} />
               </a>
@@ -77,7 +83,8 @@ const Footer = () => {
                 href="https://www.facebook.com/profile.php?id=61586205163889"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-black dark:text-gray-300 hover:text-orange-500 dark:hover:text-orange-400 transition-colors duration-200"
+                aria-label="Facebook"
+                className={iconCls}
               >
                 <Facebook size={24} />
               </a>
@@ -86,7 +93,8 @@ const Footer = () => {
                 href="https://www.youtube.com/@BlezeX_Ai"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-black dark:text-gray-300 hover:text-orange-500 dark:hover:text-orange-400 transition-colors duration-200"
+                aria-label="YouTube"
+                className={iconCls}
               >
                 <Youtube size={24} />
               </a>
@@ -95,7 +103,8 @@ const Footer = () => {
                 href="https://x.com/x_blezex"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-black dark:text-gray-300 hover:text-orange-500 dark:hover:text-orange-400 transition-colors duration-200"
+                aria-label="X (Twitter)"
+                className={iconCls}
               >
                 <Twitter size={24} />
               </a>
@@ -104,7 +113,8 @@ const Footer = () => {
                 href="https://wa.me/919059634555"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-black dark:text-gray-300 hover:text-green-500 transition-colors duration-200"
+                aria-label="WhatsApp"
+                className={iconCls}
               >
                 <MessageCircle size={24} />
               </a>
@@ -114,7 +124,7 @@ const Footer = () => {
 
           {/* Quick Links */}
           <div>
-            <h4 className="font-heading font-bold text-black dark:text-white mb-4">
+            <h4 className="font-display text-sm font-semibold uppercase tracking-widest text-foreground mb-4">
               Quick Links
             </h4>
 
@@ -124,7 +134,7 @@ const Footer = () => {
                   <a
                     href={`#${l.toLowerCase()}`}
                     onClick={(e) => handleNavClick(e, `#${l.toLowerCase()}`)}
-                    className="text-sm font-body text-black dark:text-gray-300 hover:text-orange-500 dark:hover:text-orange-400 transition-colors duration-200"
+                    className={linkCls}
                   >
                     {l}
                   </a>
@@ -135,14 +145,13 @@ const Footer = () => {
 
           {/* Services */}
           <div>
-            <h4 className="font-heading font-bold text-black dark:text-white mb-4">
+            <h4 className="font-display text-sm font-semibold uppercase tracking-widest text-foreground mb-4">
               Services
             </h4>
 
             <ul className="space-y-2">
               {[
                 { label: "Web Development", to: "/services/web-development" },
-                { label: "Mobile Apps", to: "/services/mobile-app-development" },
                 { label: "AI & Automation", to: "/services/ai-automation" },
                 { label: "Digital Marketing", to: "/services/digital-marketing" },
                 { label: "Custom Software", to: "/services/custom-software-saas" },
@@ -151,7 +160,7 @@ const Footer = () => {
                 <li key={s.to}>
                   <Link
                     to={s.to}
-                    className="text-sm font-body text-black dark:text-gray-300 hover:text-orange-500 dark:hover:text-orange-400 transition-colors duration-200"
+                    className={linkCls}
                   >
                     {s.label}
                   </Link>
@@ -162,51 +171,51 @@ const Footer = () => {
 
           {/* Contact */}
           <div>
-            <h4 className="font-heading font-bold text-black dark:text-white mb-4">
+            <h4 className="font-display text-sm font-semibold uppercase tracking-widest text-foreground mb-4">
               Contact
             </h4>
 
             <ul className="space-y-3">
 
               <li className="flex items-center gap-3">
-                <Phone size={16} className="text-primary" />
+                <Phone size={16} className="shrink-0 text-primary" />
                 <a
                   href="tel:+919059634555"
-                  className="text-sm font-body text-black dark:text-gray-300 hover:text-orange-500 dark:hover:text-orange-400 transition-colors duration-200"
+                  className={linkCls}
                 >
                   +91 9059634555
                 </a>
               </li>
 
               <li className="flex items-center gap-3">
-                <Mail size={16} className="text-primary" />
+                <Mail size={16} className="shrink-0 text-primary" />
                 <a
-                  href="mailto:blezex.vibe@gmail.com"
-                  className="text-sm font-body text-black dark:text-gray-300 hover:text-orange-500 dark:hover:text-orange-400 transition-colors duration-200"
+                  href="mailto:connect.blezex@gmail.com"
+                  className={linkCls}
                 >
-                  blezex.vibe@gmail.com
+                  connect.blezex@gmail.com
                 </a>
               </li>
 
               <li className="flex items-center gap-3">
-                <Globe size={16} className="text-primary" />
+                <Globe size={16} className="shrink-0 text-primary" />
                 <a
                   href="https://www.blezex.com"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-sm font-body text-black dark:text-gray-300 hover:text-orange-500 dark:hover:text-orange-400 transition-colors duration-200"
+                  className={linkCls}
                 >
                   www.blezex.com
                 </a>
               </li>
 
               <li className="flex items-center gap-3">
-                <MessageCircle size={16} className="text-primary" />
+                <MessageCircle size={16} className="shrink-0 text-primary" />
                 <a
                   href="https://wa.me/919059634555"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-sm font-body text-black dark:text-gray-300 hover:text-orange-500 dark:hover:text-orange-400 transition-colors duration-200"
+                  className={linkCls}
                 >
                   WhatsApp
                 </a>
@@ -217,13 +226,21 @@ const Footer = () => {
 
         </div>
 
+        {/* Wordmark */}
+        <div
+          aria-hidden="true"
+          className="select-none text-center font-display font-extrabold text-[14vw] md:text-[8.5rem] leading-none text-[#111]/[0.06] -mb-[0.12em]"
+        >
+          BlezeX
+        </div>
+
         {/* Bottom */}
-        <div className="border-t border-border pt-6 text-center">
-          <p className="text-sm text-black dark:text-gray-300 font-body">
+        <div className="border-t border-dashed border-border py-4 text-center relative bg-paper">
+          <p className="text-sm text-foreground/70 font-body">
             © 2026{" "}
-            <span className="font-heading font-semibold">
-              <span className="text-black dark:text-white">Bleze</span>
-              <span className="text-orange-500">X</span>
+            <span className="font-display font-semibold">
+              <span className="text-foreground">Bleze</span>
+              <span className="text-primary">X</span>
             </span>. All rights reserved.
           </p>
         </div>

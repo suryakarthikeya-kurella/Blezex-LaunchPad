@@ -1,6 +1,8 @@
-import { motion, useInView } from "framer-motion";
-import { useRef } from "react";
 import { Check, MessageCircle } from "lucide-react";
+import Reveal from "@/components/motion/Reveal";
+import SplitText from "@/components/motion/SplitText";
+import Magnetic from "@/components/motion/Magnetic";
+import SketchCard from "@/components/sketch/SketchCard";
 
 const packages = [
   {
@@ -79,7 +81,7 @@ const packages = [
     desc: "End-to-end digital transformation for enterprises.",
     features: [
       "Custom Software / SaaS Development",
-      "Website + Mobile App Development",
+      "Website & Web Application Development",
       "AI Automation Systems",
       "CRM / ERP Integration",
       "Cloud Infrastructure Setup",
@@ -94,70 +96,73 @@ const packages = [
   },
 ];
 
-const Packages = () => {
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-100px" });
-
-  return (
-    <section id="packages" className="py-24 bg-section-alt" ref={ref}>
-      <div className="container mx-auto px-4">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          className="text-center mb-16"
-        >
-          <h2 className="text-3xl md:text-4xl font-heading font-extrabold mb-4">
-            Our <span className="gradient-text">Packages</span>
-          </h2>
-          <p className="text-muted-foreground text-base max-w-xl mx-auto font-body leading-relaxed">
+const Packages = () => (
+  <section id="packages" className="py-12 md:py-16 bg-paper">
+    <div className="container mx-auto px-6 lg:px-10">
+      <div className="mb-8 max-w-3xl">
+        <p aria-hidden="true" className="mb-3 font-body text-xs uppercase tracking-[0.2em] text-primary">03 /</p>
+        <SplitText
+          as="h2"
+          text="Our Packages"
+          className="font-display text-[clamp(1.75rem,3.6vw,3.25rem)] font-extrabold leading-none mb-4"
+        />
+        <Reveal delay={0.2}>
+          <p className="text-muted-foreground text-base md:text-lg max-w-xl font-body leading-relaxed">
             Flexible packages designed to fit every business size and budget.
           </p>
-        </motion.div>
+        </Reveal>
+      </div>
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-5">
-          {packages.map((pkg, i) => (
-            <motion.div
-              key={pkg.name}
-              initial={{ opacity: 0, y: 30 }}
-              animate={inView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.4, delay: i * 0.08 }}
-              className={`glass rounded-2xl p-6 flex flex-col relative ${
-                pkg.recommended ? "ring-2 ring-primary glow" : ""
-              } glass-hover`}
+      <div className="grid md:grid-cols-2 lg:grid-cols-6 gap-5">
+        {packages.map((pkg, i) => (
+          <Reveal
+            key={pkg.name}
+            delay={(i % 3) * 0.08}
+            className={`h-full ${i === 4 ? "md:col-span-2" : ""} ${i < 3 ? "lg:col-span-2" : "lg:col-span-3"}`}
+          >
+            <SketchCard
+              className={`flex h-full flex-col ${
+                pkg.recommended ? "border-foreground shadow-[6px_6px_0_#111] hover:shadow-[8px_8px_0_#111]" : ""
+              }`}
             >
               {pkg.recommended && (
-                <span className="absolute -top-3 left-1/2 -translate-x-1/2 gradient-bg text-primary-foreground text-xs font-heading font-semibold px-3 py-1 rounded-full">
+                <span className="absolute -top-4 right-5 -rotate-3 rounded-md bg-primary px-3 py-1 font-hand text-xl leading-none text-primary-foreground">
                   Recommended
                 </span>
               )}
-              <h3 className="font-heading font-bold text-xl text-foreground mb-1">{pkg.name}</h3>
+              <p aria-hidden="true" className="mb-3 font-body text-xs uppercase tracking-[0.2em] text-muted-foreground">
+                {String(i + 1).padStart(2, "0")}
+              </p>
+              <h3 className="font-display font-bold text-xl md:text-2xl text-foreground mb-2">{pkg.name}</h3>
               <p className="text-base text-muted-foreground font-body mb-4 leading-relaxed">{pkg.desc}</p>
-              <ul className="space-y-2 mb-6 flex-1">
+              <ul className="space-y-2 mb-5 flex-1 border-t border-dashed border-border pt-4">
                 {pkg.features.map((f) => (
-                  <li key={f} className="flex items-start gap-2 text-sm font-body text-body-text">
-                    <Check size={16} className="text-primary flex-shrink-0 mt-0.5" />
+                  <li key={f} className="flex items-start gap-3 text-sm font-body text-body-text">
+                    <Check size={16} strokeWidth={1.75} className="text-primary flex-shrink-0 mt-0.5" />
                     {f}
                   </li>
                 ))}
               </ul>
-              <a
-                href={`https://wa.me/919059634555?text=Hi, I'm interested in the ${pkg.name} package.`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className={`flex items-center justify-center gap-2 py-3 rounded-xl font-heading font-semibold text-sm transition-all hover:scale-105 ${
-                  pkg.recommended
-                    ? "gradient-bg text-primary-foreground glow-hover"
-                    : "border border-border text-foreground hover:border-primary/50"
-                }`}
-              >
-                <MessageCircle size={16} /> Get Started
-              </a>
-            </motion.div>
-          ))}
-        </div>
+              <Magnetic className="block" strength={0.15}>
+                <a
+                  href={`https://wa.me/919059634555?text=Hi, I'm interested in the ${pkg.name} package.`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`flex items-center justify-center gap-2 py-3 rounded-full font-display font-semibold text-sm transition-colors ${
+                    pkg.recommended
+                      ? "bg-primary text-primary-foreground hover:bg-foreground"
+                      : "border border-foreground text-foreground hover:bg-foreground hover:text-background"
+                  }`}
+                >
+                  <MessageCircle size={16} strokeWidth={1.75} /> Get Started
+                </a>
+              </Magnetic>
+            </SketchCard>
+          </Reveal>
+        ))}
       </div>
-    </section>
-  );
-};
+    </div>
+  </section>
+);
 
 export default Packages;

@@ -3,7 +3,7 @@ export const LOGO_URL = `${SITE_URL}/logo.png`;
 
 export const blezexContact = {
   phone: "+919059634555",
-  email: "blezex.vibe@gmail.com",
+  email: "connect.blezex@gmail.com",
   address: {
     "@type": "PostalAddress",
     addressLocality: "Hyderabad",
@@ -26,12 +26,6 @@ export const servicePages = [
       "High-performance website and web application development services from BlezeX for businesses, startups, and growing teams.",
   },
   {
-    slug: "mobile-app-development",
-    name: "Mobile App Development",
-    description:
-      "Android, iOS, and cross-platform mobile app development services from BlezeX with modern UI, secure APIs, and app store support.",
-  },
-  {
     slug: "custom-software-saas",
     name: "Custom Software & SaaS",
     description:
@@ -48,18 +42,6 @@ export const servicePages = [
     name: "Graphic Designing & Branding",
     description:
       "Graphic design, UI/UX, logo design, brand identity, and creative asset services from BlezeX for memorable business branding.",
-  },
-  {
-    slug: "corporate-startup-services",
-    name: "Corporate & Startup Services",
-    description:
-      "Startup registration, company incorporation, compliance, and government licensing services from BlezeX for Indian businesses.",
-  },
-  {
-    slug: "support-maintenance",
-    name: "Support & Maintenance",
-    description:
-      "Website, app, performance, security, uptime, backup, and technical maintenance services from BlezeX.",
   },
 ] as const;
 
@@ -81,7 +63,7 @@ export const pageMetadata = {
   contact: {
     title: "Contact BlezeX | AI Automation & Software Company in Hyderabad",
     description:
-      "Contact BlezeX in Hyderabad, Telangana for AI automation, web development, mobile app development, custom software, SaaS, digital marketing, and support services.",
+      "Contact BlezeX in Hyderabad, Telangana for AI automation, web development, custom software, SaaS, digital marketing, and graphic design and branding services.",
     canonical: `${SITE_URL}/contact`,
   },
 } as const;
@@ -95,7 +77,7 @@ export const globalSchemas = [
     url: SITE_URL,
     logo: LOGO_URL,
     description:
-      "BlezeX is a software company providing AI automation, web development, mobile app development, custom software, SaaS, digital marketing, branding, and support services.",
+      "BlezeX is a software company providing AI automation, web development, custom software, SaaS, digital marketing, and graphic design and branding services.",
     email: blezexContact.email,
     telephone: blezexContact.phone,
     address: blezexContact.address,
@@ -116,7 +98,7 @@ export const globalSchemas = [
     image: LOGO_URL,
     logo: LOGO_URL,
     description:
-      "BlezeX is a Hyderabad-based software company serving startups, businesses, and enterprises with AI, web, mobile, SaaS, and digital growth solutions.",
+      "BlezeX is a Hyderabad-based software company serving startups, businesses, and enterprises with AI, web, SaaS, digital growth, and branding solutions.",
     address: blezexContact.address,
     areaServed: ["India", "Worldwide"],
     priceRange: "INR",

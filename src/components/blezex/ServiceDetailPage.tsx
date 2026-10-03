@@ -1,11 +1,17 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
-import { ArrowRight, CheckCircle2, ChevronDown, MessageCircle, Sparkles } from "lucide-react";
+import { ArrowRight, ChevronDown, MessageCircle } from "lucide-react";
 import { Link } from "react-router-dom";
 import Header from "@/components/blezex/Header";
 import Footer from "@/components/blezex/Footer";
-import { FadeUp, type ServicePageData } from "@/components/blezex/ServicePageShared";
+import { type ServicePageData } from "@/components/blezex/ServicePageShared";
 import SEO from "@/components/SEO";
+import Reveal from "@/components/motion/Reveal";
+import SplitText from "@/components/motion/SplitText";
+import Magnetic from "@/components/motion/Magnetic";
+import SketchCard from "@/components/sketch/SketchCard";
+import ServiceIcon, { type ServiceIconName } from "@/components/sketch/ServiceIcon";
+import BlueprintGrid from "@/components/sketch/BlueprintGrid";
 import { buildServiceSchema, findServiceSeoPage } from "@/seo";
 
 /* ─── Whatsapp CTA helper ────────────────────────────────────── */
@@ -14,24 +20,66 @@ const waLink = (service: string) =>
     `Hello BlezeX 👋\n\nI'm interested in your ${service} service and would like to learn more.`
   )}`;
 
+const iconBySlug: Record<string, ServiceIconName> = {
+  "web-development": "web",
+  "custom-software-saas": "saas",
+  "ai-automation": "ai",
+  "digital-marketing": "marketing",
+  "graphic-designing-branding": "design",
+};
+
+const pill =
+  "inline-flex items-center gap-2 rounded-full px-6 py-3.5 font-display font-semibold transition-colors duration-200";
+const pillInk = `${pill} bg-foreground text-background hover:bg-primary`;
+const pillOutline = `${pill} border border-foreground text-foreground hover:border-primary hover:text-primary`;
+
+const SectionHead = ({
+  n,
+  eyebrow,
+  title,
+  sub,
+}: {
+  n: string;
+  eyebrow: string;
+  title: string;
+  sub?: string;
+}) => (
+  <div className="mb-8 max-w-3xl">
+    <p className="mb-3 font-body text-xs uppercase tracking-[0.2em] text-primary">
+      {n} / {eyebrow}
+    </p>
+    <SplitText
+      as="h2"
+      text={title}
+      className="font-display text-[clamp(1.75rem,3.6vw,3.25rem)] font-extrabold leading-none"
+    />
+    {sub && (
+      <Reveal delay={0.2}>
+        <p className="mt-4 max-w-xl font-body text-base md:text-lg leading-relaxed text-muted-foreground">{sub}</p>
+      </Reveal>
+    )}
+  </div>
+);
+
 /* ─── FAQ Item ───────────────────────────────────────────────── */
 function FaqItem({ q, a, index }: { q: string; a: string; index: number }) {
   const [open, setOpen] = useState(false);
   return (
-    <FadeUp delay={index * 0.06}>
-      <div className="glass rounded-2xl border border-border/50 overflow-hidden">
+    <Reveal delay={index * 0.05}>
+      <div className="sketch-card relative overflow-hidden">
         <button
           onClick={() => setOpen((p) => !p)}
-          className="w-full flex items-center justify-between gap-4 px-6 py-5 text-left font-heading font-semibold text-base text-foreground hover:bg-hover-surface transition-colors"
+          className="w-full flex items-center justify-between gap-4 px-5 py-4 text-left font-display font-semibold text-base text-foreground transition-colors hover:text-primary"
           aria-expanded={open}
         >
           <span>{q}</span>
           <motion.span
+            aria-hidden
             animate={{ rotate: open ? 180 : 0 }}
             transition={{ duration: 0.2 }}
             className="shrink-0 text-primary"
           >
-            <ChevronDown size={18} />
+            <ChevronDown size={18} strokeWidth={1.75} />
           </motion.span>
         </button>
         <AnimatePresence initial={false}>
@@ -43,14 +91,12 @@ function FaqItem({ q, a, index }: { q: string; a: string; index: number }) {
               transition={{ duration: 0.22 }}
               className="overflow-hidden"
             >
-              <p className="px-6 pb-5 text-base text-muted-foreground font-body leading-relaxed">
-                {a}
-              </p>
+              <p className="px-5 pb-4 text-base text-muted-foreground font-body leading-relaxed">{a}</p>
             </motion.div>
           )}
         </AnimatePresence>
       </div>
-    </FadeUp>
+    </Reveal>
   );
 }
 
@@ -79,6 +125,8 @@ export default function ServiceDetailPage({ data }: { data: ServicePageData }) {
     }))
   } : null;
 
+  const icon = iconBySlug[data.slug] ?? "web";
+
   return (
     <div className="min-h-screen bg-background text-foreground">
       <SEO
@@ -93,240 +141,142 @@ export default function ServiceDetailPage({ data }: { data: ServicePageData }) {
       <Header />
 
       {/* ── HERO ────────────────────────────────────────────── */}
-      <section className="relative min-h-[80vh] flex items-center justify-center overflow-hidden grid-bg pt-24 pb-20">
-        {/* Orbs */}
-        <motion.div
-          animate={{ y: [-30, 30, -30], x: [-20, 20, -20] }}
-          transition={{ duration: 12, repeat: Infinity }}
-          className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full bg-primary/10 blur-[120px] pointer-events-none"
-        />
-        <motion.div
-          animate={{ y: [30, -30, 30], x: [20, -20, 20] }}
-          transition={{ duration: 14, repeat: Infinity }}
-          className="absolute bottom-1/4 right-1/4 w-80 h-80 rounded-full bg-accent/10 blur-[120px] pointer-events-none"
-        />
+      <section className="relative overflow-hidden bg-white pt-28 pb-10 md:pt-36 md:pb-16">
+        <div className="container mx-auto px-6 lg:px-10">
+          <div className="grid items-center gap-8 lg:grid-cols-[1.3fr_1fr]">
+            <div>
+              <p className="mb-3 font-body text-xs uppercase tracking-[0.2em] text-primary">
+                BlezeX Services /
+              </p>
+              <SplitText
+                as="h1"
+                text={data.title}
+                className="font-display text-[clamp(2.2rem,4.6vw,4.25rem)] font-extrabold leading-none mb-4"
+              />
+              <Reveal delay={0.2}>
+                <p className="mb-3 font-display text-lg font-semibold text-foreground md:text-xl">
+                  {data.tagline}
+                </p>
+                <p className="mb-6 max-w-2xl font-body text-base leading-relaxed text-muted-foreground md:text-lg">
+                  {data.description}
+                </p>
+                <div className="flex flex-col items-start gap-4 sm:flex-row sm:items-center">
+                  <Magnetic>
+                    <a href={waLink(data.title)} target="_blank" rel="noopener noreferrer" className={pillInk}>
+                      Get Free Consultation <ArrowRight size={18} strokeWidth={1.75} />
+                    </a>
+                  </Magnetic>
+                  <Magnetic>
+                    <a href="/#contact" className={pillOutline}>
+                      <MessageCircle size={18} strokeWidth={1.75} /> Contact Us
+                    </a>
+                  </Magnetic>
+                </div>
+              </Reveal>
+            </div>
 
-        <div className="container mx-auto px-4 text-center relative z-10">
-          {/* Badge */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.45 }}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass mb-6"
-          >
-            <Sparkles size={14} className="text-primary" />
-            <span className="text-sm font-heading font-semibold gradient-text">
-              BlezeX Services
-            </span>
-          </motion.div>
-
-          {/* Emoji icon */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.7 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.5, delay: 0.05 }}
-            className="text-6xl md:text-7xl mb-6"
-          >
-            {data.heroIcon}
-          </motion.div>
-
-          {/* Title */}
-          <motion.h1
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.55, delay: 0.1 }}
-            className="text-4xl sm:text-5xl md:text-6xl font-heading font-extrabold mb-4 leading-tight"
-          >
-            {data.title}
-          </motion.h1>
-
-          {/* Tagline */}
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.18 }}
-            className="text-lg md:text-xl gradient-text font-heading font-semibold mb-4"
-          >
-            {data.tagline}
-          </motion.p>
-
-          {/* Description */}
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.24 }}
-            className="text-base md:text-lg text-muted-foreground font-body max-w-2xl mx-auto mb-10"
-          >
-            {data.description}
-          </motion.p>
-
-          {/* CTAs */}
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.45, delay: 0.3 }}
-            className="flex flex-col sm:flex-row items-center justify-center gap-4"
-          >
-            <motion.a
-              whileHover={{ scale: 1.06 }}
-              whileTap={{ scale: 0.96 }}
-              href={waLink(data.title)}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="gradient-bg px-8 py-4 rounded-2xl font-heading font-semibold text-primary-foreground flex items-center gap-2 glow-hover"
-            >
-              Get Free Consultation <ArrowRight size={18} />
-            </motion.a>
-            <motion.a
-              whileHover={{ scale: 1.06 }}
-              whileTap={{ scale: 0.96 }}
-              href="/#contact"
-              className="px-8 py-4 rounded-2xl border border-border font-heading font-semibold flex items-center gap-2 hover:border-primary/50 transition-colors"
-            >
-              <MessageCircle size={18} /> Contact Us
-            </motion.a>
-          </motion.div>
+            <Reveal delay={0.15} className="hidden lg:block">
+              <SketchCard className="relative flex aspect-[4/3] items-center justify-center overflow-hidden">
+                <BlueprintGrid />
+                <ServiceIcon name={icon} className="relative h-32 w-32 xl:h-36 xl:w-36" />
+              </SketchCard>
+            </Reveal>
+          </div>
         </div>
       </section>
 
       {/* ── WHAT WE OFFER ───────────────────────────────────── */}
-      <section className="py-24 bg-section-alt">
-        <div className="container mx-auto px-4">
-          <FadeUp className="text-center mb-14">
-            <p className="text-sm font-heading font-semibold gradient-text uppercase tracking-widest mb-3">
-              What We Offer
-            </p>
-            <h2 className="text-3xl md:text-4xl font-heading font-extrabold">
-              Comprehensive <span className="gradient-text">{data.title}</span> Solutions
-            </h2>
-          </FadeUp>
-
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <section className="bg-paper py-12 md:py-16">
+        <div className="container mx-auto px-6 lg:px-10">
+          <SectionHead n="01" eyebrow="What We Offer" title={`Comprehensive ${data.title} Solutions`} />
+          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {data.offerings.map((o, i) => (
-              <FadeUp key={o.title} delay={i * 0.07}>
-                <motion.div
-                  whileHover={{ y: -5, scale: 1.02 }}
-                  className="glass rounded-2xl p-6 h-full border border-border/50 hover:border-primary/30 transition-all duration-300"
-                >
-                  <div className="w-10 h-10 rounded-xl gradient-bg flex items-center justify-center mb-4">
-                    <CheckCircle2 size={18} className="text-primary-foreground" />
-                  </div>
-                  <h3 className="font-heading font-bold text-foreground mb-2">{o.title}</h3>
-                  <p className="text-sm md:text-base text-muted-foreground font-body leading-relaxed">{o.desc}</p>
-                </motion.div>
-              </FadeUp>
+              <Reveal key={o.title} delay={(i % 3) * 0.08} className="h-full">
+                <SketchCard className="h-full">
+                  <span
+                    aria-hidden
+                    className="absolute right-5 top-3 select-none font-display text-4xl font-extrabold leading-none text-border"
+                  >
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                  <span aria-hidden className="mb-4 block h-px w-8 bg-primary" />
+                  <h3 className="font-display font-bold text-xl text-foreground mb-2 pr-14">{o.title}</h3>
+                  <p className="font-body text-sm leading-relaxed text-muted-foreground md:text-base">{o.desc}</p>
+                </SketchCard>
+              </Reveal>
             ))}
           </div>
         </div>
       </section>
 
       {/* ── BENEFITS ────────────────────────────────────────── */}
-      <section className="py-24">
-        <div className="container mx-auto px-4">
-          <FadeUp className="text-center mb-14">
-            <p className="text-sm font-heading font-semibold gradient-text uppercase tracking-widest mb-3">
-              Business Benefits
-            </p>
-            <h2 className="text-3xl md:text-4xl font-heading font-extrabold">
-              Why Invest in <span className="gradient-text">{data.title}?</span>
-            </h2>
-          </FadeUp>
-
-          <div className="grid sm:grid-cols-2 gap-6 max-w-4xl mx-auto">
+      <section className="bg-white py-12 md:py-16">
+        <div className="container mx-auto px-6 lg:px-10">
+          <SectionHead n="02" eyebrow="Business Benefits" title={`Why Invest in ${data.title}?`} />
+          <div className="grid gap-5 sm:grid-cols-2">
             {data.benefits.map((b, i) => (
-              <FadeUp key={b.title} delay={i * 0.08}>
-                <div className="flex gap-4 items-start p-6 glass rounded-2xl border border-border/40 hover:border-primary/30 transition-colors">
-                  <span className="mt-1 shrink-0 w-6 h-6 rounded-full gradient-bg flex items-center justify-center">
-                    <CheckCircle2 size={13} className="text-primary-foreground" />
+              <Reveal key={b.title} delay={(i % 2) * 0.08} className="h-full">
+                <SketchCard className="flex h-full items-start gap-5">
+                  <span aria-hidden className="mt-0.5 shrink-0 font-display text-2xl font-extrabold text-primary">
+                    {String(i + 1).padStart(2, "0")}
                   </span>
                   <div>
-                    <h3 className="font-heading font-bold text-foreground mb-1">{b.title}</h3>
-                    <p className="text-sm md:text-base text-muted-foreground font-body leading-relaxed">{b.desc}</p>
+                    <h3 className="font-display font-bold text-lg text-foreground mb-1">{b.title}</h3>
+                    <p className="font-body text-sm leading-relaxed text-muted-foreground md:text-base">{b.desc}</p>
                   </div>
-                </div>
-              </FadeUp>
+                </SketchCard>
+              </Reveal>
             ))}
           </div>
         </div>
       </section>
 
       {/* ── TECHNOLOGIES ────────────────────────────────────── */}
-      <section className="py-24 bg-section-alt">
-        <div className="container mx-auto px-4">
-          <FadeUp className="text-center mb-12">
-            <p className="text-sm font-heading font-semibold gradient-text uppercase tracking-widest mb-3">
-              Tools & Technologies
-            </p>
-            <h2 className="text-3xl md:text-4xl font-heading font-extrabold">
-              What We Work With
-            </h2>
-          </FadeUp>
-
-          <FadeUp delay={0.1}>
-            <div className="flex flex-wrap justify-center gap-3 max-w-4xl mx-auto">
-              {data.technologies.map((tech, i) => (
-                <motion.span
+      <section className="bg-paper py-12 md:py-16">
+        <div className="container mx-auto px-6 lg:px-10">
+          <SectionHead n="03" eyebrow="Tools & Technologies" title="What We Work With" />
+          <Reveal delay={0.1}>
+            <ul className="flex flex-wrap gap-2.5">
+              {data.technologies.map((tech) => (
+                <li
                   key={tech}
-                  initial={{ opacity: 0, scale: 0.85 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: i * 0.04, duration: 0.3 }}
-                  whileHover={{ scale: 1.08 }}
-                  className="px-4 py-2 glass rounded-xl border border-border/60 text-sm font-heading font-semibold text-foreground hover:border-primary/40 hover:gradient-text transition-all cursor-default"
+                  className="rounded-full border border-border bg-white px-5 py-2 font-display text-sm font-semibold text-foreground transition-colors hover:border-primary hover:text-primary"
                 >
                   {tech}
-                </motion.span>
+                </li>
               ))}
-            </div>
-          </FadeUp>
+            </ul>
+          </Reveal>
         </div>
       </section>
 
       {/* ── WHY BLEZEX ──────────────────────────────────────── */}
-      <section className="py-24">
-        <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto">
-            <FadeUp className="text-center mb-12">
-              <p className="text-sm font-heading font-semibold gradient-text uppercase tracking-widest mb-3">
-                Why BlezeX
-              </p>
-              <h2 className="text-3xl md:text-4xl font-heading font-extrabold">
-                The BlezeX Advantage
-              </h2>
-              <p className="text-muted-foreground font-body mt-4 max-w-xl mx-auto">
-                We don't just deliver projects — we build long-term technology partnerships.
-              </p>
-            </FadeUp>
-
-            <div className="grid sm:grid-cols-2 gap-4">
-              {data.whyBlezex.map((point, i) => (
-                <FadeUp key={i} delay={i * 0.06}>
-                  <div className="flex items-start gap-3 p-5 glass rounded-2xl border border-border/40 hover:border-primary/30 transition-colors">
-                    <span className="mt-0.5 shrink-0 text-primary">
-                      <CheckCircle2 size={18} />
-                    </span>
-                    <p className="text-sm md:text-base font-body text-foreground leading-relaxed">{point}</p>
-                  </div>
-                </FadeUp>
-              ))}
-            </div>
+      <section className="bg-white py-12 md:py-16">
+        <div className="container mx-auto px-6 lg:px-10">
+          <SectionHead
+            n="04"
+            eyebrow="Why BlezeX"
+            title="The BlezeX Advantage"
+            sub="We don't just deliver projects — we build long-term technology partnerships."
+          />
+          <div className="grid gap-5 sm:grid-cols-2">
+            {data.whyBlezex.map((point, i) => (
+              <Reveal key={i} delay={(i % 2) * 0.06} className="h-full">
+                <SketchCard className="flex h-full items-start gap-4 p-5 md:p-6">
+                  <span aria-hidden className="mt-[0.7em] h-px w-5 shrink-0 bg-primary" />
+                  <p className="font-body text-sm leading-relaxed text-foreground md:text-base">{point}</p>
+                </SketchCard>
+              </Reveal>
+            ))}
           </div>
         </div>
       </section>
 
       {/* ── FAQs ────────────────────────────────────────────── */}
-      <section className="py-24 bg-section-alt">
-        <div className="container mx-auto px-4">
-          <FadeUp className="text-center mb-12">
-            <p className="text-sm font-heading font-semibold gradient-text uppercase tracking-widest mb-3">
-              FAQs
-            </p>
-            <h2 className="text-3xl md:text-4xl font-heading font-extrabold">
-              Frequently Asked Questions
-            </h2>
-          </FadeUp>
-
-          <div className="flex flex-col gap-3 max-w-3xl mx-auto">
+      <section className="bg-paper py-12 md:py-16">
+        <div className="container mx-auto px-6 lg:px-10">
+          <SectionHead n="05" eyebrow="FAQs" title="Frequently Asked Questions" />
+          <div className="flex max-w-3xl flex-col gap-3">
             {data.faqs.map((faq, i) => (
               <FaqItem key={i} q={faq.q} a={faq.a} index={i} />
             ))}
@@ -335,57 +285,47 @@ export default function ServiceDetailPage({ data }: { data: ServicePageData }) {
       </section>
 
       {/* ── FINAL CTA ───────────────────────────────────────── */}
-      <section className="py-24">
-        <div className="container mx-auto px-4">
-          <FadeUp>
-            <div className="gradient-bg rounded-3xl p-12 md:p-16 text-center relative overflow-hidden">
-              <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_50%,rgba(255,255,255,0.12),transparent)] pointer-events-none" />
-              <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_70%,rgba(255,255,255,0.07),transparent)] pointer-events-none" />
-
-              <div className="relative z-10">
-                <p className="text-primary-foreground/70 font-heading text-sm font-semibold uppercase tracking-widest mb-4">
+      <section className="bg-white py-12 md:py-16">
+        <div className="container mx-auto px-6 lg:px-10">
+          <Reveal>
+            <SketchCard className="relative overflow-hidden text-center p-8 md:p-12">
+              <BlueprintGrid />
+              <div className="relative">
+                <p className="mb-3 font-body text-xs uppercase tracking-[0.2em] text-primary">
                   Ready to get started?
                 </p>
-                <h2 className="text-3xl md:text-4xl font-heading font-extrabold text-primary-foreground mb-4">
+                <h2 className="mb-4 font-display text-[clamp(1.75rem,3.6vw,3rem)] font-extrabold leading-none">
                   Let's Build Something Great Together
                 </h2>
-                <p className="text-primary-foreground/80 font-body max-w-xl mx-auto mb-10">
+                <p className="mx-auto mb-6 max-w-xl font-body text-base md:text-lg leading-relaxed text-muted-foreground">
                   Talk to our team today and get a free consultation on how BlezeX can deliver{" "}
                   {data.title} solutions tailored to your business.
                 </p>
-                <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-                  <motion.a
-                    whileHover={{ scale: 1.06 }}
-                    whileTap={{ scale: 0.96 }}
-                    href={waLink(data.title)}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 bg-background text-foreground px-8 py-4 rounded-2xl font-heading font-semibold hover:shadow-2xl transition-all"
-                  >
-                    WhatsApp Us <ArrowRight size={18} />
-                  </motion.a>
-                  <motion.a
-                    whileHover={{ scale: 1.06 }}
-                    whileTap={{ scale: 0.96 }}
-                    href="/#contact"
-                    className="inline-flex items-center gap-2 border border-white/30 text-primary-foreground px-8 py-4 rounded-2xl font-heading font-semibold hover:border-white/60 transition-all"
-                  >
-                    <MessageCircle size={18} /> Send a Message
-                  </motion.a>
+                <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
+                  <Magnetic>
+                    <a href={waLink(data.title)} target="_blank" rel="noopener noreferrer" className={pillInk}>
+                      WhatsApp Us <ArrowRight size={18} strokeWidth={1.75} />
+                    </a>
+                  </Magnetic>
+                  <Magnetic>
+                    <a href="/#contact" className={pillOutline}>
+                      <MessageCircle size={18} strokeWidth={1.75} /> Send a Message
+                    </a>
+                  </Magnetic>
                 </div>
               </div>
-            </div>
-          </FadeUp>
+            </SketchCard>
+          </Reveal>
 
           {/* Back to services */}
-          <FadeUp delay={0.1} className="text-center mt-10">
+          <Reveal delay={0.1} className="mt-6 text-center">
             <Link
               to="/#services"
-              className="text-sm font-heading font-semibold text-muted-foreground hover:text-primary transition-colors"
+              className="font-display text-sm font-semibold text-muted-foreground transition-colors hover:text-primary"
             >
               ← Back to All Services
             </Link>
-          </FadeUp>
+          </Reveal>
         </div>
       </section>
 

@@ -30,7 +30,7 @@ const ContactPage = () => {
         }}
       />
       <Header />
-      <main className="pt-20">
+      <main className="pt-20 md:pt-24">
         <ContactSection />
         <CTA />
       </main>
