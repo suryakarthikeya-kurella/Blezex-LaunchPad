@@ -10,10 +10,11 @@ import {
   Twitter
 } from "lucide-react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import { CAREERS_URL } from "@/components/blezex/Header";
 
 const linkCls =
-  "relative inline-block text-sm font-body text-foreground/70 hover:text-primary transition-colors duration-200 after:absolute after:left-0 after:-bottom-0.5 after:h-px after:w-full after:origin-left after:scale-x-0 after:bg-primary after:transition-transform after:duration-300 hover:after:scale-x-100";
-const iconCls = "text-foreground/70 hover:text-primary transition-colors duration-200";
+  "relative inline-block py-1 text-sm font-body text-foreground/70 hover:text-primary transition-colors duration-200 after:absolute after:left-0 after:bottom-0.5 after:h-px after:w-full after:origin-left after:scale-x-0 after:bg-primary after:transition-transform after:duration-300 hover:after:scale-x-100";
+const iconCls = "-m-2 flex h-11 w-11 items-center justify-center text-foreground/70 hover:text-primary transition-colors duration-200";
 
 const Footer = () => {
   const navigate = useNavigate();
@@ -30,7 +31,7 @@ const Footer = () => {
   };
 
   return (
-    <footer className="relative overflow-hidden bg-paper border-t border-border pt-12 pb-16 md:pb-0">
+    <footer className="relative overflow-hidden bg-paper border-t border-border pt-12 pb-[calc(4.5rem+env(safe-area-inset-bottom))] md:pb-0">
       <div className="container mx-auto px-6 lg:px-10">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-8">
 
@@ -57,7 +58,7 @@ const Footer = () => {
             </p>
 
             {/* Social Media */}
-            <div className="flex items-center gap-4">
+            <div className="flex flex-wrap items-center gap-1">
 
               <a
                 href="https://www.linkedin.com/company/blezex/"
@@ -128,7 +129,7 @@ const Footer = () => {
               Quick Links
             </h4>
 
-            <ul className="space-y-2">
+            <ul className="space-y-0.5">
               {["Home", "About", "Services", "Portfolio", "Packages", "Contact"].map((l) => (
                 <li key={l}>
                   <a
@@ -140,6 +141,11 @@ const Footer = () => {
                   </a>
                 </li>
               ))}
+              <li>
+                <a href={CAREERS_URL} target="_blank" rel="noopener noreferrer" className={linkCls}>
+                  Careers
+                </a>
+              </li>
             </ul>
           </div>
 
@@ -149,7 +155,7 @@ const Footer = () => {
               Services
             </h4>
 
-            <ul className="space-y-2">
+            <ul className="space-y-0.5">
               {[
                 { label: "Web Development", to: "/services/web-development" },
                 { label: "AI & Automation", to: "/services/ai-automation" },
@@ -170,7 +176,7 @@ const Footer = () => {
           </div>
 
           {/* Contact */}
-          <div>
+          <div className="col-span-2 md:col-span-1">
             <h4 className="font-display text-sm font-semibold uppercase tracking-widest text-foreground mb-4">
               Contact
             </h4>

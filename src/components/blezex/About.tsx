@@ -29,7 +29,7 @@ const features = [
 ];
 
 const badges = [
-  { icon: Users, label: "50+ Businesses Served" },
+  { icon: Users, label: "80+ Businesses Served" },
   { icon: Clock, label: "100+ Projects Delivered" },
   { icon: HeartHandshake, label: "24/7 Client Support" },
 ];

@@ -80,11 +80,11 @@ export const pageMetadata = {
   home: {
     title: "BlezeX Technologies | AI Automation & Web Development Company in Hyderabad",
     description:
-      "BlezeX Technologies — Premium AI Automation, Web Development, Custom Software & Digital Solutions company in Hyderabad, Telangana. 50+ businesses served across India. Get a free consultation.",
+      "BlezeX Technologies — Premium AI Automation, Web Development, Custom Software & Digital Solutions company in Hyderabad, Telangana. 80+ businesses served across India. Get a free consultation.",
     canonical: `${SITE_URL}/`,
     ogTitle: "BlezeX Technologies | AI Automation & Web Development Company Hyderabad",
     ogDescription:
-      "Premium AI Automation, Web Development, Custom Software & Digital Solutions in Hyderabad, India. 50+ businesses. Free consultation.",
+      "Premium AI Automation, Web Development, Custom Software & Digital Solutions in Hyderabad, India. 80+ businesses. Free consultation.",
     keywords:
       "AI automation company Hyderabad, web development company Hyderabad, custom software development India, BlezeX Technologies, digital solutions Telangana",
   },
