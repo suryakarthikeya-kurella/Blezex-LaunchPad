@@ -112,7 +112,7 @@ const WaPanel = ({ open, msg, onClose }: WaPanelProps) => {
             href={href}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex w-full items-center justify-center gap-2 rounded-xl bg-green-500 px-4 py-2.5 text-sm font-display font-semibold text-white shadow-sm transition-all duration-200 hover:bg-green-600 active:scale-[0.98]"
+            className="flex w-full items-center justify-center gap-2 rounded-xl bg-green-500 px-4 py-2.5 text-sm font-display font-semibold text-white shadow-sm transition-all duration-200 hover:bg-green-600"
           >
             <MessageCircle size={16} />
             Chat on WhatsApp
@@ -228,7 +228,7 @@ const Portfolio = () => {
                         href={p.link!}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="absolute bottom-4 left-4 inline-flex items-center gap-2 rounded-full bg-white/90 backdrop-blur-sm px-4 py-2 text-sm font-display font-semibold text-foreground shadow-md transition-all duration-300 hover:bg-primary hover:text-white lg:translate-y-[200%] lg:opacity-0 lg:group-hover:translate-y-0 lg:group-hover:opacity-100 focus-visible:translate-y-0 focus-visible:opacity-100"
+                        className="absolute bottom-4 left-4 inline-flex items-center gap-2 rounded-full bg-white/90 backdrop-blur-sm px-4 py-2 text-sm font-display font-semibold text-foreground shadow-md transition-[opacity,background-color,color] duration-300 hover:bg-primary hover:text-white lg:opacity-0 lg:group-hover:opacity-100 focus-visible:opacity-100"
                       >
                         Visit Website <ExternalLink size={14} aria-hidden />
                       </a>

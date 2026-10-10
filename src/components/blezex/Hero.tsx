@@ -16,7 +16,7 @@ const SERVICES: [ServiceIconName, string][] = [
 ];
 
 const STATS = [
-  ["50+", "Businesses"],
+  ["80+", "Businesses"],
   ["100+", "Projects"],
   ["24/7", "Support"],
 ];
@@ -90,7 +90,7 @@ const Hero = () => {
                     className="group inline-flex w-full items-center justify-center gap-2 rounded-full bg-foreground px-6 py-3.5 text-base font-semibold text-background transition-colors hover:bg-primary sm:w-auto"
                   >
                     Get Free Audit
-                    <ArrowRight size={18} className="transition-transform group-hover:translate-x-1" />
+                    <ArrowRight size={18} />
                   </a>
                 </Magnetic>
                 <Magnetic className="inline-block">
@@ -115,7 +115,7 @@ const Hero = () => {
             <p className="text-sm text-muted-foreground">
               Trusted by{" "}
               <span className="relative inline-block font-semibold text-foreground">
-                50+ businesses
+                80+ businesses
                 <svg
                   viewBox="0 0 120 10"
                   preserveAspectRatio="none"

@@ -12,34 +12,18 @@ import {
 import Reveal from "@/components/motion/Reveal";
 import SplitText from "@/components/motion/SplitText";
 import Magnetic from "@/components/motion/Magnetic";
-import SketchCard from "@/components/sketch/SketchCard";
+import { HYDERABAD_MAPS_URL, HYDERABAD_MAPS_EMBED_URL } from "@/config";
+import ConsultationModal, { openConsultation } from "@/components/blezex/ConsultationModal";
 import FloatingAssistant from "@/components/blezex/FloatingAssistant";
 
 /* ══════════════════════════════════════════════════════════
    DATA
 ══════════════════════════════════════════════════════════ */
-const serviceOptions = [
-  "Web Development",
-  "Custom Software & SaaS",
-  "AI & Automation",
-  "Digital Marketing",
-  "Creative & Branding",
-];
-
-const budgetOptions = [
-  "Under ₹10,000",
-  "₹10,000 – ₹18,000",
-  "₹18,000 – ₹30,000",
-  "₹30,000 – ₹50,000",
-  "₹50,000 – ₹75,000",
-  "₹75,000+",
-];
-
 const supportPhone = "9059634555";
 const supportEmail = "connect.blezex@gmail.com";
 
 const stats = [
-  { icon: Users,  value: "50+",  label: "Businesses Served" },
+  { icon: Users,  value: "80+",  label: "Businesses Served" },
   { icon: Star,   value: "100+", label: "Projects Delivered" },
   { icon: Zap,    value: "24/7", label: "Support" },
   { icon: Award,  value: "AI",   label: "Automation Specialists" },
@@ -169,55 +153,35 @@ const faqs = [
 /* ══════════════════════════════════════════════════════════
    SHARED STYLES
 ══════════════════════════════════════════════════════════ */
-const inputClass =
-  "w-full h-11 rounded-xl border border-border bg-white px-4 text-sm text-foreground outline-none transition focus-visible:border-foreground focus-visible:shadow-[3px_3px_0_#111]";
-const labelClass =
-  "mb-1.5 block text-xs uppercase tracking-widest text-foreground font-body font-semibold";
+const panelCls = "rounded-[24px] border";
 
 /* ══════════════════════════════════════════════════════════
-   ACCORDION (Policy + FAQ)
+   FAQ ROW (editorial +/- accordion)
 ══════════════════════════════════════════════════════════ */
-const Accordion = ({
-  icon: Icon,
-  title,
-  body,
-  index,
-}: {
-  icon?: React.ElementType;
-  title: string;
-  body: string;
-  index: number;
-}) => {
-  const [open, setOpen] = useState(false);
+const FaqRow = ({ q, a, defaultOpen = false }: { q: string; a: string; defaultOpen?: boolean }) => {
+  const [open, setOpen] = useState(defaultOpen);
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 12 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-60px" }}
-      transition={{ duration: 0.3, delay: index * 0.05 }}
-      className="rounded-2xl border border-border bg-white overflow-hidden"
-    >
+    <div className="border-b border-border">
       <button
         type="button"
         onClick={() => setOpen(!open)}
         aria-expanded={open}
-        className="w-full flex items-center justify-between gap-4 px-5 py-4 text-left transition hover:bg-[#fafafa]"
+        className="group flex w-full items-center justify-between gap-6 py-5 text-left font-display text-base font-bold text-foreground transition-colors hover:text-primary md:text-lg"
       >
-        <span className="flex items-center gap-3">
-          {Icon && (
-            <span className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg bg-foreground text-background">
-              <Icon size={15} strokeWidth={1.75} />
-            </span>
-          )}
-          <span className="font-display font-bold text-sm md:text-base text-foreground">{title}</span>
-        </span>
-        <motion.span
-          animate={{ rotate: open ? 180 : 0 }}
-          transition={{ duration: 0.2 }}
-          className="flex-shrink-0 text-muted-foreground"
+        {q}
+        <span
+          aria-hidden
+          className={`relative h-9 w-9 flex-shrink-0 rounded-full border transition-colors duration-300 ${
+            open ? "border-primary bg-primary text-white" : "border-border group-hover:border-foreground"
+          }`}
         >
-          <ChevronDown size={18} />
-        </motion.span>
+          <span className="absolute left-1/2 top-1/2 h-px w-3.5 -translate-x-1/2 -translate-y-1/2 bg-current" />
+          <span
+            className={`absolute left-1/2 top-1/2 h-3.5 w-px -translate-x-1/2 -translate-y-1/2 bg-current transition-opacity duration-200 ${
+              open ? "opacity-0" : "opacity-100"
+            }`}
+          />
+        </span>
       </button>
       <AnimatePresence initial={false}>
         {open && (
@@ -225,16 +189,14 @@ const Accordion = ({
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.22, ease: "easeOut" }}
+            transition={{ duration: 0.25, ease: "easeOut" }}
             className="overflow-hidden"
           >
-            <p className="px-5 pb-5 text-sm font-body text-muted-foreground leading-relaxed border-t border-border pt-3">
-              {body}
-            </p>
+            <p className="max-w-xl pb-5 font-body text-sm leading-relaxed text-muted-foreground md:text-base">{a}</p>
           </motion.div>
         )}
       </AnimatePresence>
-    </motion.div>
+    </div>
   );
 };
 
@@ -242,37 +204,6 @@ const Accordion = ({
    MAIN COMPONENT
 ══════════════════════════════════════════════════════════ */
 const Contact = () => {
-  const [form, setForm] = useState({
-    name: "", email: "", phone: "", company: "",
-    service: "", budget: "", details: "",
-  });
-
-  const update = (field: string, value: string) =>
-    setForm((prev) => ({ ...prev, [field]: value }));
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    const msg = `
-Hi BlezeX 👋
-
-Name: ${form.name}
-Company: ${form.company || "N/A"}
-
-Service: ${form.service}
-Budget: ${form.budget || "Not specified"}
-
-Email: ${form.email}
-Phone: ${form.phone}
-
-Project Details:
-${form.details}
-`;
-    window.open(
-      `https://wa.me/91${supportPhone}?text=${encodeURIComponent(msg)}`,
-      "_blank"
-    );
-  };
-
   return (
     <>
       {/* ══════════════════════════════════════════════════
@@ -338,12 +269,13 @@ ${form.details}
             <Reveal delay={0.4}>
               <div className="mt-8 flex flex-col sm:flex-row gap-3">
                 <Magnetic>
-                  <a
-                    href="#consultation"
-                    className="inline-flex items-center gap-2 rounded-full bg-primary px-7 py-3.5 text-sm font-display font-semibold text-white shadow-lg transition hover:bg-primary/90 active:scale-[0.98]"
+                  <button
+                    type="button"
+                    onClick={openConsultation}
+                    className="inline-flex items-center gap-2 rounded-full bg-primary px-7 py-3.5 text-sm font-display font-semibold text-white shadow-lg transition hover:bg-primary/90"
                   >
                     Schedule Free Consultation <ArrowRight size={16} />
-                  </a>
+                  </button>
                 </Magnetic>
                 <a
                   href={`https://wa.me/91${supportPhone}`}
@@ -371,41 +303,38 @@ ${form.details}
             </p>
           </Reveal>
 
-          <div className="grid lg:grid-cols-[1fr_1.5fr] gap-10 xl:gap-16">
+          <div>
 
-            {/* ── LEFT: Company Panel ──────────────────────── */}
-            <div className="flex flex-col gap-5">
+            {/* ── LEFT: Company + contact details ─────────── */}
+            <div className="grid min-w-0 items-stretch gap-6 md:grid-cols-2 xl:gap-8">
 
               {/* Company Card */}
-              <Reveal>
-                <div className="rounded-[22px] border border-foreground bg-foreground text-background p-6 shadow-[4px_4px_0_#FF4D1C]">
-                  {/* Logo row */}
-                  <div className="flex items-center gap-3 mb-5">
+              <Reveal className="h-full">
+                <div className={`${panelCls} h-full border-foreground bg-foreground p-6 text-background shadow-[6px_6px_0_#FF4D1C] md:p-8`}>
+                  <div className="mb-5 flex items-center gap-3">
                     <img src="/logo.png" alt="BlezeX" className="h-10 w-auto object-contain" />
                     <div>
                       <p className="font-display font-extrabold text-lg leading-none text-white">
                         Bleze<span className="text-primary">X</span>
                       </p>
-                      <p className="text-xs text-white/50 font-body mt-0.5">Technologies</p>
+                      <p className="mt-0.5 font-body text-xs text-white/50">Technologies</p>
                     </div>
                   </div>
 
-                  {/* Stats grid */}
-                  <div className="grid grid-cols-2 gap-3 mb-5">
+                  <div className="mb-5 grid grid-cols-2 gap-3">
                     {stats.map(({ icon: Icon, value, label }) => (
-                      <div key={label} className="rounded-xl bg-white/8 border border-white/10 p-3">
-                        <Icon size={16} className="text-primary mb-1.5" strokeWidth={1.75} />
-                        <p className="font-display font-extrabold text-xl leading-none text-white">{value}</p>
-                        <p className="text-xs text-white/50 font-body mt-1">{label}</p>
+                      <div key={label} className="rounded-xl border border-white/10 bg-white/8 p-3">
+                        <Icon size={16} className="mb-1.5 text-primary" strokeWidth={1.75} />
+                        <p className="font-display text-xl font-extrabold leading-none text-white">{value}</p>
+                        <p className="mt-1 font-body text-xs text-white/50">{label}</p>
                       </div>
                     ))}
                   </div>
 
-                  {/* Trust list */}
                   <div className="space-y-2">
                     {infoTrust.map((t) => (
-                      <div key={t} className="flex items-center gap-2 text-xs font-body text-white/65">
-                        <CheckCircle2 size={13} className="text-primary flex-shrink-0" />
+                      <div key={t} className="flex items-center gap-2 font-body text-xs text-white/65">
+                        <CheckCircle2 size={13} className="flex-shrink-0 text-primary" />
                         {t}
                       </div>
                     ))}
@@ -413,296 +342,131 @@ ${form.details}
                 </div>
               </Reveal>
 
-              {/* Contact Info */}
-              <Reveal delay={0.06}>
-                <SketchCard>
-                  <div className="space-y-4">
-                    {/* Support Phone */}
-                    <div>
-                      <p className="flex items-center gap-2 text-xs uppercase tracking-widest text-muted-foreground font-body mb-2">
-                        <Phone size={13} className="text-primary" /> Support Number
-                      </p>
-                      <div className="flex justify-between items-center py-1">
-                        <span className="text-sm text-muted-foreground font-body">Customer Support</span>
-                        <a
-                          href={`tel:+91${supportPhone}`}
-                          className="text-sm font-display font-bold text-foreground hover:text-primary transition"
-                        >
-                          +91 {supportPhone}
-                        </a>
-                      </div>
-                    </div>
-
-                    <div className="h-px bg-border" />
-
-                    {/* Support Email */}
-                    <div>
-                      <p className="flex items-center gap-2 text-xs uppercase tracking-widest text-muted-foreground font-body mb-1.5">
-                        <Mail size={13} className="text-primary" /> Email Address
-                      </p>
-                      <a
-                        href={`mailto:${supportEmail}`}
-                        className="text-sm font-display font-semibold text-foreground hover:text-primary transition"
-                      >
-                        {supportEmail}
-                      </a>
-                    </div>
-
-                    <div className="h-px bg-border" />
-
-                    {/* Location & Hours */}
-                    <div className="grid grid-cols-2 gap-4">
-                      <div>
-                        <p className="flex items-center gap-2 text-xs uppercase tracking-widest text-muted-foreground font-body mb-1.5">
-                          <MapPin size={13} className="text-primary" /> Offices
-                        </p>
-                        <p className="text-sm font-body text-foreground">Hyderabad &amp;</p>
-                        <p className="text-sm font-body text-foreground">Visakhapatnam</p>
-                      </div>
-                      <div>
-                        <p className="flex items-center gap-2 text-xs uppercase tracking-widest text-muted-foreground font-body mb-1.5">
-                          <Clock size={13} className="text-primary" /> Business Hours
-                        </p>
-                        <p className="text-sm font-body text-foreground">Mon–Sat 9–6 PM</p>
-                        <p className="text-sm font-body text-green-600 font-semibold">WhatsApp 24/7</p>
-                      </div>
-                    </div>
-                  </div>
-                </SketchCard>
-              </Reveal>
-
-              {/* Social Links */}
-              <Reveal delay={0.12}>
-                <SketchCard>
-                  <p className="text-xs uppercase tracking-widest text-muted-foreground font-body mb-3">Follow BlezeX</p>
-                  <div className="flex flex-wrap gap-2">
-                    {socials.map(({ icon: Icon, href, label }) => (
-                      <a
-                        key={label}
-                        href={href}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        aria-label={label}
-                        className="flex items-center gap-1.5 rounded-full border border-border px-3 py-1.5 text-xs font-body text-muted-foreground transition hover:border-foreground hover:bg-foreground hover:text-background"
-                      >
-                        <Icon size={12} /> {label}
-                      </a>
+              {/* Contact details + socials */}
+              <Reveal delay={0.06} className="h-full">
+                <div className={`${panelCls} h-full border-foreground bg-white p-6 shadow-[6px_6px_0_#111] md:p-8`}>
+                  <ul className="space-y-4">
+                    {[
+                      { icon: Phone, label: "Support Number", value: `+91 ${supportPhone}`, href: `tel:+91${supportPhone}` },
+                      { icon: Mail, label: "Email Address", value: supportEmail, href: `mailto:${supportEmail}` },
+                      { icon: MapPin, label: "Offices", value: "Hyderabad & Visakhapatnam" },
+                      { icon: Clock, label: "Business Hours", value: "Mon–Sat 9–6 PM · WhatsApp 24/7" },
+                    ].map(({ icon: Icon, label, value, href }) => (
+                      <li key={label} className="flex items-start gap-3">
+                        <span className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary">
+                          <Icon size={17} strokeWidth={1.75} />
+                        </span>
+                        <div className="min-w-0">
+                          <p className="font-body text-xs uppercase tracking-widest text-muted-foreground">{label}</p>
+                          {href ? (
+                            <a href={href} className="inline-block break-words py-1 font-display text-sm font-bold text-foreground transition-colors hover:text-primary md:text-base">
+                              {value}
+                            </a>
+                          ) : (
+                            <p className="font-display text-sm font-bold text-foreground md:text-base">{value}</p>
+                          )}
+                        </div>
+                      </li>
                     ))}
+                  </ul>
+
+                  <div className="mt-5 border-t border-dashed border-border pt-5">
+                    <p className="mb-3 font-body text-xs uppercase tracking-widest text-muted-foreground">Follow BlezeX</p>
+                    <div className="flex flex-wrap gap-2">
+                      {socials.map(({ icon: Icon, href, label }) => (
+                        <a
+                          key={label}
+                          href={href}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          aria-label={label}
+                          className="flex items-center gap-1.5 rounded-full border border-border px-3.5 py-2 font-body text-xs text-muted-foreground transition-colors hover:border-foreground hover:bg-foreground hover:text-background"
+                        >
+                          <Icon size={12} /> {label}
+                        </a>
+                      ))}
+                    </div>
                   </div>
-                </SketchCard>
+                </div>
               </Reveal>
             </div>
 
-            {/* ── RIGHT: Consultation Form ─────────────────── */}
-            <Reveal delay={0.1} id="consultation">
-              <div className="rounded-[24px] border border-foreground bg-white p-6 md:p-8 shadow-[6px_6px_0_#111] scroll-mt-24">
-
-                <div className="mb-6">
-                  <h2 className="font-display text-2xl md:text-3xl font-extrabold text-foreground mb-1.5">
-                    Request a Free Consultation
-                  </h2>
-                  <p className="text-sm font-body text-muted-foreground leading-relaxed">
-                    Tell us about your project and our team will get back to you
-                    with the best solution within 2 hours.
-                  </p>
-                </div>
-
-                <form onSubmit={handleSubmit} className="space-y-4">
-
-                  <div className="grid sm:grid-cols-2 gap-4">
-                    <div>
-                      <label htmlFor="c-name" className={labelClass}>Full Name *</label>
-                      <input
-                        id="c-name" required autoComplete="name"
-                        value={form.name}
-                        onChange={(e) => update("name", e.target.value)}
-                        className={inputClass}
-                      />
-                    </div>
-                    <div>
-                      <label htmlFor="c-email" className={labelClass}>Email Address *</label>
-                      <input
-                        id="c-email" required type="email" autoComplete="email"
-                        value={form.email}
-                        onChange={(e) => update("email", e.target.value)}
-                        className={inputClass}
-                      />
-                    </div>
-                  </div>
-
-                  <div className="grid sm:grid-cols-2 gap-4">
-                    <div>
-                      <label htmlFor="c-phone" className={labelClass}>Phone Number *</label>
-                      <input
-                        id="c-phone" required autoComplete="tel"
-                        value={form.phone}
-                        onChange={(e) => update("phone", e.target.value)}
-                        className={inputClass}
-                      />
-                    </div>
-                    <div>
-                      <label htmlFor="c-company" className={labelClass}>Company Name</label>
-                      <input
-                        id="c-company" autoComplete="organization"
-                        value={form.company}
-                        onChange={(e) => update("company", e.target.value)}
-                        className={inputClass}
-                      />
-                    </div>
-                  </div>
-
-                  <div className="grid sm:grid-cols-2 gap-4">
-                    <div>
-                      <label htmlFor="c-service" className={labelClass}>Service Required *</label>
-                      <select
-                        id="c-service" required
-                        value={form.service}
-                        onChange={(e) => update("service", e.target.value)}
-                        className={inputClass}
-                      >
-                        <option value="">Select Service</option>
-                        {serviceOptions.map((s) => <option key={s}>{s}</option>)}
-                      </select>
-                    </div>
-                    <div>
-                      <label htmlFor="c-budget" className={labelClass}>Budget Range</label>
-                      <select
-                        id="c-budget"
-                        value={form.budget}
-                        onChange={(e) => update("budget", e.target.value)}
-                        className={inputClass}
-                      >
-                        <option value="">Select Budget</option>
-                        {budgetOptions.map((b) => <option key={b}>{b}</option>)}
-                      </select>
-                    </div>
-                  </div>
-
-                  <div>
-                    <label htmlFor="c-details" className={labelClass}>Project Details *</label>
-                    <textarea
-                      id="c-details" required rows={5}
-                      value={form.details}
-                      onChange={(e) => update("details", e.target.value)}
-                      className={`${inputClass} h-auto py-3 resize-none`}
-                    />
-                  </div>
-
-                  <Magnetic className="block">
-                    <button
-                      type="submit"
-                      className="group w-full h-13 py-3.5 rounded-full bg-foreground text-background font-display font-semibold text-base flex items-center justify-center gap-2 transition-colors hover:bg-primary focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-foreground"
-                    >
-                      Schedule My Consultation
-                      <ArrowRight size={18} strokeWidth={1.75} className="transition-transform duration-200 group-hover:translate-x-1.5" />
-                    </button>
-                  </Magnetic>
-
-                  <p className="flex items-center justify-center gap-1.5 text-center text-xs text-muted-foreground font-body">
-                    <Lock size={11} /> Your information is secure and confidential.
-                  </p>
-
-                </form>
-              </div>
-            </Reveal>
-
           </div>
+
+          {/* ── Consultation CTA (opens the form modal) ───── */}
+          <Reveal delay={0.1}>
+            <div className={`${panelCls} mt-6 flex flex-col gap-5 border-foreground bg-white p-6 shadow-[6px_6px_0_#111] md:flex-row md:items-center md:justify-between md:p-8 lg:mt-8`}>
+              <div className="min-w-0">
+                <h2 className="mb-1.5 font-display text-2xl font-extrabold text-foreground md:text-3xl">
+                  Request a Free Consultation
+                </h2>
+                <p className="max-w-xl font-body text-sm leading-relaxed text-muted-foreground">
+                  Tell us about your project and our team will get back to you with the best solution within 2 hours.
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={openConsultation}
+                className="inline-flex flex-shrink-0 items-center justify-center gap-2 rounded-full bg-foreground px-7 py-3.5 font-display text-sm font-semibold text-background transition-colors hover:bg-primary"
+              >
+                Schedule My Consultation <ArrowRight size={16} />
+              </button>
+            </div>
+          </Reveal>
+
+          {/* ── Branch location + map ─────────────────────── */}
+          <Reveal delay={0.1}>
+            <div className={`${panelCls} mt-6 grid overflow-hidden border-foreground bg-white shadow-[6px_6px_0_#111] lg:mt-8 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)]`}>
+              <div className="flex flex-col justify-center p-6 md:p-8">
+                <p className="mb-2 font-body text-xs uppercase tracking-[0.2em] text-primary">Our Branch</p>
+                <h2 className="mb-2 font-display text-2xl font-extrabold text-foreground md:text-3xl">Hyderabad Branch</h2>
+                <p className="mb-5 font-body text-sm leading-relaxed text-muted-foreground">
+                  BlezeX Technologies, Hyderabad, Telangana. Visit us or reach out first — we're
+                  happy to meet in person.
+                </p>
+                <ul className="mb-6 space-y-3 font-body text-sm text-foreground">
+                  <li className="flex items-center gap-3">
+                    <Clock size={16} className="flex-shrink-0 text-primary" /> Mon–Sat 9–6 PM
+                  </li>
+                  <li className="flex items-center gap-3">
+                    <Phone size={16} className="flex-shrink-0 text-primary" />
+                    <a href={`tel:+91${supportPhone}`} className="inline-block py-1.5 transition-colors hover:text-primary">+91 {supportPhone}</a>
+                  </li>
+                </ul>
+                <div className="flex flex-col gap-3 sm:flex-row">
+                  <a
+                    href={HYDERABAD_MAPS_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center justify-center gap-2 rounded-full bg-primary px-6 py-3 font-display text-sm font-semibold text-white transition-colors hover:bg-primary/90"
+                  >
+                    <MapPin size={16} /> Get Directions
+                  </a>
+                  <a
+                    href={`tel:+91${supportPhone}`}
+                    className="inline-flex items-center justify-center gap-2 rounded-full border border-foreground px-6 py-3 font-display text-sm font-semibold text-foreground transition-colors hover:bg-foreground hover:text-background"
+                  >
+                    <Phone size={16} /> Call Branch
+                  </a>
+                </div>
+              </div>
+              <div className="h-72 border-t border-border sm:h-80 lg:h-auto lg:min-h-[22rem] lg:border-l lg:border-t-0">
+                <iframe
+                  title="BlezeX Technologies — Hyderabad branch on Google Maps"
+                  src={HYDERABAD_MAPS_EMBED_URL}
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                  allowFullScreen
+                  className="block h-full w-full border-0"
+                />
+              </div>
+            </div>
+          </Reveal>
         </div>
       </section>
 
       {/* ══════════════════════════════════════════════════
           SECTION 3 — WHY CHOOSE BLEZEX
-      ══════════════════════════════════════════════════ */}
-      <section className="py-14 md:py-20 bg-[#f8f8f8] border-t border-border">
-        <div className="container mx-auto px-6 lg:px-10">
-
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-10">
-            <div>
-              <Reveal>
-                <p className="mb-2 font-body text-xs uppercase tracking-[0.2em] text-primary">Why BlezeX</p>
-              </Reveal>
-              <SplitText
-                as="h2"
-                text="Why Businesses Choose Us"
-                className="font-display text-[clamp(1.5rem,3vw,2.6rem)] font-extrabold leading-tight"
-              />
-            </div>
-            <Reveal delay={0.1}>
-              <p className="text-sm text-muted-foreground font-body max-w-sm leading-relaxed">
-                From idea to launch, we handle everything — with quality, speed, and zero compromise.
-              </p>
-            </Reveal>
-          </div>
-
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            {whyUs.map(({ icon: Icon, title, desc, accent, border, iconBg }, i) => (
-              <Reveal key={title} delay={i * 0.07}>
-                <motion.div
-                  whileHover={{ y: -5, transition: { duration: 0.2 } }}
-                  className={`h-full rounded-[20px] border ${border} bg-gradient-to-br ${accent} p-5 flex flex-col`}
-                >
-                  <div className={`mb-4 flex h-11 w-11 items-center justify-center rounded-xl ${iconBg} text-white`}>
-                    <Icon size={20} strokeWidth={1.5} />
-                  </div>
-                  <h3 className="font-display font-bold text-base text-foreground mb-2">{title}</h3>
-                  <p className="text-sm font-body text-muted-foreground leading-relaxed flex-1">{desc}</p>
-                </motion.div>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ══════════════════════════════════════════════════
-          SECTION 4 — HOW WE WORK
-      ══════════════════════════════════════════════════ */}
-      <section className="py-14 md:py-20 bg-white border-t border-border overflow-hidden">
-        <div className="container mx-auto px-6 lg:px-10">
-
-          <div className="mb-10">
-            <Reveal>
-              <p className="mb-2 font-body text-xs uppercase tracking-[0.2em] text-primary">Process</p>
-            </Reveal>
-            <SplitText
-              as="h2"
-              text="How We Work"
-              className="font-display text-[clamp(1.5rem,3vw,2.6rem)] font-extrabold leading-tight"
-            />
-          </div>
-
-          {/* Desktop: horizontal row */}
-          <div className="relative">
-            {/* Connecting line */}
-            <div className="hidden lg:block absolute top-[38px] left-0 right-0 h-px bg-border z-0" />
-
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
-              {process.map(({ icon: Icon, step, title, desc }, i) => (
-                <Reveal key={step} delay={i * 0.06}>
-                  <motion.div
-                    whileHover={{ y: -4, transition: { duration: 0.18 } }}
-                    className="group relative flex flex-col items-center text-center"
-                  >
-                    {/* Step circle */}
-                    <div className="relative z-10 mb-4 flex h-[52px] w-[52px] items-center justify-center rounded-full border-2 border-border bg-white shadow-sm transition-all duration-200 group-hover:border-foreground group-hover:bg-foreground group-hover:text-background group-hover:shadow-[3px_3px_0_#111]">
-                      <Icon size={20} strokeWidth={1.75} />
-                    </div>
-                    <span
-                      className="mb-1 font-display text-[10px] font-bold uppercase tracking-widest text-muted-foreground"
-                    >
-                      {step}
-                    </span>
-                    <h3 className="font-display font-bold text-sm text-foreground mb-1">{title}</h3>
-                    <p className="text-xs font-body text-muted-foreground leading-relaxed">{desc}</p>
-                  </motion.div>
-                </Reveal>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ══════════════════════════════════════════════════
-          SECTION 5 — COMPANY POLICIES
       ══════════════════════════════════════════════════ */}
       <section className="py-14 md:py-20 bg-[#f8f8f8] border-t border-border">
         <div className="container mx-auto px-6 lg:px-10">
@@ -724,9 +488,28 @@ ${form.details}
             </Reveal>
           </div>
 
-          <div className="max-w-3xl space-y-2">
-            {policies.map(({ icon, title, body }, i) => (
-              <Accordion key={title} icon={icon} title={title} body={body} index={i} />
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-6">
+            {policies.map(({ icon: Icon, title, body }, i) => (
+              <Reveal
+                key={title}
+                delay={(i % 3) * 0.08}
+                className={`h-full ${i < 3 ? "lg:col-span-2" : "lg:col-span-3"} ${i === 4 ? "sm:col-span-2 lg:col-span-3" : ""}`}
+              >
+                <div className="flex h-full flex-col rounded-[20px] border border-border bg-white p-6">
+                  <div className="mb-5 flex items-center justify-between">
+                    <span className="flex h-11 w-11 items-center justify-center rounded-full bg-primary/10 text-primary">
+                      <Icon size={20} strokeWidth={1.75} />
+                    </span>
+                    <span aria-hidden="true" className="font-body text-xs uppercase tracking-[0.2em] text-muted-foreground">
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
+                  </div>
+                  <h3 className="mb-2 font-display text-lg font-bold text-foreground">{title}</h3>
+                  <p className="border-t border-dashed border-border pt-3 font-body text-sm leading-relaxed text-muted-foreground">
+                    {body}
+                  </p>
+                </div>
+              </Reveal>
             ))}
           </div>
         </div>
@@ -737,22 +520,36 @@ ${form.details}
       ══════════════════════════════════════════════════ */}
       <section className="py-14 md:py-20 bg-white border-t border-border">
         <div className="container mx-auto px-6 lg:px-10">
+          <div className="grid gap-8 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-14">
+            <div className="lg:sticky lg:top-28 lg:self-start">
+              <Reveal>
+                <p className="mb-2 font-body text-xs uppercase tracking-[0.2em] text-primary">FAQ</p>
+              </Reveal>
+              <SplitText
+                as="h2"
+                text="Frequently Asked Questions"
+                className="font-display text-[clamp(1.5rem,3vw,2.6rem)] font-extrabold leading-tight"
+              />
+              <Reveal delay={0.15}>
+                <p className="mt-3 max-w-sm text-sm font-body leading-relaxed text-muted-foreground">
+                  Can't find what you're looking for? Message us and we'll reply the same day.
+                </p>
+                <a
+                  href={`https://wa.me/91${supportPhone}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-5 inline-flex items-center gap-2 rounded-full border border-foreground px-5 py-2.5 text-sm font-display font-semibold text-foreground transition-colors hover:bg-foreground hover:text-background"
+                >
+                  <MessageCircle size={16} /> Ask on WhatsApp
+                </a>
+              </Reveal>
+            </div>
 
-          <div className="mb-10 max-w-2xl">
-            <Reveal>
-              <p className="mb-2 font-body text-xs uppercase tracking-[0.2em] text-primary">FAQ</p>
-            </Reveal>
-            <SplitText
-              as="h2"
-              text="Frequently Asked Questions"
-              className="font-display text-[clamp(1.5rem,3vw,2.6rem)] font-extrabold leading-tight"
-            />
-          </div>
-
-          <div className="max-w-3xl space-y-2">
-            {faqs.map(({ q, a }, i) => (
-              <Accordion key={q} title={q} body={a} index={i} />
-            ))}
+            <div className="border-t border-border">
+              {faqs.map(({ q, a }, i) => (
+                <FaqRow key={q} q={q} a={a} defaultOpen={i === 0} />
+              ))}
+            </div>
           </div>
         </div>
       </section>
@@ -800,12 +597,13 @@ ${form.details}
           <Reveal delay={0.3}>
             <div className="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
               <Magnetic>
-                <a
-                  href="#consultation"
-                  className="inline-flex items-center gap-2 rounded-full bg-primary px-8 py-4 text-sm font-display font-semibold text-white shadow-lg transition hover:bg-primary/90 active:scale-[0.98]"
+                <button
+                  type="button"
+                  onClick={openConsultation}
+                  className="inline-flex items-center gap-2 rounded-full bg-primary px-8 py-4 text-sm font-display font-semibold text-white shadow-lg transition hover:bg-primary/90"
                 >
                   Book Consultation <ArrowRight size={16} />
-                </a>
+                </button>
               </Magnetic>
               <a
                 href={`https://wa.me/91${supportPhone}`}
@@ -820,11 +618,13 @@ ${form.details}
         </div>
       </section>
 
+      <ConsultationModal />
+
       {/* Floating Assistant */}
       <FloatingAssistant />
 
       {/* Mobile Sticky Bar */}
-      <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-border flex md:hidden z-40">
+      <div className="fixed inset-x-0 bottom-0 z-40 flex border-t border-border bg-white pb-[env(safe-area-inset-bottom)] md:hidden">
         <a href={`https://wa.me/91${supportPhone}`} className="flex-1 py-3 flex flex-col items-center text-xs text-muted-foreground hover:text-foreground transition">
           <MessageCircle size={18} className="mb-0.5" /> WhatsApp
         </a>

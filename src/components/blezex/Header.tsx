@@ -4,6 +4,8 @@ import { Menu, X, Phone, Mail, ChevronDown, ArrowUpRight, Linkedin, Instagram, F
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import Magnetic from "@/components/motion/Magnetic";
 
+export const CAREERS_URL = "https://blezexcareers.netlify.app/";
+
 /* ─── Nav link data ──────────────────────────────────────────── */
 const navLinks = [
   { label: "Home", href: "#home" },
@@ -22,6 +24,7 @@ const navLinks = [
   { label: "Portfolio", href: "#portfolio" },
   { label: "Packages", href: "#packages" },
   { label: "Contact", href: "#contact" },
+  { label: "Careers", href: CAREERS_URL, external: true },
 ];
 
 const socials = [
@@ -64,6 +67,7 @@ const Header = () => {
   const goToHash = useHashNav();
   const menuRef = useRef<HTMLDivElement>(null);
   const isInitialMount = useRef(true);
+  const closeRef = useRef<HTMLButtonElement>(null);
 
   const auditMessage = encodeURIComponent(
     `Hello BlezeX 👋\n\nI came from your website and would like to request a FREE business audit.\n\nName:\nBusiness Name:\nWebsite (if any):\nService Interested In:\n`
@@ -80,6 +84,11 @@ const Header = () => {
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";
     return () => { document.body.style.overflow = ""; };
+  }, [open]);
+
+  /* Move focus into the drawer when it opens */
+  useEffect(() => {
+    if (open) closeRef.current?.focus();
   }, [open]);
 
   /* Close menu on route change */
@@ -122,11 +131,10 @@ const Header = () => {
     }
   }, [location.pathname, location.hash]);
 
-  /* Close desktop dropdown & mobile menu on outside click / touch */
+  /* Close desktop dropdown on outside click / touch (mobile drawer closes via its backdrop) */
   useEffect(() => {
     const handler = (e: MouseEvent | TouchEvent) => {
       if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
-        setOpen(false);
         setDropdownOpen(false);
       }
     };
@@ -167,7 +175,7 @@ const Header = () => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="fixed inset-0 z-40 bg-foreground/20 lg:hidden"
+            className="fixed inset-0 z-[55] bg-foreground/30 lg:hidden"
             data-lenis-prevent
             onClick={() => setOpen(false)}
             aria-hidden="true"
@@ -192,10 +200,10 @@ const Header = () => {
         >
           <div className="flex h-8 items-center justify-between px-6 text-xs font-body text-foreground/70">
             <div className="flex items-center gap-6">
-              <a href="mailto:connect.blezex@gmail.com" tabIndex={scrolled ? -1 : undefined} className="flex items-center gap-1.5 hover:text-primary transition-colors">
+              <a href="mailto:connect.blezex@gmail.com" tabIndex={scrolled ? -1 : undefined} className="flex items-center gap-1.5 py-1.5 hover:text-primary transition-colors">
                 <Mail size={13} className="text-primary" /> connect.blezex@gmail.com
               </a>
-              <a href="tel:+919059634555" tabIndex={scrolled ? -1 : undefined} className="flex items-center gap-1.5 hover:text-primary transition-colors">
+              <a href="tel:+919059634555" tabIndex={scrolled ? -1 : undefined} className="flex items-center gap-1.5 py-1.5 hover:text-primary transition-colors">
                 <Phone size={13} className="text-primary" /> +91 9059634555
               </a>
             </div>
@@ -209,7 +217,7 @@ const Header = () => {
                   rel="noopener noreferrer"
                   aria-label={label}
                   tabIndex={scrolled ? -1 : undefined}
-                  className="text-foreground/70 hover:text-primary transition-colors"
+                  className="p-1.5 -m-1.5 text-foreground/70 hover:text-primary transition-colors"
                 >
                   <Icon size={14} />
                 </a>
@@ -220,7 +228,7 @@ const Header = () => {
 
         <div
           className={`flex items-center justify-between px-4 md:px-6 transition-[height] duration-300 motion-reduce:transition-none ${
-            scrolled || open ? "h-[56px] md:h-[60px]" : "h-[60px] md:h-16"
+            scrolled ? "h-[56px] md:h-[60px]" : "h-[60px] md:h-16"
           }`}
         >
 
@@ -315,7 +323,7 @@ const Header = () => {
                             className="group flex items-center justify-between px-4 py-2.5 rounded-xl text-sm font-body font-medium text-foreground hover:bg-secondary transition-colors"
                           >
                             {item.label}
-                            <ArrowUpRight size={14} className="text-primary opacity-0 -translate-x-1 transition-all duration-200 group-hover:opacity-100 group-hover:translate-x-0" />
+                            <ArrowUpRight size={14} className="text-primary opacity-0 transition-opacity duration-200 group-hover:opacity-100" />
                           </Link>
                         ))}
                        </div>
@@ -323,6 +331,16 @@ const Header = () => {
                     )}
                   </AnimatePresence>
                 </div>
+              ) : link.external ? (
+                <a
+                  key={link.label}
+                  href={link.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={linkCls}
+                >
+                  {link.label}
+                </a>
               ) : (
                 /* Regular nav link */
                 <button
@@ -395,120 +413,149 @@ const Header = () => {
 
         </div>
 
-        {/* ── Mobile Menu Panel ────────────────────────────────── */}
-        <AnimatePresence>
-          {open && (
-            <motion.div
-              id="mobile-menu"
-              key="mobile-menu"
-              initial={{ opacity: 0, y: -8 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -8 }}
-              transition={{ duration: 0.22, ease: "easeOut" }}
-              className="lg:hidden absolute inset-x-0 top-full mt-2 max-h-[calc(100dvh-96px)] overflow-hidden rounded-[20px] border border-border bg-white shadow-[0_8px_30px_-12px_rgba(17,17,17,.15)]"
-            >
-              <nav
-                data-lenis-prevent
-                className="flex max-h-[calc(100dvh-96px)] flex-col px-4 pb-6 overflow-y-auto overscroll-contain"
-                aria-label="Mobile navigation"
+       </div>
+      </motion.header>
+
+      {/* ── Mobile drawer (outside the header: its transform would break position:fixed) ── */}
+      <AnimatePresence>
+        {open && (
+          <motion.aside
+            id="mobile-menu"
+            key="mobile-menu"
+            role="dialog"
+            aria-modal="true"
+            aria-label="Navigation menu"
+            initial={{ x: "100%" }}
+            animate={{ x: 0 }}
+            exit={{ x: "100%" }}
+            transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
+            className="fixed inset-y-0 right-0 z-[60] flex w-[min(88vw,22rem)] flex-col rounded-l-[24px] border-l border-border bg-white shadow-[-12px_0_40px_-16px_rgba(17,17,17,.25)] sm:w-96 lg:hidden"
+          >
+            {/* Brand row */}
+            <div className="flex h-[60px] shrink-0 items-center justify-between border-b border-border px-5">
+              <span className="font-display text-xl font-extrabold leading-none tracking-tight">
+                <span className="text-foreground">Bleze</span>
+                <span className="text-primary">X</span>
+              </span>
+              <button
+                ref={closeRef}
+                onClick={() => setOpen(false)}
+                aria-label="Close menu"
+                className="flex h-9 w-9 items-center justify-center rounded-full border border-border bg-white text-foreground transition-colors hover:border-foreground"
               >
-                {navLinks.map((link) =>
-                  link.dropdown ? (
-                    /* Services accordion on mobile */
+                <X size={18} />
+              </button>
+            </div>
+
+            {/* Links */}
+            <nav
+              data-lenis-prevent
+              className="flex-1 overflow-y-auto overscroll-contain px-5 py-2"
+              aria-label="Mobile navigation"
+            >
+              {navLinks.map((link) => {
+                const rowCls =
+                  "flex w-full items-center justify-between border-b border-border py-3.5 text-left font-display text-[1.0625rem] font-semibold text-foreground transition-colors hover:text-primary sm:text-lg";
+                if (link.dropdown) {
+                  return (
                     <div key={link.label}>
                       <button
                         onClick={() => setMobileServicesOpen((prev) => !prev)}
                         aria-expanded={mobileServicesOpen}
-                        className="w-full flex items-center justify-between px-2 py-4 border-b border-border font-display text-3xl font-semibold text-foreground hover:text-primary transition-colors text-left"
+                        className={rowCls}
                       >
                         {link.label}
-                        <motion.span
-                          animate={{ rotate: mobileServicesOpen ? 180 : 0 }}
-                          transition={{ duration: 0.2 }}
-                        >
-                          <ChevronDown size={22} />
-                        </motion.span>
+                        <ChevronDown
+                          size={18}
+                          className={`transition-transform duration-200 ${mobileServicesOpen ? "rotate-180" : ""}`}
+                        />
                       </button>
-
-                      <AnimatePresence>
+                      <AnimatePresence initial={false}>
                         {mobileServicesOpen && (
                           <motion.div
                             initial={{ height: 0, opacity: 0 }}
                             animate={{ height: "auto", opacity: 1 }}
                             exit={{ height: 0, opacity: 0 }}
                             transition={{ duration: 0.2 }}
-                            className="overflow-hidden pl-4"
+                            className="overflow-hidden"
                           >
-                            {link.dropdown.map((item) => (
-                              <Link
-                                key={item.href}
-                                to={item.href}
-                                onClick={() => {
-                                  setOpen(false);
-                                  setMobileServicesOpen(false);
-                                }}
-                                className="w-full text-left block px-2 py-3 text-base font-body text-foreground/70 hover:text-primary transition-colors"
-                              >
-                                {item.label}
-                              </Link>
-                            ))}
+                            <div className="my-2 ml-1 border-l border-border pl-4">
+                              {link.dropdown.map((item) => (
+                                <Link
+                                  key={item.href}
+                                  to={item.href}
+                                  onClick={() => {
+                                    setOpen(false);
+                                    setMobileServicesOpen(false);
+                                  }}
+                                  className="block py-2.5 font-body text-[0.9375rem] text-foreground/70 transition-colors hover:text-primary"
+                                >
+                                  {item.label}
+                                </Link>
+                              ))}
+                            </div>
                           </motion.div>
                         )}
                       </AnimatePresence>
                     </div>
-                  ) : (
-                    <button
+                  );
+                }
+                if (link.external) {
+                  return (
+                    <a
                       key={link.label}
-                      onClick={() => handleNavClick(link.href)}
-                      className="w-full text-left px-2 py-4 border-b border-border font-display text-3xl font-semibold text-foreground hover:text-primary transition-colors"
+                      href={link.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={() => setOpen(false)}
+                      className={rowCls}
                     >
                       {link.label}
-                    </button>
-                  )
-                )}
+                      <ArrowUpRight size={18} className="text-primary" />
+                    </a>
+                  );
+                }
+                return (
+                  <button key={link.label} onClick={() => handleNavClick(link.href)} className={rowCls}>
+                    {link.label}
+                  </button>
+                );
+              })}
+            </nav>
 
-                <div className="mt-4" />
-
-                {/* Call Us */}
-                <a
-                  href="tel:+919059634555"
-                  onClick={() => setOpen(false)}
-                  className="flex items-center gap-2 px-2 py-3 font-body font-medium text-foreground hover:text-primary transition-colors"
-                >
-                  <Phone size={16} className="text-primary" /> Call Us
-                </a>
-
-                {/* Get Free Audit */}
-                <a
-                  href={`https://wa.me/919059634555?text=${auditMessage}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  onClick={() => setOpen(false)}
-                  className="mt-2 px-5 py-3.5 rounded-full bg-primary text-white text-center text-sm font-body font-semibold hover:bg-primary/90 transition-colors"
-                >
-                  Get Free Audit
-                </a>
-
-                {/* Contact + socials */}
-                <div className="mt-4 flex flex-col gap-2 border-t border-border pt-4 text-sm font-body text-foreground/70">
-                  <a href="mailto:connect.blezex@gmail.com" className="flex items-center gap-2 px-2 hover:text-primary">
-                    <Mail size={16} className="text-primary" /> connect.blezex@gmail.com
+            {/* Pinned footer: CTA + contact + socials */}
+            <div className="shrink-0 border-t border-border bg-white px-5 pb-[calc(1rem+env(safe-area-inset-bottom))] pt-4">
+              <a
+                href={`https://wa.me/919059634555?text=${auditMessage}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => setOpen(false)}
+                className="block w-full rounded-full bg-primary px-5 py-3.5 text-center font-body text-sm font-semibold text-white transition-colors hover:bg-primary/90"
+              >
+                Get Free Audit
+              </a>
+              <div className="mt-4 flex items-center justify-between gap-3 text-foreground/70">
+                <div className="flex min-w-0 flex-col text-[0.8125rem] font-body">
+                  <a href="tel:+919059634555" className="flex min-h-9 items-center gap-2 transition-colors hover:text-primary">
+                    <Phone size={14} className="shrink-0 text-primary" /> +91 9059634555
                   </a>
-                  <div className="mt-2 flex items-center gap-4 px-2">
-                    {socials.map(({ label, href, Icon }) => (
-                      <a key={label} href={href} target="_blank" rel="noopener noreferrer" aria-label={label} className="hover:text-primary">
-                        <Icon size={20} />
-                      </a>
-                    ))}
-                  </div>
+                  <a href="mailto:connect.blezex@gmail.com" className="flex min-h-9 items-center gap-2 transition-colors hover:text-primary">
+                    <Mail size={14} className="shrink-0 text-primary" />
+                    <span className="truncate">connect.blezex@gmail.com</span>
+                  </a>
                 </div>
-
-              </nav>
-            </motion.div>
-          )}
-        </AnimatePresence>
-       </div>
-      </motion.header>
+              </div>
+              <div className="mt-2 flex items-center gap-1">
+                {socials.map(({ label, href, Icon }) => (
+                  <a key={label} href={href} target="_blank" rel="noopener noreferrer" aria-label={label} className="-m-1 flex h-10 w-10 items-center justify-center transition-colors hover:text-primary">
+                    <Icon size={18} />
+                  </a>
+                ))}
+              </div>
+            </div>
+          </motion.aside>
+        )}
+      </AnimatePresence>
     </>
   );
 };

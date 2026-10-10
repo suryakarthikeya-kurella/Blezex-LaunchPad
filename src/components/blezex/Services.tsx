@@ -124,14 +124,10 @@ const Services = () => (
 
               <Link
                 to={`/services/${s.slug}`}
-                className="mt-4 inline-flex items-center gap-1.5 text-sm font-display font-semibold text-foreground hover:text-primary transition-colors duration-200"
+                className="mt-3 inline-flex min-h-10 items-center gap-1.5 text-sm font-display font-semibold text-foreground hover:text-primary transition-colors duration-200"
               >
                 Explore Service
-                <ArrowRight
-                  size={14}
-                  strokeWidth={1.75}
-                  className="transition-transform duration-200 group-hover:translate-x-1.5"
-                />
+                <ArrowRight size={14} strokeWidth={1.75} />
               </Link>
             </SketchCard>
           </Reveal>

@@ -321,7 +321,7 @@ export default function ServiceDetailPage({ data }: { data: ServicePageData }) {
           <Reveal delay={0.1} className="mt-6 text-center">
             <Link
               to="/#services"
-              className="font-display text-sm font-semibold text-muted-foreground transition-colors hover:text-primary"
+              className="inline-block py-2 font-display text-sm font-semibold text-muted-foreground transition-colors hover:text-primary"
             >
               ← Back to All Services
             </Link>

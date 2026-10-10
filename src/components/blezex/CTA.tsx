@@ -1,6 +1,7 @@
 import { ArrowRight } from "lucide-react";
 import Reveal from "@/components/motion/Reveal";
 import SplitText from "@/components/motion/SplitText";
+import { openConsultation } from "@/components/blezex/ConsultationModal";
 import Magnetic from "@/components/motion/Magnetic";
 import SketchPath from "@/components/motion/SketchPath";
 import Annotation from "@/components/sketch/Annotation";
@@ -37,15 +38,14 @@ const CTA = () => (
         <Reveal delay={0.3}>
           <div className="flex flex-wrap items-center gap-6">
             <Magnetic>
-              <a
-                href="https://wa.me/919059634555?text=Hi, I'd like to book a free consultation."
-                target="_blank"
-                rel="noopener noreferrer"
+              <button
+                type="button"
+                onClick={openConsultation}
                 className="group inline-flex items-center gap-2 rounded-full bg-foreground px-7 py-3.5 font-display font-semibold text-background transition-colors hover:bg-primary"
               >
                 Book Free Consultation
-                <ArrowRight size={18} strokeWidth={1.75} className="transition-transform duration-200 group-hover:translate-x-1.5" />
-              </a>
+                <ArrowRight size={18} strokeWidth={1.75} />
+              </button>
             </Magnetic>
             <Annotation text="no strings attached" arrow="left" className="hidden sm:inline-flex" />
           </div>

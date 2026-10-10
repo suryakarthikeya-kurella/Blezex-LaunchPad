@@ -1,12 +1,12 @@
 import { animate, useInView, useReducedMotion } from "framer-motion";
 import { useRef, useState, useEffect } from "react";
-import { FolderKanban, Users, Cpu, ThumbsUp } from "lucide-react";
+import { FolderKanban, Users, Globe, ThumbsUp } from "lucide-react";
 import Reveal from "@/components/motion/Reveal";
 
 const stats = [
-  { icon: FolderKanban, value: 50, suffix: "+", label: "Projects" },
-  { icon: Users, value: 40, suffix: "+", label: "Clients" },
-  { icon: Cpu, value: 20, suffix: "+", label: "Technologies" },
+  { icon: FolderKanban, value: 100, suffix: "+", label: "Projects" },
+  { icon: Users, value: 80, suffix: "+", label: "Businesses" },
+  { icon: Globe, value: 10, suffix: "+", label: "NRI Businesses" },
   { icon: ThumbsUp, value: 98, suffix: "%", label: "Satisfaction" },
 ];
 

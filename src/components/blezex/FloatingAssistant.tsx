@@ -18,8 +18,8 @@ const WHATSAPP_URL = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent
 const FLOAT = { duration: 4, ease: "easeInOut", repeat: Infinity } as const;
 
 /**
- * Floating BlezeX mascot that opens WhatsApp. On mobile it sits above the
- * sticky contact bar (~65px tall, rendered in Contact.tsx below md).
+ * Floating BlezeX mascot that opens WhatsApp. Hidden below md: the sticky contact bar
+ * (Contact.tsx) already has WhatsApp there and the mascot would cover page content.
  */
 const FloatingAssistant = () => {
   const reduce = useReducedMotion();
@@ -28,20 +28,16 @@ const FloatingAssistant = () => {
   const hide = () => setActive(false);
 
   return (
-    <motion.a
+    <a
       href={WHATSAPP_URL}
       target="_blank"
       rel="noopener noreferrer"
       aria-label="Chat with BlezeX on WhatsApp"
-      className="group fixed right-4 bottom-[calc(env(safe-area-inset-bottom)+5rem)] z-30 block w-[80px] rounded-2xl md:bottom-6 md:right-6 md:w-[110px]"
+      className="group fixed bottom-6 right-6 z-30 hidden w-[96px] rounded-2xl transition-[filter] hover:drop-shadow-lg md:block lg:w-[110px]"
       onMouseEnter={show}
       onMouseLeave={hide}
       onFocus={show}
       onBlur={hide}
-      whileHover={reduce ? undefined : { scale: 1.06 }}
-      whileFocus={reduce ? undefined : { scale: 1.06 }}
-      whileTap={reduce ? undefined : { scale: 0.97 }}
-      transition={{ type: "spring", stiffness: 400, damping: 22 }}
     >
       {/* Tooltip (md+ only; link's aria-label is the accessible name) */}
       <AnimatePresence>
@@ -88,7 +84,7 @@ const FloatingAssistant = () => {
           />
         </picture>
       </motion.span>
-    </motion.a>
+    </a>
   );
 };
 
