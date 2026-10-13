@@ -12,7 +12,7 @@ import Magnetic from "@/components/motion/Magnetic";
 import SketchCard from "@/components/sketch/SketchCard";
 import ServiceIcon, { type ServiceIconName } from "@/components/sketch/ServiceIcon";
 import BlueprintGrid from "@/components/sketch/BlueprintGrid";
-import { buildServiceSchema, findServiceSeoPage } from "@/seo";
+import { buildFaqSchema, buildServiceSchema, findServiceSeoPage, serviceMetadata } from "@/seo";
 
 /* ─── Whatsapp CTA helper ────────────────────────────────────── */
 const waLink = (service: string) =>
@@ -102,7 +102,6 @@ function FaqItem({ q, a, index }: { q: string; a: string; index: number }) {
 
 /* ─── Main Template ──────────────────────────────────────────── */
 export default function ServiceDetailPage({ data }: { data: ServicePageData }) {
-  const canonical = `https://blezex.com/services/${data.slug}`;
   const serviceSeo = findServiceSeoPage(data.slug);
   const serviceName = serviceSeo?.name ?? data.title;
   const serviceDescription = serviceSeo?.description ?? data.description;
@@ -112,29 +111,14 @@ export default function ServiceDetailPage({ data }: { data: ServicePageData }) {
     description: serviceDescription,
   });
 
-  const faqSchema = data.faqs.length > 0 ? {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    "mainEntity": data.faqs.map((faq) => ({
-      "@type": "Question",
-      "name": faq.q,
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": faq.a
-      }
-    }))
-  } : null;
+  const faqSchema = data.faqs.length > 0 ? buildFaqSchema(data.faqs) : null;
 
   const icon = iconBySlug[data.slug] ?? "web";
 
   return (
     <div className="min-h-screen bg-background text-foreground">
       <SEO
-        title={`${serviceName} Services | BlezeX`}
-        description={serviceDescription}
-        canonical={canonical}
-        ogTitle={`${serviceName} Services | BlezeX`}
-        ogDescription={serviceDescription}
+        {...serviceMetadata({ slug: data.slug, name: serviceName, description: serviceDescription })}
         ogType="website"
         schema={faqSchema ? [serviceSchema, faqSchema] : [serviceSchema]}
       />
@@ -167,9 +151,9 @@ export default function ServiceDetailPage({ data }: { data: ServicePageData }) {
                     </a>
                   </Magnetic>
                   <Magnetic>
-                    <a href="/#contact" className={pillOutline}>
+                    <Link to="/#contact" className={pillOutline}>
                       <MessageCircle size={18} strokeWidth={1.75} /> Contact Us
-                    </a>
+                    </Link>
                   </Magnetic>
                 </div>
               </Reveal>
@@ -308,9 +292,9 @@ export default function ServiceDetailPage({ data }: { data: ServicePageData }) {
                     </a>
                   </Magnetic>
                   <Magnetic>
-                    <a href="/#contact" className={pillOutline}>
+                    <Link to="/#contact" className={pillOutline}>
                       <MessageCircle size={18} strokeWidth={1.75} /> Send a Message
-                    </a>
+                    </Link>
                   </Magnetic>
                 </div>
               </div>

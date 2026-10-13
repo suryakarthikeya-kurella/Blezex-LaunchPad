@@ -12,7 +12,7 @@ import Contact from "@/components/blezex/Contact";
 import CTA from "@/components/blezex/CTA";
 import Footer from "@/components/blezex/Footer";
 import SEO from "@/components/SEO";
-import { SITE_URL, pageMetadata } from "@/seo";
+import { ORG_NAME, SITE_NAME, SITE_URL, buildFaqSchema, homeFaqs, homeSchemaOnlyFaqs, pageMetadata } from "@/seo";
 
 const Index = () => {
   return (
@@ -29,46 +29,13 @@ const Index = () => {
             "@context": "https://schema.org",
             "@type": "WebSite",
             "@id": `${SITE_URL}/#website`,
-            name: "BlezeX",
+            name: ORG_NAME,
+            alternateName: SITE_NAME,
             url: SITE_URL,
-            description:
-              "BlezeX provides AI automation, web development, custom software and SaaS, digital marketing, and graphic design and branding solutions.",
-            publisher: {
-              "@type": "Organization",
-              "@id": `${SITE_URL}/#organization`,
-              name: "BlezeX",
-            },
+            inLanguage: "en-IN",
+            publisher: { "@id": `${SITE_URL}/#organization` },
           },
-          {
-            "@context": "https://schema.org",
-            "@type": "FAQPage",
-            mainEntity: [
-              {
-                "@type": "Question",
-                name: "What services does BlezeX provide?",
-                acceptedAnswer: {
-                  "@type": "Answer",
-                  text: "BlezeX provides AI automation, web development, custom software and SaaS, digital marketing, and graphic design and branding.",
-                },
-              },
-              {
-                "@type": "Question",
-                name: "Where is BlezeX located?",
-                acceptedAnswer: {
-                  "@type": "Answer",
-                  text: "BlezeX is located in Hyderabad, Telangana, India and serves clients across India and worldwide.",
-                },
-              },
-              {
-                "@type": "Question",
-                name: "How can I contact BlezeX?",
-                acceptedAnswer: {
-                  "@type": "Answer",
-                  text: "You can contact BlezeX by phone at +91 9059634555, by email at connect.blezex@gmail.com, or through the contact page at https://blezex.com/contact.",
-                },
-              },
-            ],
-          },
+          buildFaqSchema([...homeFaqs, ...homeSchemaOnlyFaqs]),
         ]}
       />
       <Header />

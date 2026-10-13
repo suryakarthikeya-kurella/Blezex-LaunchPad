@@ -25,13 +25,12 @@ const ContactPage = () => {
           about: {
             "@type": "Organization",
             "@id": `${SITE_URL}/#organization`,
-            name: "BlezeX",
           },
         }}
       />
       <Header />
       <main className="pt-20 md:pt-24">
-        <ContactSection />
+        <ContactSection headingLevel="h1" />
         <CTA />
       </main>
       <Footer />

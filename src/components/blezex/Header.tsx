@@ -99,23 +99,11 @@ const Header = () => {
 
   /* Scroll to hash on page load or location change */
   useEffect(() => {
-    // Check if page was loaded via a browser reload
-    const navigationEntry = window.performance?.getEntriesByType("navigation")[0] as
-      | PerformanceNavigationTiming
-      | undefined;
-    const legacyNavigation = window.performance?.navigation;
-    const isReload =
-      legacyNavigation?.type === 1 || navigationEntry?.type === "reload";
-
+    // First render (incl. refresh): keep the URL and let the browser restore scroll;
+    // only an explicit #hash is scrolled to.
     if (isInitialMount.current) {
       isInitialMount.current = false;
-      if (isReload) {
-        if (window.location.hash) {
-          window.history.replaceState(null, "", window.location.pathname);
-        }
-        window.scrollTo(0, 0);
-        return;
-      }
+      if (!location.hash) return;
     }
 
     if (location.hash) {
@@ -241,8 +229,10 @@ const Header = () => {
               aria-label="BlezeX — Go to top"
             >
               <img
-                src="/logo.png"
+                src="/logo-96.png"
                 alt="BlezeX Logo"
+                width={96}
+                height={96}
                 className="h-9 w-auto object-contain"
               />
               <span className="flex flex-col">
@@ -260,8 +250,10 @@ const Header = () => {
               aria-label="BlezeX — Go home"
             >
               <img
-                src="/logo.png"
+                src="/logo-96.png"
                 alt="BlezeX Logo"
+                width={96}
+                height={96}
                 className="h-9 w-auto object-contain"
               />
               <span className="flex flex-col">

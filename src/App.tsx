@@ -1,29 +1,23 @@
-import { Toaster } from "@/components/ui/toaster";
-import { Toaster as Sonner } from "@/components/ui/sonner";
-import { TooltipProvider } from "@/components/ui/tooltip";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { lazy, Suspense } from "react";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import SmoothScroll from "@/components/motion/SmoothScroll";
 import PageTransition from "@/components/motion/PageTransition";
 
 import Index from "./pages/Index";
-import ContactPage from "./pages/Contact";
-
-// Service Detail Pages
-import WebDevelopmentPage from "./pages/services/WebDevelopment";
-import CustomSoftwareSaaSPage from "./pages/services/CustomSoftwareSaaS";
-import AIAutomationPage from "./pages/services/AIAutomation";
-import DigitalMarketingPage from "./pages/services/DigitalMarketing";
-import GraphicDesigningBrandingPage from "./pages/services/GraphicDesigningBranding";
-
-import NotFound from "./pages/NotFound";
-
-const queryClient = new QueryClient();
+// Home is eager (landing page); every other route is its own chunk.
+const ContactPage = lazy(() => import("./pages/Contact"));
+const WebDevelopmentPage = lazy(() => import("./pages/services/WebDevelopment"));
+const CustomSoftwareSaaSPage = lazy(() => import("./pages/services/CustomSoftwareSaaS"));
+const AIAutomationPage = lazy(() => import("./pages/services/AIAutomation"));
+const DigitalMarketingPage = lazy(() => import("./pages/services/DigitalMarketing"));
+const GraphicDesigningBrandingPage = lazy(() => import("./pages/services/GraphicDesigningBranding"));
+const NotFound = lazy(() => import("./pages/NotFound"));
 
 const AnimatedRoutes = () => {
   const location = useLocation();
   return (
     <PageTransition>
+      <Suspense fallback={null}>
       <Routes location={location}>
         <Route path="/" element={<Index />} />
         <Route path="/contact" element={<ContactPage />} />
@@ -38,21 +32,16 @@ const AnimatedRoutes = () => {
         {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
         <Route path="*" element={<NotFound />} />
       </Routes>
+      </Suspense>
     </PageTransition>
   );
 };
 
 const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
-        <SmoothScroll />
-        <AnimatedRoutes />
-      </BrowserRouter>
-    </TooltipProvider>
-  </QueryClientProvider>
+  <BrowserRouter>
+    <SmoothScroll />
+    <AnimatedRoutes />
+  </BrowserRouter>
 );
 
 export default App;

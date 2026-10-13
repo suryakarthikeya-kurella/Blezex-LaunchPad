@@ -37,7 +37,7 @@ Phone: ${form.phone}
 
 ${form.details}
 `;
-    window.open(`https://wa.me/91${supportPhone}?text=${encodeURIComponent(msg)}`, "_blank");
+    window.open(`https://wa.me/91${supportPhone}?text=${encodeURIComponent(msg)}`, "_blank", "noopener,noreferrer");
     setOpen(false);
     setForm(emptyForm);
   };

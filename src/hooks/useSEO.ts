@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { globalSchemas } from "@/seo";
 
-interface SEOProps {
+export interface SEOProps {
   title: string;
   description: string;
   canonical: string;
@@ -81,14 +81,14 @@ export function useSEO({
     setMeta('meta[property="og:url"]', canonical);
     setMeta('meta[property="og:image"]', ogImage);
     setMeta('meta[property="og:image:alt"]', ogTitle ?? title);
-    setMeta('meta[property="og:image:width"]', "1200");
-    setMeta('meta[property="og:image:height"]', "630");
+    setMeta('meta[property="og:image:width"]', "587");
+    setMeta('meta[property="og:image:height"]', "587");
     setMeta('meta[property="og:type"]', ogType);
     setMeta('meta[property="og:site_name"]', "BlezeX Technologies");
     setMeta('meta[property="og:locale"]', "en_IN");
 
     // ── Twitter Card ─────────────────────────────────────────────
-    setMeta('meta[name="twitter:card"]', "summary_large_image");
+    setMeta('meta[name="twitter:card"]', "summary");
     setMeta('meta[name="twitter:site"]', "@x_blezex");
     setMeta('meta[name="twitter:creator"]', "@x_blezex");
     setMeta('meta[name="twitter:title"]', twitterTitle ?? ogTitle ?? title);

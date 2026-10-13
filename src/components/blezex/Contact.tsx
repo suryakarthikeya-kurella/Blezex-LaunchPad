@@ -203,7 +203,7 @@ const FaqRow = ({ q, a, defaultOpen = false }: { q: string; a: string; defaultOp
 /* ══════════════════════════════════════════════════════════
    MAIN COMPONENT
 ══════════════════════════════════════════════════════════ */
-const Contact = () => {
+const Contact = ({ headingLevel: Heading = "h2" }: { headingLevel?: "h1" | "h2" }) => {
   return (
     <>
       {/* ══════════════════════════════════════════════════
@@ -232,16 +232,20 @@ const Contact = () => {
             </Reveal>
 
             {/* Headline */}
-            <SplitText
-              as="h1"
-              text="Start Your Digital"
-              className="font-display text-[clamp(2.2rem,5.5vw,4.2rem)] font-extrabold leading-[1.08] text-white"
-            />
-            <SplitText
-              as="h1"
-              text="Transformation"
-              className="font-display text-[clamp(2.2rem,5.5vw,4.2rem)] font-extrabold leading-[1.08] text-primary"
-            />
+            <Heading aria-label="Start Your Digital Transformation">
+              <span aria-hidden>
+                <SplitText
+                  as="span"
+                  text="Start Your Digital"
+                  className="block font-display text-[clamp(2.2rem,5.5vw,4.2rem)] font-extrabold leading-[1.08] text-white"
+                />
+                <SplitText
+                  as="span"
+                  text="Transformation"
+                  className="block font-display text-[clamp(2.2rem,5.5vw,4.2rem)] font-extrabold leading-[1.08] text-primary"
+                />
+              </span>
+            </Heading>
 
             <Reveal delay={0.2}>
               <p className="mt-5 max-w-xl text-white/55 font-body text-lg leading-relaxed">
@@ -312,7 +316,7 @@ const Contact = () => {
               <Reveal className="h-full">
                 <div className={`${panelCls} h-full border-foreground bg-foreground p-6 text-background shadow-[6px_6px_0_#FF4D1C] md:p-8`}>
                   <div className="mb-5 flex items-center gap-3">
-                    <img src="/logo.png" alt="BlezeX" className="h-10 w-auto object-contain" />
+                    <img src="/logo-96.png" alt="BlezeX" width={96} height={96} className="h-10 w-auto object-contain" />
                     <div>
                       <p className="font-display font-extrabold text-lg leading-none text-white">
                         Bleze<span className="text-primary">X</span>
