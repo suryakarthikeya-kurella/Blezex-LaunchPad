@@ -2,28 +2,78 @@
   command = "npm run build"
   publish = "dist"
 
+# Removed services: 410 Gone (not a redirect to an unrelated page).
 [[redirects]]
   from = "/services/mobile-app-development"
-  to = "/"
-  status = 301
+  to = "/_prerender/404.html"
+  status = 410
   force = true
 
 [[redirects]]
   from = "/services/corporate-startup-services"
-  to = "/"
-  status = 301
+  to = "/_prerender/404.html"
+  status = 410
   force = true
 
 [[redirects]]
   from = "/services/support-maintenance"
-  to = "/"
-  status = 301
+  to = "/_prerender/404.html"
+  status = 410
   force = true
 
+# Old sitemap slugs (Mar 2026) that never had a page: each has an exact same-service replacement, so 301 there.
+[[redirects]]
+  from = "/ai-automation"
+  to = "/services/ai-automation"
+  status = 301
+
+[[redirects]]
+  from = "/web-development"
+  to = "/services/web-development"
+  status = 301
+
+[[redirects]]
+  from = "/digital-marketing"
+  to = "/services/digital-marketing"
+  status = 301
+
+# Real routes (keep in sync with src/App.tsx; enforced by src/test/seo.test.tsx): SPA shell with that route's
+# own <head> (written by vite-plugins/prerenderHead.ts), HTTP 200.
+[[redirects]]
+  from = "/contact"
+  to = "/_prerender/contact.html"
+  status = 200
+
+[[redirects]]
+  from = "/services/web-development"
+  to = "/_prerender/services/web-development.html"
+  status = 200
+
+[[redirects]]
+  from = "/services/custom-software-saas"
+  to = "/_prerender/services/custom-software-saas.html"
+  status = 200
+
+[[redirects]]
+  from = "/services/ai-automation"
+  to = "/_prerender/services/ai-automation.html"
+  status = 200
+
+[[redirects]]
+  from = "/services/digital-marketing"
+  to = "/_prerender/services/digital-marketing.html"
+  status = 200
+
+[[redirects]]
+  from = "/services/graphic-designing-branding"
+  to = "/_prerender/services/graphic-designing-branding.html"
+  status = 200
+
+# Anything else: SPA shell (noindex head) renders NotFound, but with a real HTTP 404.
 [[redirects]]
   from = "/*"
-  to = "/index.html"
-  status = 200
+  to = "/_prerender/404.html"
+  status = 404
 
 [[headers]]
   for = "/*"
@@ -33,6 +83,11 @@
     X-Content-Type-Options = "nosniff"
     Referrer-Policy = "strict-origin-when-cross-origin"
     Permissions-Policy = "camera=(), microphone=(), geolocation=()"
+
+[[headers]]
+  for = "/_prerender/*"
+  [headers.values]
+    X-Robots-Tag = "noindex"
 
 [[headers]]
   for = "/assets/*"

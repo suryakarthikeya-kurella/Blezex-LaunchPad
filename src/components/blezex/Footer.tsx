@@ -43,8 +43,10 @@ const Footer = () => {
               className="flex items-center gap-3 mb-4"
             >
               <img
-                src="/logo.png"
+                src="/logo-96.png"
                 alt="BlezeX Logo"
+                width={96}
+                height={96}
                 className="h-12 w-auto object-contain"
               />
               <span className="text-xl font-display font-extrabold leading-none tracking-tight">
@@ -206,12 +208,12 @@ const Footer = () => {
               <li className="flex items-center gap-3">
                 <Globe size={16} className="shrink-0 text-primary" />
                 <a
-                  href="https://www.blezex.com"
+                  href="https://blezex.com"
                   target="_blank"
                   rel="noopener noreferrer"
                   className={linkCls}
                 >
-                  www.blezex.com
+                  blezex.com
                 </a>
               </li>
 

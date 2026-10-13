@@ -2,15 +2,7 @@ import { motion, useReducedMotion } from "framer-motion";
 import { useState } from "react";
 import Reveal from "@/components/motion/Reveal";
 import SplitText from "@/components/motion/SplitText";
-
-const faqs = [
-  { q: "What services does BlezeX provide?", a: "BlezeX provides web development, custom software & SaaS, AI & automation, digital marketing & growth, and graphic designing & branding services." },
-  { q: "How long does a website project take?", a: "Depending on the scope, a standard business website takes 2-4 weeks. Custom web applications and complex projects may take 4-12 weeks." },
-  { q: "Do you provide ongoing support?", a: "Yes! Every package includes a dedicated post-launch support period, and our team is available 24/7 to keep your digital products running smoothly." },
-  { q: "Can you build custom software?", a: "Absolutely. We specialize in building custom CRM, ERP, SaaS platforms, and business-specific software tailored to your workflows." },
-  { q: "Do you work with startups?", a: "Yes, we love working with startups. We have special packages designed to help startups build and scale their digital presence affordably." },
-  { q: "What technologies do you use?", a: "We use modern technologies including React, Node.js, Python, AI/ML frameworks, cloud services, and more depending on project needs." },
-];
+import { homeFaqs as faqs } from "@/seo";
 
 const FAQ = () => {
   const reduce = useReducedMotion();
